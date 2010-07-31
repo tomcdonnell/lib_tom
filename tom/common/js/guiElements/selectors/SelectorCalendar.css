@@ -1,0 +1,74 @@
+/**************************************************************************************************\
+*
+* vim: ts=3 sw=3 et co=100 go-=b
+*
+* Filename: "styleCalendar.css"
+*
+* Project: GUI Elements: SelectorCalendar.
+*
+* Purpose: Sylesheet for SelectorCalendar.
+*
+* Author: Tom McDonnell 2007-12-28.
+*
+\**************************************************************************************************/
+
+table.calendar
+{
+   cursor: default;
+}
+
+/* Heading squares. *******************************************************************************/
+
+table.calendar > tbody > tr > th
+{
+   background: #bbbbbb;
+}
+
+table.calendar > tbody > tr > th.week
+{
+   background: #bbbbbb;
+}
+
+table.calendar > tbody > tr > th.year
+{
+   background: #eeaaaa;
+}
+
+table.calendar > tbody > tr > th.month
+{
+   background: #aaeeaa;
+}
+
+table.calendar > tbody > tr > th.day
+{
+   background: #aaaaee;
+}
+
+/* Data squares. **********************************************************************************/
+
+table.calendar > tbody > tr > td
+{
+   background: #eeeeee;
+   text-align: right;
+   padding-left: 0.5em;
+   padding-right: 0.5em;
+}
+
+table.calendar > tbody > tr > td.weekNumber
+{
+   background: #cccccc;
+   text-align: center;
+}
+
+table.calendar > tbody > tr > td.selected
+{
+   background: #ff0000;
+}
+
+table.calendar > tbody > tr > td.prevMonth,
+table.calendar > tbody > tr > td.nextMonth
+{
+   color: #aaaaaa;
+}
+
+/*******************************************END*OF*FILE********************************************/

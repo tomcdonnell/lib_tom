@@ -1,0 +1,110 @@
+/**************************************************************************************************\
+*
+* vim: ts=3 sw=3 et co=100 go-=b
+*
+* Filename: "submitWorkPopup.css"
+*
+* Project: GUI Elements - Forms.
+*
+* Purpose: Sylesheet for page generated in "SubmitWorkPopup.css".
+*
+* Author: Tom McDonnell 2008-10-04
+*
+\**************************************************************************************************/
+
+div#submitWorkPopup
+{
+   background: red;
+   position: fixed;
+   bottom: 0px;
+   min-width: 790px;
+   padding-top: 5px;
+   padding-bottom: 20px;
+}
+
+div#submitWorkPopup h1
+{
+   font-size: medium;
+}
+
+div#submitWorkPopup h2
+{
+   font-size: small;
+   float: left;
+}
+
+div#submitWorkPopup ul
+{
+   padding-left: 20px;
+}
+
+div#submitWorkPopup > p
+{
+   font-size: x-small;
+   padding-top: 10px;
+   float: left;
+}
+
+div#submitWorkPopup > p > p
+{
+   padding-bottom: 10px;
+}
+
+div#submitWorkPopup > p.leftSideWrapper
+{
+   width: 49%;
+}
+
+div#submitWorkPopup > p.verticalGap
+{
+   width: 2%;
+}
+
+div#submitWorkPopup > p.rightSideWrapper
+{
+   width: 49%;
+}
+
+div#submitWorkPopup input,
+div#submitWorkPopup select
+{
+   margin-left: 0.5em;
+   margin-right: 0.5em;
+}
+
+div#submitWorkPopup input.textbox
+{
+   margin: 0;
+   float: right;
+   width: 200px;   
+}
+
+div#submitWorkPopup input.button
+{
+   margin: 0;
+   padding: 5px;
+   float: right;
+   width: 100px;
+}
+
+div.errorMsg
+{
+   background: #000000;
+   color: #ffffff;
+   font-size: x-small;
+   width: 535px;
+   padding: 5px;
+   height: 40px;
+}
+
+div#submitWorkPopup input.submit,
+div#submitWorkPopup input.cancel
+{
+   font-size: small;
+   height: 50px;
+   width: 100px;
+   margin-left: 20px;
+   margin-right: 0;
+}
+
+/*******************************************END*OF*FILE********************************************/

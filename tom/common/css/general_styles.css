@@ -1,0 +1,25 @@
+/**************************************************************************************************\
+*
+* vim: ts=3 sw=3 et wrap go-=b
+*
+* Filename: "general_styles.css"
+*
+* Project: Common.
+*
+* Purpose: Stylesheet for styles that are used for many applications.
+*
+* Author: Tom McDonnell 2010-06-15.
+*
+\**************************************************************************************************/
+
+*.clearFloats {clear: both;}
+
+*.alignL {text-align: left  ;}
+*.alignC {text-align: center;}
+*.alignR {text-align: right ;}
+
+*.valignT {vertical-align: top   ;}
+*.valignM {vertical-align: middle;}
+*.valignB {vertical-align: bottom;}
+
+/*******************************************END*OF*FILE********************************************/
