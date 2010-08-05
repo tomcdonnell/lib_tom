@@ -29,6 +29,7 @@ class MinesweeperBoard
     */
    public function __construct ()
    {
+
    }
 
 }
