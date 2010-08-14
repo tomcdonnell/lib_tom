@@ -370,4 +370,27 @@ UTILS.DOM.getAbsoluteOffsetTop = function (element)
    return curtop;
 };
 
+/*
+ * @param separator HTML DOM element.
+ * @param elements  Array of HTML DOM elements.
+ * @param container HTML DOM element.
+ *
+ * @return container with elements separated by clones of separator appended.
+ */
+UTILS.DOM.implode = function (separator, elements, container, boolWithDataAndEvents)
+{
+   var f = 'UTILS.DOM.implode()';
+   UTILS.checkArgs(f, arguments, ['Defined', Array, 'Defined', Boolean]);
+
+   for (var i = 0; i < elements.length - 1; ++i)
+   {
+      $(container).append(elements[i]);
+      $(container).append($(separator).clone(boolWithDataAndEvents));
+   }
+
+   $(container).append(elements[elements.length - 1]);
+
+   return container;
+};
+
 /*******************************************END*OF*FILE********************************************/
