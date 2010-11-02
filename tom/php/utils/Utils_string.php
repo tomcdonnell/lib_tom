@@ -98,7 +98,7 @@ class Utils_string
          }
 
          $indicesToAvoidAsKeys[$i] = true;
-         $kMinusOneSubsets         = self::findAllKSubsets($string, $k-1, $indicesToAvoidAsKeys);
+         $kMinusOneSubsets         = self::findAllKSubsets($string, $k - 1, $indicesToAvoidAsKeys);
 
          foreach ($kMinusOneSubsets as $kMinusOneSubset)
          {
@@ -158,6 +158,24 @@ class Utils_string
     */
    public static function encloseInThTags($string) {return "<th>$string</th>";}
    public static function encloseInTdTags($string) {return "<td>$string</td>";}
+
+   /*
+    *
+    */
+   public static function padNumberWithZeros($number, $n_zerosToPad)
+   {
+      $str = '';
+
+      for ($n = 1; $n <= $n_zerosToPad; ++$n)
+      {
+         if ($number < pow(10, $n))
+         {
+            $str .= '0';
+         }
+      }
+
+      return $str . $number;
+   }
 }
 
 /*******************************************END*OF*FILE********************************************/
