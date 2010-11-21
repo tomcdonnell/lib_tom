@@ -54,9 +54,11 @@ class DatabaseConnection
     */
    public function connect()
    {
-      if (!$this->connection = mysql_connect($this->hostname, $this->username, $this->password))
+      $this->connection = mysql_connect($this->hostname, $this->username, $this->password);
+
+      if ($this->connection === false)
       {
-         throw new Exception($this->getErrorString());
+         throw new Exception('Could not connect to MySQL server.');
       }
  
       $this->selectDatabase($this->databaseName);
