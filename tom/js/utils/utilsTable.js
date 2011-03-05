@@ -4,7 +4,7 @@
 *
 * Filename: "utilsTable.js"
 *
-* Project: IndoorCricketStats.net.
+* Project: GUI elements.
 *
 * Purpose: Utilities used in files in the /result/ directory.
 *

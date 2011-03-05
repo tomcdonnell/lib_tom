@@ -4,7 +4,7 @@
 *
 * Filename: "ResultTable.js"
 *
-* Project: IndoorCricketStats.net.
+* Project: GUI elements.
 *
 * Purpose: Definition of the ResultTable object.
 *
