@@ -17,7 +17,7 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../../utils/Utils_misc.php';
+require_once dirname(__FILE__) . '/../../utils/Utils_htmlForm.php';
 
 // Settings. ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -25,7 +25,8 @@ error_reporting(E_ALL ^ E_STRICT);
 
 // Global variables. ///////////////////////////////////////////////////////////////////////////////
 
-$_COOKIES_EXPLANATION_URL =
+$TEST_COOKIE_TTL_SECONDS = 120;
+$COOKIES_EXPLANATION_URL =
 (
    'http://www.google.com/support/accounts/bin/answer.py?answer=61416&hl=en&ctx=ch_ServiceLoginAuth'
 );
@@ -46,20 +47,27 @@ try
     case '0-0':
       // Normal case when page first loaded.
       // Set test cookie.
-      setcookie('testCookie', '1', time() + 60);
-      displayImmediateRedirectPage("{$_SERVER['PHP_SELF']}?testCookieSet=1");
+      setcookie('testCookie', '1', time() + $TEST_COOKIE_TTL_SECONDS);
+      Utils_htmlForm::redirectToUrlIncludingGetAndPostParams
+      (
+         "{$_SERVER['PHP_SELF']}?testCookieSet=1"
+      );
       exit(0);
 
     case '1-0':
       // Normal case after immediate redirect if cookies not enabled.
       // Abnormal case if page is loaded with $_GET string (?testCookie=1) after cookie has expired.
+      // Unset $_GET['testCookieSet'] so that the $_GET string constructed by the function below
+      // will not include that variable.
       // Note that a refresh at this point will not force re-check because URL is unchanged.
-      displayEnableCookiesMessagePage($_SERVER['PHP_SELF']);
+      unset($_GET['testCookieSet']);
+      displayEnableCookiesMessagePageAndExit($_SERVER['PHP_SELF']);
       exit(0);
 
     case '1-1':
       // Normal case after immediate redirect if cookies
       // enabled, or after user reads message and enables cookies.
+      // Do nothing but allow script to continue.
       break;
 
     default:
@@ -86,44 +94,14 @@ catch (Exception $e)
 // Functions. //////////////////////////////////////////////////////////////////////////////////////
 
 /*
- * The parameters passed to this page both by the $_GET and $_POST method must be passed on to the
- * page for which cookies must be enabled so as not to interfere with the operation of that page.
- */
-function displayImmediateRedirectPage($redirectUrl)
-{
-   $postUrl = $redirectUrl . Utils_misc::createGetStringFromArray($_GET, '&');
-?>
-<!DOCTYPE html PUBLIC
- "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
- <head><title>Redirecting...</title></head>
- <body onload='document.redirectForm.submit()'>
-  <h1>Redirecting...</h1>
-  <p>This page should redirect to another page immediately upon loading.</p>
-  <p>
-   If no redirection appears to have occurred, the reason could be that the page to which the
-   redirection was intended does not display HTML content.  This situation can occur for example if
-   a file download has been attempted.
-  </p>
-  <p>In any case do not be alarmed!  No doubt the universe is unfolding as it should.</p>
-  <form name='redirectForm' action='<?php echo $postUrl ?>' method='POST'>
-<?php
-   Utils_misc::echoArrayAsHiddenInputs($_POST, '   ');
-?>
-  </form>
- </body>
-</html>
-<?php
-}
-
-/*
  * The parameters passed to this page both by the $_GET and $_POST methods must be passed on to the
  * page for which cookies must be enabled so as not to interfere with the operation of that page.
  */
-function displayEnableCookiesMessagePage($redirectUrl)
+function displayEnableCookiesMessagePageAndExit($redirectUrl)
 {
-   $postUrl = $redirectUrl . Utils_misc::createGetStringFromArray($_GET, '?');
+   global $COOKIES_EXPLANATION_URL;
+
+   $postUrl = $redirectUrl . Utils_htmlForm::createGetStringFromArray($_GET, '?');
 ?>
 <!DOCTYPE html PUBLIC
  "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -135,7 +113,7 @@ function displayEnableCookiesMessagePage($redirectUrl)
   <p>The requested page requires that cookies be enabled in your web browser.</p>
   <p>
    Instructions on how to enable cookies in your web browser may be found
-   <a href='<?php echo $_COOKIES_EXPLANATION_URL; ?>'>here</a>.
+   <a href='<?php echo $COOKIES_EXPLANATION_URL; ?>'>here</a>.
   </p>
   <p>Enable cookies in your web browser then click 'Proceed' below.</p>
   <p>
@@ -143,13 +121,14 @@ function displayEnableCookiesMessagePage($redirectUrl)
   </p>
   <form action='<?php echo $postUrl ?>' method='POST'>
 <?php
-   Utils_misc::echoArrayAsHiddenInputs($_POST, '   ');
+   Utils_htmlForm::echoArrayAsHiddenInputs($_POST, '   ');
 ?>
    <input type='submit' value='Proceed'/>
   </form>
  </body>
 </html>
 <?php
+   exit(0);
 }
 
 /*******************************************END*OF*FILE********************************************/

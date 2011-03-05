@@ -77,26 +77,6 @@ class Utils_misc
    }
 
    /*
-    * $var = Utils_misc::switchAssign
-    * (
-    *    $inputValue, $defaultValue, array
-    *    (
-    *       'case1' => $outputValue1,
-    *       'case2' => $outputvalue2
-    *    )
-    * );
-    */
-   public static function switchAssign($inputValue, $defaultOutputValue, $outputValueByInputValue)
-   {
-      if (array_key_exists($inputValue, $outputValueByInputValue))
-      {
-         return $outputValueByInputValue[$inputValue];
-      }
-
-      return $defaultOutputValue;
-   }
-
-   /*
     * Particularly useful for passing on $_GET parameters.
     */
    public static function createGetStringFromArray($array, $questionMarkOrAmpersand = '?')
@@ -122,29 +102,44 @@ class Utils_misc
    }
 
    /*
-    * Particularly useful for passing on $_POST parameters.
+    * Usage example:
+    *    $var = Utils_misc::switchAssign
+    *    (
+    *       $inputValue, array
+    *       (
+    *          'case1' => $outputValue1,
+    *          'case2' => $outputvalue2
+    *       )
+    *    );
+    *
+    * @param $defaultOutputValue {any type}
+    *     This parameter is optional.  If it is not supplied, then there will be no output value
+    *     for the default case specified and so an exception will be thrown in the default case.
     */
-   public static function echoArrayAsHiddenInputs($array, $indent)
+   public static function switchAssign(
+      $inputValue, $outputValueByInputValue, $defaultOutputValue = null
+   )
    {
-      foreach ($array as $key => $value)
+      if (array_key_exists($inputValue, $outputValueByInputValue))
       {
-         echo "$indent<input type='hidden' name='$key' value='$value'/>\n";
-      }
-   }
-
-   /*
-    * Particularly useful for passing on $_POST parameters.
-    */
-   public static function getArrayAsHiddenInputsHtml($array, $indent)
-   {
-      $html = '';
-
-      foreach ($array as $key => $value)
-      {
-         $html .= "$indent<input type='hidden' name='$key' value='$value'/>\n";
+         return $outputValueByInputValue[$inputValue];
       }
 
-      return $html;
+      // Note on Use of func_num_args() Below
+      // ------------------------------------
+      // Function func_num_args() is used below instead of checking if $defaultOutputValue is its
+      // default value as set in this function's parameters list.  This is done so that the default
+      // value of $defaultOutputValue may be used as an actual default output value and not just as
+      // an indicator that an exception should be thrown in the default case.
+      if (func_num_args() == 3)
+      {
+         return $defaultOutputValue;
+      }
+
+      throw new Exception
+      (
+         "Case '$inputValue' not handled in switchAssign and no default supplied."
+      );
    }
 }
 

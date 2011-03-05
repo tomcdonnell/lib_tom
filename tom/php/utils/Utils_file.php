@@ -7,9 +7,9 @@
 *
 * Project: Utilities.
 *
-* Purpose: Miscellaneous utilities.
+* Purpose: Utilities pertaining to files.
 *
-* Author: Tom McDonnell 2010-05-21.
+* Author: Tom McDonnell 2010-06-23.
 *
 \**************************************************************************************************/
 
@@ -20,7 +20,7 @@
  */
 class Utils_file
 {
-   // Public functions. -----------------------------------------------------------------------//
+   // Public functions. /////////////////////////////////////////////////////////////////////////
 
    /*
     *
@@ -28,6 +28,26 @@ class Utils_file
    public function __construct()
    {
       throw new Exception('This class is not intended to be instatiated.');
+   }
+
+   /*
+    * NOTE: Not very efficient.  Useful for small files though.
+    */
+   public static function fileContainsLine($filename, $line)
+   {
+      $fileAsString = file_get_contents($filename);
+
+      if ($fileAsString === false)
+      {
+         throw new Exception("Error while opening file '$filename'.");
+      }
+
+      $lines = explode("\n", $fileAsString);
+
+      // Discard empty line.
+      array_pop($lines);
+
+      return in_array($line, $lines);
    }
 
    /*

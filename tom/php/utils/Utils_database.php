@@ -148,13 +148,6 @@ class Utils_database
    }
 
    /*
-    *
-    */
-   public static function getTableCountByDatabaseName(DatabaseConnection $dbc)
-   {
-   }
-
-   /*
     * Return rows obtained from a simple SELECT query
     * where WHERE conditions are of form:
     *   colname1=value1 AND colname2=value2 AND ...
@@ -374,6 +367,34 @@ class Utils_database
    }
 
    /*
+    *
+    */
+   public static function getSqlConditionsFromWhereDetails($whereDetails)
+   {
+      assert('is_array($whereDetails)');
+
+      $sqlConditions = array();
+
+      foreach ($whereDetails as $colName => $value)
+      {
+         assert('is_string($colName)');
+
+         $sqlConditions[] =
+         (
+            '`'  . mysql_real_escape_string($colName) . '`=' .
+            '\'' . mysql_real_escape_string($value  ) . '\''
+         );
+      }
+
+      if (count($sqlConditions) == 0)
+      {
+         $sqlConditions[] = '1';
+      }
+
+      return $sqlConditions;
+   }
+
+   /*
     * Return an aggregate result field obtained from a simple SELECT query
     * where WHERE conditions are of form:
     *   colname1=value1 AND colname2=value2 AND ...
@@ -405,34 +426,6 @@ class Utils_database
       }
 
       return $rows[0]['result'];
-   }
-
-   /*
-    *
-    */
-   public static function getSqlConditionsFromWhereDetails($whereDetails)
-   {
-      assert('is_array($whereDetails)');
-
-      $sqlConditions = array();
-
-      foreach ($whereDetails as $colName => $value)
-      {
-         assert('is_string($colName)');
-
-         $sqlConditions[] =
-         (
-            '`'  . mysql_real_escape_string($colName) . '`=' .
-            '\'' . mysql_real_escape_string($value  ) . '\''
-         );
-      }
-
-      if (count($sqlConditions) == 0)
-      {
-         $sqlConditions[] = '1';
-      }
-
-      return $sqlConditions;
    }
 
    // Private functions. ////////////////////////////////////////////////////////////////////////

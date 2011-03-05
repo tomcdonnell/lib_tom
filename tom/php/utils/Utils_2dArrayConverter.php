@@ -16,6 +16,8 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
+require_once dirname(__FILE__) . '/Utils_string.php';
+
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -58,11 +60,11 @@ class Utils_2dArrayConverter
    /*
     *
     */
-   public static function toHtml($array2d, $indent = '  ')
+   public static function toHtml($array2d, $indent = '  ', $class = null)
    {
       $i = &$indent;
 
-      $html  = "$i<table>\n";
+      $html  = "$i<table" . (($class === null)? '': " class='$class'") . ">\n";
       $html .= "$i <tbody>\n";
 
       foreach ($array2d as $row)

@@ -15,7 +15,7 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../3rdParty/EmailAddressValidator.php';
+require_once dirname(__FILE__) . '/../contrib/EmailAddressValidator.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
@@ -74,7 +74,8 @@ class Utils_validator
          catch (Exception $e)
          {
             echo "Type check failed for required key '$key'.\n";
-            echo $e;
+            echo $e->getMessage();
+            exit(0);
          }
       }
 
@@ -94,7 +95,8 @@ class Utils_validator
          catch (Exception $e)
          {
             echo "Type check failed for optional key '$key'.\n";
-            echo $e;
+            echo $e->getMessage();
+            exit(0);
          }
       }
    }
@@ -122,6 +124,9 @@ class Utils_validator
        case 'resource': $b = is_resource($v); break;
        case 'scalar'  : $b = is_scalar($v)  ; break;
        case 'string'  : $b = is_string($v)  ; break;
+
+       // Combinations of basic types.
+       case 'arrayOrString': $b = (is_array($v) || is_string($v)); break;
 
        // C-type character checks.
        case 'ctype_alnum' : $b = ctype_alnum($v) ; break;
@@ -178,16 +183,23 @@ class Utils_validator
        case 'date_dd-mm-yyyy': $b = self::checkDateString($v, 'dd-mm-yyyy'); break;
        case 'date_dd/mm/yyyy': $b = self::checkDateString($v, 'dd/mm/yyyy'); break;
 
+       // Date-time strings.
+       case 'Y-m-d H:i:s': $b = self::checkDatetimeString($v, 'Y-m-d H:i:s'); break;
+
        // Catch all.
-       default: $b = get_class($v) == $type;
+       default: $b = (gettype($v) == 'object')? (get_class($v) == $type): false;
       }
 
       if (!$b)
       {
          throw new Exception
          (
-            "Variable type check failed.  Expected '$type', received '$v' of type '" .
-            gettype($v) . '\'.'
+            "Variable type check failed.  Expected '$type', received " .
+            (
+               (gettype($v) == 'object')?
+               'object of class \'' . get_class($v) . '\'.':
+               'variable of type \'' . gettype($v) . '\'.'
+            )
          );
       }
    }
@@ -210,6 +222,40 @@ class Utils_validator
       (
          preg_match($regEx, $dateStr, $matches) &&
          checkdate($matches[$m], $matches[$d], $matches[$y])
+      );
+   }
+
+   /*
+    *
+    */
+   public static function checkDatetimeString($datetimeStr, $format = 'Y-m-d H:i:s')
+   {
+      switch ($format)
+      {
+       case 'Y-m-d H:i:s':
+         $regEx = '/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/';
+         $y = 1; $m = 2; $d = 3; $h = 4; $i = 5; $s = 6;
+         break;
+       default:
+         throw new Exception("Unknown format string '$format'");
+      }
+
+      return
+      (
+         (
+            preg_match($regEx, $datetimeStr, $matches) &&
+            checkdate($matches[$m], $matches[$d], $matches[$y]) &&
+            (0 <= $matches[$h] && $matches[$h] <= 23) &&
+            (0 <= $matches[$i] && $matches[$i] <= 59) &&
+            (0 <= $matches[$s] && $matches[$s] <= 59)
+         ) ||
+         (
+            // A zero date is allowed for debugging purposes
+            // and for queries designed to include all.
+            preg_match($regEx, $datetimeStr, $matches) &&
+            $matches[$y] == 0 && $matches[$m] == 0 && $matches[$d] == 0 &&
+            $matches[$h] == 0 && $matches[$i] == 0 && $matches[$s] == 0
+         )
       );
    }
 
@@ -270,7 +316,7 @@ class Utils_validator
       {
          throw new Exception
          (
-            "Value '$v' is not idenical to '$expectedValue' (values and types must be same)."
+            "Value '$v' is not identical to '$expectedValue' (values and types must be same)."
          );
       }
    }
@@ -340,7 +386,14 @@ class Utils_validator
 
       // Match any combination of alphabet characters
       // spaces and selected punctuation characters ("-", "'", "`").
-      return preg_match("/^[a-zA-Z\-\'\` ]*$/", $str);
+      $n_matches = preg_match("/^[a-zA-Z\-\'\` ]*$/", $str);
+
+      if ($n_matches === false)
+      {
+         throw new Exception('An error occurred during running of preg_match().');
+      }
+
+      return ($n_matches > 0);
    }
 
    /*
@@ -360,7 +413,14 @@ class Utils_validator
 
       // Match any combination of alphabet characters
       // spaces and selected punctuation characters ("-", "'", "`", ".", ",", ":", ";", "!").
-      return preg_match("/^[a-zA-Z\-\'\`\.,:;! ]*$/", $str);
+      $n_matches = preg_match('/^[a-zA-Z\-\'\`\.,:;! ]*$/', $str);
+
+      if ($n_matches === false)
+      {
+         throw new Exception('An error occurred during running of preg_match().');
+      }
+
+      return ($n_matches > 0);
    }
 
    /*
@@ -373,6 +433,21 @@ class Utils_validator
       $e = new EmailAddressValidator();
 
       return $e->check_email_address($str);
+   }
+
+   /*
+    *
+    */
+   public static function checkStringIsDecimalFloat($str)
+   {
+      $n_matches = preg_match('/^[0-9]*\.?[0-9]*$/', $str);
+
+      if ($n_matches === false)
+      {
+         throw new Exception('An error occurred during running of preg_match().');
+      }
+
+      return ($n_matches > 0);
    }
 }
 
