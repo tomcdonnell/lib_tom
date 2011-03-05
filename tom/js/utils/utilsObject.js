@@ -109,12 +109,48 @@ UTILS.object.values = function (o)
 
    var values = [];
 
-   for each (var v in o)
+   for (var k in o)
    {
-      values.push(v);
+      values.push(o[k]);
    }
 
    return values;
+};
+
+/*
+ *
+ */
+UTILS.object.printToConsole = function (o)
+{
+   var f = 'UTILS.object.printToConsole()';
+   UTILS.checkArgs(f, arguments, [Object]);
+
+   console.group('object');
+
+   for (var key in o)
+   {
+      console.debug(key, ': ', o[key]);
+   }
+
+   console.groupEnd();
+};
+
+/*
+ *
+ */
+UTILS.object.length = function (o)
+{
+   var f = 'UTILS.object.length()';
+   UTILS.checkArgs(f, arguments, [Object]);
+
+   var n = 0;
+
+   for (var key in o)
+   {
+      ++n;
+   }
+
+   return n;
 };
 
 /*

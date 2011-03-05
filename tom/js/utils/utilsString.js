@@ -25,9 +25,9 @@ UTILS.string = {};
 
 // TODO: These functions should be re-written to use regular expressions.
 
- /*
-  *
-  */
+/*
+ *
+ */
 UTILS.string.ltrim = function (str)
 {
    var f = 'UTILS.string.ltrim()';
@@ -41,9 +41,9 @@ UTILS.string.ltrim = function (str)
    return str.substr(l);
 };
 
- /*
-  *
-  */
+/*
+ * DEPRECATED.  Function trim() is included in standard Javascript.
+ */
 UTILS.string.trim = function (str)
 {
    var f = 'UTILS.string.trim()';
@@ -137,5 +137,123 @@ UTILS.string.implode = function (joinStr, strs)
 
    return str;
 };
+
+/*
+ *
+ */
+UTILS.string.countOccurrencesOfCharacter = function (string, c)
+{
+   var f = 'UTILS.string.countOccurrencesOfCharacter()';
+   UTILS.checkArgs(f, arguments, [String, String]);
+
+   console.assert(c.length == 1);
+
+   var n = 0;
+
+   for (var i = 0, len = string.length; i < len; ++i)
+   {
+      if (string[i] == c)
+      {
+         ++n;
+      }
+   }
+
+   return n;
+};
+
+/*
+ *
+ */
+UTILS.string.countOccurrencesOfSubstring = function (string, substring)
+{
+   var f = 'UTILS.string.countOccurrencesOfSubstring()';
+   UTILS.checkArgs(f, arguments, [String, String]);
+
+   var n_substrings    = 0;
+   var inSubstring     = false;
+   var substringLength = substring.length;
+
+   if (substringLength > string.length)
+   {
+      return 0;
+   }
+
+   for (var i = 0, len = string.length; i < len; ++i)
+   {
+      switch (inSubstring)
+      {
+       case false:
+         if (string[i] == substring[0])
+         {
+            inSubstring = true;
+            substringI  = 0;
+         }
+         break;
+
+       case true:
+         ++substringI;
+
+         if (string[i] != substring[substringI])
+         {
+            inSubstring == false;
+         }
+         else
+         {
+            if (substringI == substringLength - 1)
+            {
+               ++n_substrings;
+            }
+         }
+      }
+   }
+
+   return n_substrings;
+};
+
+/*
+ * Build an HTML element containing text nodes separated by BR elements.
+ * The BR elements are spliced into the string wherever '\n' characters are found.
+ *
+ * Eg. Given:
+ *        arguments = ['h', 'Three|line|string', {'class': 'heading'}],
+ *     Returns
+ *        TH({'class': 'heading'}, 'Three', BR(), 'line', BR(), 'string')
+ *
+ * @param hORd {String}
+ *    'h' or 'd'.  Determines whether a TD or TH element is returned.
+ *
+ * @param nullOrStr {'nullOrString'}
+ *    The string to splice.  Null is allowed since often
+ *    values in rows returned from SQL querys contain nulls.
+ *
+ * @param attributes {Object}
+ *    Attributes object for the TH or TD element to be returned.
+ */
+UTILS.string.buildDomElementWithBrs = function (tagName, nullOrStr, attributes)
+{
+   var f = 'UTILS.string.buildDomElementWithBrs()';
+   UTILS.checkArgs(f, arguments, [String, 'nullOrString', Object]);
+
+   eval('var elem = ' + tagName.toUpperCase() + '();');
+
+   for (var key in attributes)
+   {
+      $(elem).attr(key, attributes.key);
+   }
+
+   var lines = (nullOrStr === null)? []: nullOrStr.split('\n');
+
+   for (var i = 0, len = lines.length; i < len; ++i)
+   {
+      $(elem).append(document.createTextNode(lines[i]));
+
+      if (i + 1 < len)
+      {
+         $(elem).append(BR());
+      }
+   }
+
+   return elem;
+}
 
 /*******************************************END*OF*FILE********************************************/

@@ -60,7 +60,7 @@ UTILS.validator.checkObject = function (o, typesByRequiredKeys, typesByOptionalK
    {
       var key = keysExtra[i];
 
-      if (typeof typesByOptionalKeys[key] != 'undefined')
+      if (typeof typesByOptionalKeys[key] == 'undefined')
       {
          throw new Exception(f, "Unexpected key '" + key + "' found.", '');
       }
@@ -85,7 +85,7 @@ UTILS.validator.checkType = function (v, type)
    UTILS.assert(f, 1, typeof v != 'undefined');
    UTILS.assert(f, 2, type.constructor == String);
 
-   if (v === null && type.substr(0, 4) != 'null')
+   if (v === null && !(type == 'Defined' || type.substr(0, 4) == 'null'))
    {
       throw new Exception(f, "Expected non-null type '" + type + "'.  Received null.", '');
    }
@@ -127,6 +127,7 @@ UTILS.validator.checkType = function (v, type)
     case 'nullOrArray'     : b = (v === null || v.constructor == Array               ); break;
     case 'nullOrBool'      : b = (v === null || v.constructor == Boolean             ); break;
     case 'nullOrFloat'     : b = (v === null || v.constructor == Number              ); break;
+    case 'nullOrFunction'  : b = (v === null || v.constructor == Function            ); break;
     case 'nullOrObject'    : b = (v === null || v.constructor == Object              ); break;
     case 'nullOrString'    : b = (v === null || v.constructor == String              ); break;
     case 'nullOrEvent'     : b = (v === null || v.constructor == Event               ); break;
@@ -236,7 +237,6 @@ UTILS.validator.checkMinLengthAndTextCharSet = function (str, minLength)
 
    var tstr = UTILS.string.trim(str);
 
-console.debug(f, 'str: ', str);
    if (tstr.length < minLength)
    {
       return false;
@@ -245,7 +245,6 @@ console.debug(f, 'str: ', str);
    // Match any combination of alphabet characters
    // spaces and selected punctuation characters ("-", "'", "`").
    var regEx = new RegExp('^[a-zA-Z\-\'\` ]*$');
-console.debug(f, 'hello');
 
    return regEx.test(str);
 };

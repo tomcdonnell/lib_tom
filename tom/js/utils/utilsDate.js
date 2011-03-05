@@ -165,59 +165,6 @@ UTILS.date.compareObjects = function (dA, dB)
 };
 
 /*
- * NOTE: Untested.
- */
-UTILS.date.incrementDays = function (y, m, d, n_days)
-{
-   var f = 'UTILS.date.incrementDays()';
-   UTILS.checkArgs(f, arguments, [Number, Number, Number, Number]);
-
-   d += n_days;
-
-   while (d > (n_daysInMonth = UTILS.getN_daysInMonth(y, m)))
-   {
-      if (m == 12) {y++; m = 1;}
-      else         {m++;       }
-
-      d -= n_daysInMonth;
-   }
-
-   return d =
-   {
-      year : y,
-      month: m,
-      day  : d
-   }
-};
-
-/*
- * NOTE: Untested.
- */
-UTILS.date.decrementDays = function (y, m, d, n_days)
-{
-   var f = 'UTILS.date.incrementDays()';
-   UTILS.checkArgs(f, arguments, [Number, Number, Number, Number]);
-   UTILS.assert(f, n_days > 0);
-
-   d -= n_days;
-
-   while (d < 1)
-   {
-      if (m == 1) {y--; m = 12;}
-      else        {m--;        }
-
-      d += UTILS.getN_daysInMonth(y, m);
-   }
-
-   return d =
-   {
-      year : y,
-      month: m,
-      day  : d
-   }
-};
-
-/*
  * Return a number [0, 6] representing the weekday [Sun, ..., Sat]
  * of the first day of the given month in the given year.
  */

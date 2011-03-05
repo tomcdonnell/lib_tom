@@ -23,26 +23,27 @@ UTILS.table = {};
 
 /*
  * Build an HTML table cell element (TR or TD) containing text nodes separated by BR elements.
- * The BR elements are spliced into the string wherever '|' characters are found.
+ * The BR elements are spliced into the string wherever '\n' characters are found.
  *
  * Eg. Given:
- *        arguments = ['h', 'Three|line|string', {class: 'heading'}],
+ *        arguments = ['h', 'Three\nline\nstring', {'class': 'heading'}],
  *     Returns
- *        TH({class: 'heading'}, 'Three', BR(), 'line', BR(), 'string')
+ *        TH({'class': 'heading'}, 'Three', BR(), 'line', BR(), 'string')
  *
  * @param hORd {String}
  *    'h' or 'd'.  Determines whether a TD or TH element is returned.
  *
- * @param str {String}
- *    The string to splice.  See example above.
+ * @param nullOrStr {'nullOrString'}
+ *    The string to splice.  Null is allowed since often values in
+ *    rows returned from SQL querys contain nulls.  See example above.
  *
  * @param attributes {Object}
  *    Attributes object for the TH or TD element to be returned.
  */
-UTILS.table.buildTCellWithBRs = function (hORd, str, attributes)
+UTILS.table.buildTCellWithBRs = function (hORd, nullOrStr, attributes)
 {
    var f = 'UTILS.table.buildTCellWithBRs()';
-   UTILS.checkArgs(f, arguments, [String, String, Object]);
+   UTILS.checkArgs(f, arguments, [String, 'nullOrString', Object]);
 
    var cell;
 
@@ -53,15 +54,15 @@ UTILS.table.buildTCellWithBRs = function (hORd, str, attributes)
     default: throw new Exception(f, "Expected 'h' or 'd'.  Received '" + hORd + "'.", '');
    }
 
-   var lines = str.split('|');
+   var lines = (nullOrStr === null)? []: nullOrStr.split('\n');
 
    for (var i = 0, len = lines.length; i < len; ++i)
    {
-      cell.appendChild(document.createTextNode(lines[i]));
+      $(cell).append(document.createTextNode(lines[i]));
 
       if (i + 1 < len)
       {
-         cell.appendChild(BR());
+         $(cell).append(BR());
       }
    }
 

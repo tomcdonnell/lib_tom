@@ -22,7 +22,7 @@
  *       ]
  *    );
  *
- *    document.body.appendChild(tabs.getContainerDiv());
+ *    $(document.body).append(tabs.getContainerDiv());
  */
 function Tabs(divPairs)
 {
@@ -35,6 +35,11 @@ function Tabs(divPairs)
 
    this.getContainerDiv       = function () {return containerDiv;      };
    this.getSelectedHeadingDiv = function () {return selectedHeadingDiv;};
+
+   this.getSelectedContentDiv = function ()
+   {
+      return contentsDiv.childNodes[$(selectedHeadingDiv).index()];
+   };
 
    this.getTabDiv = function (tabNo)
    {
@@ -69,17 +74,12 @@ function Tabs(divPairs)
       var f = 'Tabs.add()';
       UTILS.checkArgs(f, arguments, [HTMLDivElement, HTMLDivElement]);
 
-      headingDiv.style.display = 'inline';
+      headingDiv.style.display = 'inline-block';
       contentDiv.style.display = 'none';
 
-      headingsDiv.appendChild(headingDiv);
-      contentsDiv.appendChild(contentDiv);
-
-      // NOTE
-      // ----
-      // Last parameter is true so that when other event listeners
-      // are added, onClickHeading() will be called first.
-      headingDiv.addEventListener('click', onClickHeading, true);
+      $(headingsDiv).append(headingDiv);
+      $(contentsDiv).append(contentDiv);
+      $(headingDiv ).click(onClickHeading);
 
       if (selectedHeadingDiv === null)
       {
@@ -97,7 +97,7 @@ function Tabs(divPairs)
       try
       {
          var f = 'Tabs.onClickHeading()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          if (e.currentTarget != selectedHeadingDiv)
          {
@@ -150,12 +150,11 @@ function Tabs(divPairs)
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
    var selectedHeadingDiv = null;
-
-   var headingsDiv  = DIV({class: 'tabHeadings'});
-   var contentsDiv  = DIV({class: 'tabContents'});
-   var containerDiv = DIV
+   var headingsDiv        = DIV({'class': 'tabHeadings'});
+   var contentsDiv        = DIV({'class': 'tabContents'});
+   var containerDiv       = DIV
    (
-      {class: 'tabsContainer'}, headingsDiv, DIV({style: 'clear: both;'}), contentsDiv
+      {'class': 'tabsContainer'}, headingsDiv, DIV({style: 'clear: both;'}), contentsDiv
    );
 
    var onChangeFunction = null;

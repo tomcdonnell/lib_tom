@@ -141,10 +141,9 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
          var f = 'MovableDividers.onMouseDown()';
          UTILS.checkArgs(f, arguments, [MouseEvent]);
 
-         // Add event listeners.
-         window.addEventListener('mousemove', onMouseMove, false);
-         window.addEventListener('mouseout' , onMouseOut , false);
-         window.addEventListener('mouseup'  , onMouseUp  , false);
+         $(window).mousemove(onMouseMove);
+         $(window).mouseout(onMouseOut);
+         $(window).mouseup(onMouseUp);
 
          revealGhosts();
 
@@ -348,21 +347,21 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       var f = 'MovableDividers.init()';
       UTILS.checkArgs(f, arguments, []);
 
-      framesContainerDiv.appendChild(tlDiv);
-      framesContainerDiv.appendChild(v_Div);
-      framesContainerDiv.appendChild(trDiv);
-      framesContainerDiv.appendChild(DIV({style: 'clear: both;'}));
-      framesContainerDiv.appendChild(h_Div);
-      framesContainerDiv.appendChild(b_Div);
-      framesContainerDiv.appendChild(ghostOne);
-      framesContainerDiv.appendChild(ghostTwo);
+      $(framesContainerDiv).append(tlDiv);
+      $(framesContainerDiv).append(v_Div);
+      $(framesContainerDiv).append(trDiv);
+      $(framesContainerDiv).append(DIV({style: 'clear: both;'}));
+      $(framesContainerDiv).append(h_Div);
+      $(framesContainerDiv).append(b_Div);
+      $(framesContainerDiv).append(ghostOne);
+      $(framesContainerDiv).append(ghostTwo);
 
-      that.onResize();
+      self.onResize();
 
-      h_Div.addEventListener('mousedown', onMouseDown, false);
-      v_Div.addEventListener('mousedown', onMouseDown, false);
+      $(h_Div).mousedown(onMouseDown);
+      $(v_Div).mousedown(onMouseDown);
 
-      window.addEventListener('resize', that.onResize, false);
+      $(window).resize(self.onResize);
    };
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
@@ -400,24 +399,24 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
 
    var resizeSubscriberFunctions = [];
 
-   var that = this;
+   var self = this;
 
    // DOM elements. ---------------------------------------------------------------------------//
 
    // Frame divs.
-   var tlDiv = DIV({class: 'tlFrame', style: 'float: left; overflow: auto;'});
-   var trDiv = DIV({class: 'trFrame', style: 'float: left; overflow: auto;'});
-   var b_Div = DIV({class: 'b_Frame', style: 'float: left; overflow: auto;'});
+   var tlDiv = DIV({'class': 'tlFrame', style: 'float: left; overflow: auto;'});
+   var trDiv = DIV({'class': 'trFrame', style: 'float: left; overflow: auto;'});
+   var b_Div = DIV({'class': 'b_Frame', style: 'float: left; overflow: auto;'});
 
    // Divider divs.
    // The v_Div separates the top-left and top-right frames.
    // The h_Div separates the top frames (left and right) from the bottom frame.
-   var v_Div = DIV({class: 'vDivider', style: 'float: left;'});
-   var h_Div = DIV({class: 'hDivider'                       });
+   var v_Div = DIV({'class': 'vDivider', style: 'float: left;'});
+   var h_Div = DIV({'class': 'hDivider'                       });
 
    // Ghosts (ghostOne used for v-divider, ghostTwo used for h-divider).
-   var ghostOne = DIV({class: 'ghostOne', style: 'visibility: hidden; position: absolute;'});
-   var ghostTwo = DIV({class: 'ghostTwo', style: 'visibility: hidden; position: absolute;'});
+   var ghostOne = DIV({'class': 'ghostOne', style: 'visibility: hidden; position: absolute;'});
+   var ghostTwo = DIV({'class': 'ghostTwo', style: 'visibility: hidden; position: absolute;'});
 
    // Private constants. ////////////////////////////////////////////////////////////////////////
 

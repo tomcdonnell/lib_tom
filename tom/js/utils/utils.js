@@ -87,10 +87,10 @@ UTILS.printExceptionToConsole = function (f, e)
          console.error
          (
             'Exception caught in function ' + f + '.' +
-            '\n  Function: ' + e.f +
+            '\n  Function: ' + e.f    +
             '\n  Type    : ' + e.type +
-            '\n  Details : ' + e.details
-         );
+            '\n  Details : ' + e.details, '' // Without the empty string parameter, firebug will
+         );                                  // not interpret newline characters properly.
          console.trace();
       }
       else
@@ -230,6 +230,44 @@ UTILS.assertEqualsOneOf = function (functionName, assertNo, variable, options)
    (
       f, 'Assertion failed.',
       'Assertion ' + assertNo + ' failed in function "' + functionName + '".'
+   );
+};
+
+/*
+ * Usage example:
+ *    var bestSellingCarModelName = Utils_misc::switchAssign
+ *    (
+ *       carManufacturer,
+ *       {
+ *          ford  : 'falcon',
+ *          holden: 'commodore'
+ *       }
+ *    );
+ *
+ * @param defaultOutputValue {any type}
+ *     This parameter is optional.  If it is not supplied, then there will be no output value
+ *     for the default case specified and so an exception will be thrown in the default case.
+ */
+UTILS.switchAssign = function (inputValue, outputValueByInputValue, defaultOutputValue)
+{
+   var f = 'UTILS.switchAssign()';
+   UTILS.assert(f, 0, arguments.length == 2 || arguments.length == 3);
+   UTILS.assert(f, 1, inputValue.constructor === Number || inputValue.constructor == String);
+   UTILS.assert(f, 2, outputValueByInputValue.constructor === Object);
+
+   if (typeof outputValueByInputValue[inputValue] != 'undefined')
+   {
+      return outputValueByInputValue[inputValue];
+   }
+
+   if (arguments.length > 2)
+   {
+      return defaultOutputValue;
+   }
+
+   throw new Exception
+   (
+      f, 'Case "' + inputValue + '" not handled in switchAssign and no default supplied.', ''
    );
 };
 
