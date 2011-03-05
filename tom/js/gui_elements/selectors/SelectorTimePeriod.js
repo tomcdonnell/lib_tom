@@ -96,15 +96,6 @@ function SelectorTimePeriod()
       return bool;
    };
 
-   /*
-    *
-    */
-   this.addEventListener = function (eventStr, funct, bool)
-   {
-      sTimeSelector.addEventListener(eventStr, funct, bool);
-      fTimeSelector.addEventListener(eventStr, funct, bool);
-   };
-
    // Private functions. ////////////////////////////////////////////////////////////////////////
 
    /*
@@ -170,10 +161,10 @@ function SelectorTimePeriod()
       var sSelectors = sTimeSelector.getSelectors();
       var fSelectors = fTimeSelector.getSelectors();
 
-      sSelectors.hour.addEventListener('change', onChangeStime, false);
-      fSelectors.hour.addEventListener('change', onChangeFtime, false);
-      sSelectors.minute.addEventListener('change', onChangeStime, false);
-      fSelectors.minute.addEventListener('change', onChangeFtime, false);
+      sSelectors.hour.change(onChangeStime);
+      fSelectors.hour.change(onChangeFtime);
+      sSelectors.minute.change(onChangeStime);
+      fSelectors.minute.change(onChangeFtime);
    }
 
    // Public variables. /////////////////////////////////////////////////////////////////////////

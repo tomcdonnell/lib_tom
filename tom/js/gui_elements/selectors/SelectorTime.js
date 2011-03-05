@@ -92,18 +92,6 @@ function SelectorTime()
       return bool;
    };
 
-   /*
-    *
-    */
-   this.addEventListener = function (eventStr, funct, bool)
-   {
-      var f = 'SelectorTime.addEventListener()';
-      UTILS.checkArgs(f, arguments, [String, Function, Boolean]);
-
-      hSelector.addEventListener(eventStr, funct, bool);
-      mSelector.addEventListener(eventStr, funct, bool);
-   };
-
    // Private functions. ////////////////////////////////////////////////////////////////////////
 
    /*
@@ -116,12 +104,12 @@ function SelectorTime()
 
       for (var h = 0; h < 24; ++h)
       {
-         hSelector.appendChild(OPTION(((h < 10)? '0': '') + String(h)));
+         $(hSelector).append(OPTION(((h < 10)? '0': '') + String(h)));
       }
 
       for (var m = 0; m < 60; ++m)
       {
-         mSelector.appendChild(OPTION(((m < 10)? '0': '') + String(m)));
+         $(mSelector).append(OPTION(((m < 10)? '0': '') + String(m)));
       }
    }
 

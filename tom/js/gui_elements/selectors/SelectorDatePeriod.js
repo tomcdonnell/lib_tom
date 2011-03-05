@@ -108,15 +108,6 @@ function SelectorDatePeriod()
       return bool;
    };
 
-   /*
-    *
-    */
-   this.addEventListener = function (eventStr, funct, bool)
-   {
-      sDateSelector.addEventListener(eventStr, funct, bool);
-      fDateSelector.addEventListener(eventStr, funct, bool);
-   };
-
    // Private functions. ////////////////////////////////////////////////////////////////////////
 
    /*
@@ -182,12 +173,12 @@ function SelectorDatePeriod()
       var s = sDateSelector.getSelectors();
       var f = fDateSelector.getSelectors();
 
-      s.year.addEventListener('change', onChangeSdate, false);
-      f.year.addEventListener('change', onChangeFdate, false);
-      s.month.addEventListener('change', onChangeSdate, false);
-      f.month.addEventListener('change', onChangeFdate, false);
-      s.day.addEventListener('change', onChangeSdate, false);
-      f.day.addEventListener('change', onChangeFdate, false);
+      s.year.change(onChangeSdate);
+      f.year.change(onChangeFdate);
+      s.month.change(onChangeSdate);
+      f.month.change(onChangeFdate);
+      s.day.change(onChangeSdate);
+      f.day.change(onChangeFdate);
    }
 
    // Public variables. /////////////////////////////////////////////////////////////////////////

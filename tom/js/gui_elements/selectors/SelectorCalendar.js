@@ -245,10 +245,10 @@ function SelectorCalendar(initialDate)
 
       appendDayTableRows();
 
-      yDecrementButton.addEventListener('click', onClickDecrementYear , false);
-      yIncrementButton.addEventListener('click', onClickIncrementYear , false);
-      mDecrementButton.addEventListener('click', onClickDecrementMonth, false);
-      mIncrementButton.addEventListener('click', onClickIncrementMonth, false);
+      $(yDecrementButton).click(onClickDecrementYear );
+      $(yIncrementButton).click(onClickIncrementYear );
+      $(mDecrementButton).click(onClickDecrementMonth);
+      $(mIncrementButton).click(onClickIncrementMonth);
    }
 
    /*
@@ -265,7 +265,7 @@ function SelectorCalendar(initialDate)
       // NOTE: JS month days start at 0, so decrement by 1.
       var weekDay = UTILS.date.getFirstDayOfMonth(selectedYear, selectedMonth);
       var weekNo  = UTILS.date.getFirstWeekOfMonth(selectedYear, selectedMonth);
-      var weekRow = TR(TD({class: 'weekNumber'}, String(++weekNo)));
+      var weekRow = TR(TD({'class': 'weekNumber'}, String(++weekNo)));
 
       // Fill blank day squares (before beginning of month).
       var n_daysInPrevMonth =
@@ -275,7 +275,7 @@ function SelectorCalendar(initialDate)
       var d = n_daysInPrevMonth - weekDay - 1;
       for (var wd = 0; wd < weekDay; ++wd)
       {
-         weekRow.appendChild(TD({class: 'prevMonth'}, String(++d)));
+         $(weekRow).append(TD({'class': 'prevMonth'}, String(++d)));
       }
 
       // Fill month day squares.
@@ -284,7 +284,7 @@ function SelectorCalendar(initialDate)
       for (var d = 1; d <= n_daysInMonth; ++d)
       {
          daySquare = TD(String(d));
-         daySquare.addEventListener('click', onClickDaySquare, false);
+         $(daySquare).click(onClickDaySquare);
 
          if (d == selectedDay)
          {
@@ -292,14 +292,14 @@ function SelectorCalendar(initialDate)
             selectedDaySquare = daySquare;
          }
 
-         weekRow.appendChild(daySquare);
+         $(weekRow).append(daySquare);
 
          if (++weekDay == 7)
          {
             weekDay = 0;
-            tbody.appendChild(weekRow);
+            $(tbody).append(weekRow);
             ++n_weekRowsAppended;
-            weekRow = TR(TD({class: 'weekNumber'}, String(++weekNo)));
+            weekRow = TR(TD({'class': 'weekNumber'}, String(++weekNo)));
          }
       }
 
@@ -307,22 +307,22 @@ function SelectorCalendar(initialDate)
       var d = 0; 
       for (var wd = weekDay; wd < 7; ++wd)
       {
-         weekRow.appendChild(TD({class: 'nextMonth'}, String(++d)));
+         $(weekRow).append(TD({'class': 'nextMonth'}, String(++d)));
       }
 
-      tbody.appendChild(weekRow);
+      $(tbody).append(weekRow);
       ++n_weekRowsAppended;
 
       // If only four week rows have been appended...
       if (n_weekRowsAppended == 5)
       {
          // Append a fifth week row so that five weeks are displayed for all months.
-         weekRow = TR(TD({class: 'weekNumber'}, String(++weekNo)));
+         weekRow = TR(TD({'class': 'weekNumber'}, String(++weekNo)));
          for (var wd = 0; wd < 7; ++wd)
          {
-            weekRow.appendChild(TD({class: 'nextMonth'}, String(++d)));
+            $(weekRow).append(TD({'class': 'nextMonth'}, String(++d)));
          }
-         tbody.appendChild(weekRow);
+         $(tbody).append(weekRow);
       }
    }
 
@@ -355,25 +355,25 @@ function SelectorCalendar(initialDate)
 
    var selectedDaySquare = null;
 
-   var selectedYearSquare  = TH({class: 'year' }, String(selectedYear));
-   var selectedMonthSquare = TH({class: 'month'}, UTILS.date.getMonthAbbrev(selectedMonth));
+   var selectedYearSquare  = TH({'class': 'year' }, String(selectedYear));
+   var selectedMonthSquare = TH({'class': 'month'}, UTILS.date.getMonthAbbrev(selectedMonth));
 
    var mDecrementButton = INPUT({type: 'button', value: '<'});
    var mIncrementButton = INPUT({type: 'button', value: '>'});
    var yDecrementButton = INPUT({type: 'button', value: '<'});
    var yIncrementButton = INPUT({type: 'button', value: '>'});
 
-   var weekDayAttributes = {class: 'day', width: String(100 / 8) + '%'};
+   var weekDayAttributes = {'class': 'day', width: String(100 / 8) + '%'};
 
    var tbody = TBODY
    (
       TR
       (
-         TH({class: 'week'  , rowspan: 2}, 'Week', BR(), 'No.'),
-         TH({class: 'year' }, yDecrementButton), selectedYearSquare,
-         TH({class: 'year' }, yIncrementButton), TH(),
-         TH({class: 'month'}, mDecrementButton), selectedMonthSquare,
-         TH({class: 'month'}, mIncrementButton)
+         TH({'class': 'week'  , rowspan: 2}, 'Week', BR(), 'No.'),
+         TH({'class': 'year' }, yDecrementButton), selectedYearSquare,
+         TH({'class': 'year' }, yIncrementButton), TH(),
+         TH({'class': 'month'}, mDecrementButton), selectedMonthSquare,
+         TH({'class': 'month'}, mIncrementButton)
       ),
       TR
       (
@@ -387,7 +387,7 @@ function SelectorCalendar(initialDate)
       )
    );
 
-   var table = TABLE({class: 'calendar'}, tbody);
+   var table = TABLE({'class': 'calendar'}, tbody);
 
    // Initialisation code. //////////////////////////////////////////////////////////////////////
 

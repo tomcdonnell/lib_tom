@@ -158,19 +158,6 @@ function SelectorDate()
       return bool;
    };
 
-   /*
-    *
-    */
-   this.addEventListener = function (eventStr, funct, bool)
-   {
-      var f = 'SelectorDate.addEventListener()';
-      UTILS.checkArgs(f, arguments, [String, Function, Boolean]);
-
-      ySelector.addEventListener(eventStr, funct, bool);
-      mSelector.addEventListener(eventStr, funct, bool);
-      dSelector.addEventListener(eventStr, funct, bool);
-   };
-
    // Private functions. ////////////////////////////////////////////////////////////////////////
 
    // Event listeners. ------------------------------------------------------------------------//
@@ -240,25 +227,25 @@ function SelectorDate()
 
       for (var y = minYear; y <= maxYear; ++y)
       {
-         ySelector.appendChild(OPTION(String(y)));
+         $(ySelector).append(OPTION(String(y)));
       }
 
       for (var m = 1; m <= 12; ++m)
       {
-         mSelector.appendChild(OPTION(UTILS.date.getMonthAbbrev(m)));
+         $(mSelector).append(OPTION(UTILS.date.getMonthAbbrev(m)));
       }
 
       for (var d = 1; d <= 31; ++d)
       {
-         dSelector.appendChild(OPTION(String(d)));
+         $(dSelector).append(OPTION(String(d)));
       }
 
       ySelector.selectedIndex = maxYear - minYear;
       mSelector.selectedIndex = today.getMonth();
       dSelector.selectedIndex = today.getDate() - 1;
 
-      ySelector.addEventListener('change', onChangeYear , false);
-      mSelector.addEventListener('change', onChangeMonth, false);
+      $(ySelector).change(onChangeYear );
+      $(mSelector).change(onChangeMonth);
    }
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
