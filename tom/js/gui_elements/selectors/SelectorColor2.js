@@ -59,8 +59,8 @@ function SelectorColor2(tableWidth, n_cols)
          var f = 'SelectorColor.onClickColorGrid()';
          UTILS.checkArgs(f, arguments, [MouseEvent]);
 
-         var x = UTILS.DOM.countPreviousSiblings(e.target);
-         var y = n_rows - UTILS.DOM.countPreviousSiblings(e.target.parentNode);
+         var x = $(e.target).index();
+         var y = n_rows - $(e.target.parentNode).index();
 
          setSelectedColorComponents(x, y);
 
@@ -327,7 +327,7 @@ function SelectorColor2(tableWidth, n_cols)
                }
             );
 
-            td.addEventListener('click', onClickTd, false);
+            $(td).click(onClickTd);
 
             tr.appendChild(td);
          }
@@ -335,7 +335,7 @@ function SelectorColor2(tableWidth, n_cols)
          tbody.appendChild(tr);
       }
 
-      tdSelectedColorTextBox.addEventListener('blur', onBlurSelectedColorTextBox, false);
+      $(tdSelectedColorTextBox).blur(onBlurSelectedColorTextBox);
 
       var height = Math.floor(tableWidth * (1 - root3 / 2) * (4 / 3));
 

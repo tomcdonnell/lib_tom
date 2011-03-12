@@ -227,17 +227,22 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       domElements.divs.main.appendChild(domElements.pres.output);
       domElements.divs.main.appendChild(domElements.pres.error );
 
-      inputs.buttons.clear.addEventListener('click', onClickClear, false);
-      inputs.buttons.toggleFormat.addEventListener('click', onClickToggleFormat, false);
-      inputs.buttons.insertExampleText.addEventListener('click', onClickInsertExampleText, false);
-      inputs.textboxes.maxCharsPerLine.addEventListener('blur', onBlurMaxCharsPerLineTextbox,false);
-      inputs.checkboxes.ignoreMaxCharsPerLineForUnbreakableStrings.addEventListener
+      var buttons    = inputs.buttons;
+      var checkboxes = inputs.checkboxes;
+      var textboxes  = inputs.textboxes;
+
+      $(buttons.clear            ).click(onClickClear               );
+      $(buttons.toggleFormat     ).click(onClickToggleFormat        );
+      $(buttons.insertExampleText).click(onClickInsertExampleText   );
+      $(textboxes.maxCharsPerLine).blur(onBlurMaxCharsPerLineTextbox);
+
+      $(checkboxes.ignoreMaxCharsPerLineForUnbreakableStrings).click
       (
-         'click', onClickIgnoreMaxCharsPerLineCheckbox, false
+         onClickIgnoreMaxCharsPerLineCheckbox
       );
-      inputs.checkboxes.removeAllNewLineCharactersFromStrings.addEventListener
+      $(checkboxes.removeAllNewLineCharactersFromStrings).click
       (
-         'click', onClickRemoveAllNewLineCharactersFromStrings, false
+         onClickRemoveAllNewLineCharactersFromStrings
       );
 
       bracketedTextFormatter.setSettings(defaultBracketedTextFormatterSettings);

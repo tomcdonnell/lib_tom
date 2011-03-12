@@ -163,7 +163,7 @@ function ResultTable(data)
          that.disableAllButtons();
 
          // Determine whether 'asc' or 'dsc' was clicked.
-         switch (UTILS.DOM.countPreviousSiblings(e.target))
+         switch ($(e.target).index())
          {
           case 0: var ascORdesc = 'asc' ; break;
           case 1: var ascORdesc = 'desc'; break;
@@ -171,7 +171,7 @@ function ResultTable(data)
          }
 
          // Determine which column contains the button clicked.
-         var colNo = UTILS.DOM.countPreviousSiblings(e.target.parentNode);
+         var colNo = $(e.target.parentNode).index();
          UTILS.assert(f, 0, 0 <= colNo && colNo < n_cols);
 
          // Update data.sortOverride.
@@ -362,8 +362,8 @@ function ResultTable(data)
          )
       ];
 
-      inputs.prevPageButton.addEventListener('click', onClickPrevOrNextButton, false);
-      inputs.nextPageButton.addEventListener('click', onClickPrevOrNextButton, false);
+      $(inputs.prevPageButton).click(onClickPrevOrNextButton);
+      $(inputs.nextPageButton).click(onClickPrevOrNextButton);
 
       var n_rowsPerPage = data.rows.length;
       var n_rowsTotal   = data.n_rowsTotal;
@@ -396,8 +396,8 @@ function ResultTable(data)
             dsc: INPUT({type: 'button', value: 'v'}),
          };
 
-         buttons.asc.addEventListener('click', onClickSortButton, false);
-         buttons.dsc.addEventListener('click', onClickSortButton, false);
+         $(buttons.asc).click(onClickSortButton);
+         $(buttons.dsc).click(onClickSortButton);
 
          // Add sort buttons to class global variable so they can all be disabled later.
          inputs.sortButtonPairs.push(buttons);

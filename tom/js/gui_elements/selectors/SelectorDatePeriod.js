@@ -173,12 +173,12 @@ function SelectorDatePeriod()
       var s = sDateSelector.getSelectors();
       var f = fDateSelector.getSelectors();
 
-      s.year.change(onChangeSdate);
-      f.year.change(onChangeFdate);
-      s.month.change(onChangeSdate);
-      f.month.change(onChangeFdate);
-      s.day.change(onChangeSdate);
-      f.day.change(onChangeFdate);
+      $(s.year ).change(onChangeSdate);
+      $(f.year ).change(onChangeFdate);
+      $(s.month).change(onChangeSdate);
+      $(f.month).change(onChangeFdate);
+      $(s.day  ).change(onChangeSdate);
+      $(f.day  ).change(onChangeFdate);
    }
 
    // Public variables. /////////////////////////////////////////////////////////////////////////

@@ -128,7 +128,7 @@ function Tabs(divPairs)
       UTILS.checkArgs(f, arguments, [HTMLDivElement, Boolean]);
       UTILS.assert(f, 0, headingDiv.parentNode == headingsDiv);
 
-      var tabNo      = UTILS.DOM.countPreviousSiblings(headingDiv);
+      var tabNo      = $(headingDiv).index();
       var contentDiv = contentsDiv.childNodes[tabNo];
 
       switch (bool)

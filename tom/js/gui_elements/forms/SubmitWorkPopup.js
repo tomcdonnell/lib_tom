@@ -396,18 +396,18 @@ function SubmitWorkPopup(onSubmitWorkFunction)
       var s = inputs.selectors;
       var t = inputs.textboxes;
 
-      c.submittedBefore.addEventListener('change', onChangeSubmittedWorkBefore, false);
-      b.submit.addEventListener('click', onClickSubmit, false);
-      b.cancel.addEventListener('click', onClickCancel, false);
+      $(c.submittedBefore).change(onChangeSubmittedWorkBefore);
+      $(b.submit         ).click(onClickSubmit);
+      $(b.cancel         ).click(onClickCancel);
 
       showOrHideMessageDiv('hide');
 
       // Note: Array function 'concat' does not exist for ElementLists.
-      for each (c in inputs.checkboxes) {c.addEventListener('focus', onFocusInput, false);}
-      for each (s in inputs.selectors ) {s.addEventListener('focus', onFocusInput, false);}
-      for each (t in inputs.textboxes ) {t.addEventListener('focus', onFocusInput, false);}
-      for each (b in inputs.buttons   ) {b.addEventListener('focus', onFocusInput, false);}
-      for each (p in inputs.passwords ) {p.addEventListener('focus', onFocusInput, false);}
+      for each (c in inputs.checkboxes) {$(c).focus(onFocusInput);}
+      for each (s in inputs.selectors ) {$(s).focus(onFocusInput);}
+      for each (t in inputs.textboxes ) {$(t).focus(onFocusInput);}
+      for each (b in inputs.buttons   ) {$(b).focus(onFocusInput);}
+      for each (p in inputs.passwords ) {$(p).focus(onFocusInput);}
 
       // Show or hide conditional display elements.
       onChangeSubmittedWorkBefore(null);

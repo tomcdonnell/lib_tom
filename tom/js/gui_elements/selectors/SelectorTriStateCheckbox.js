@@ -526,7 +526,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
 
          // Note that e.target may be the span surrounding the tri-state checkbox image span.
          var optionDiv   = (e.target.tagName == 'SPAN')? $(e.target).parent()[0]: e.target;
-         var optionIndex = UTILS.DOM.countPreviousSiblings(optionDiv);
+         var optionIndex = $(optionDiv).index();
          var optionInfo  = optionsInfo[optionIndex];
 
          self.setSelectedStateForOptionAtIndex(optionIndex, !optionInfo.selected);
@@ -548,7 +548,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
          UTILS.checkArgs(f, arguments, [Object]);
 
          var optionDiv        = $(e.target).parent().parent()[0];
-         var optionIndex      = UTILS.DOM.countPreviousSiblings(optionDiv);
+         var optionIndex      = $(optionDiv).index();
          var triStateCheckbox = _guiElements.triStateCheckboxes[optionIndex];
 
          optionsInfo[optionIndex].checkedState = triStateCheckbox.getState();

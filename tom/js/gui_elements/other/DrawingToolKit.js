@@ -58,9 +58,9 @@ function DrawingToolKit()
       canvas                       = c;
       userCallbacks.onModifyCanvas = onModifyFunction;
 
-      canvas.addEventListener('mousedown', onMouseDownCanvas, false);
-      document.body.addEventListener('mouseup', onMouseUp, false);
-      canvas.addEventListener('mousemove', onMouseMoveCanvas, false);
+      $(canvas       ).mousedown(onMouseDownCanvas);
+      $(document.body).mouseup(onMouseUp);
+      $(canvas       ).mousemove(onMouseMoveCanvas);
 
       var selectors = inputs.selectors;
 
@@ -111,7 +111,7 @@ function DrawingToolKit()
       var f = 'DrawingToolKit.isHidden()';
       UTILS.checkArgs(f, arguments, []);
 
-      return (UTILS.DOM.getStyleProperty(domElements.tables.tools, 'display') == 'none');
+      return ($(domElements.tables.tools).css('display') == 'none');
    }
 
    // Other priviliged functions. -------------------------------------------------------------//
@@ -404,14 +404,14 @@ function DrawingToolKit()
       var buttons   = inputs.buttons;
       var selectors = inputs.selectors;
 
-      window.addEventListener('resize', onResizeWindow, false);
+      $(window).resize(onResizeWindow);
 
       // Add event listeners.
-      buttons.submit.addEventListener('click', onClickSubmit, false);
-      selectors.tool.addEventListener('change', onChangeSelectorDrawingTool, false);
-      selectors.mode.addEventListener('change', onChangeSelectorDrawingMode, false);
-      selectors.penWidth.addEventListener('change', onChangeSelectorPenWidth, false);
-      selectors.color.addEventListener('change', onChangeSelectorDrawingColor, false);
+      $(buttons.submit    ).click(onClickSubmit);
+      $(selectors.tool    ).change(onChangeSelectorDrawingTool );
+      $(selectors.mode    ).change(onChangeSelectorDrawingMode );
+      $(selectors.penWidth).change(onChangeSelectorPenWidth    );
+      $(selectors.color   ).change(onChangeSelectorDrawingColor);
 
       // Set state variables.
       var selectorTool           = inputs.selectors.tool;

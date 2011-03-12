@@ -277,13 +277,12 @@ function PasswordPopup(serverSideFilename)
       var be = b.email;
       var bm = b.message;
 
-      bp.submit.addEventListener('click', onClickPasswordSubmit, false);
-      bp.cancel.addEventListener('click', onClickPasswordCancel, false);
-      be.send.addEventListener('click', onClickEmailSend, false);
-      be.cancel.addEventListener('click', onClickEmailCancel, false);
-      bm.ok.addEventListener('click', onClickPasswordCancel, false);
-
-      inputs.links.forgot.addEventListener('click', onClickForgotPassword, false);
+      $(bp.submit          ).click(onClickPasswordSubmit);
+      $(bp.cancel          ).click(onClickPasswordCancel);
+      $(be.send            ).click(onClickEmailSend     );
+      $(be.cancel          ).click(onClickEmailCancel   );
+      $(bm.ok              ).click(onClickPasswordCancel);
+      $(inputs.links.forgot).click(onClickForgotPassword);
    }
 
    // Private variables. ////////////////////////////////////////////////////////////////////////

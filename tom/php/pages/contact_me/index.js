@@ -14,7 +14,7 @@
 
 // Globally executed code. /////////////////////////////////////////////////////////////////////////
 
-window.addEventListener('load'  , onLoadWindow, false);
+$(window).load(onLoadWindow);
 
 // Functions. //////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,9 +26,9 @@ function onLoadWindow(e)
    try
    {
       var f = 'onLoadWindow()';
-      UTILS.checkArgs(f, arguments, [Event]);
+      UTILS.checkArgs(f, arguments, [Object]);
 
-      document.getElementById('submitButton').addEventListener('click', onClickSubmit, false);
+      $('#submitButton').click(onClickSubmit);
    }
    catch (e)
    {

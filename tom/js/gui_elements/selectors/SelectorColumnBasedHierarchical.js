@@ -856,9 +856,9 @@ function SelectorColumnBasedHierarchical(
 
       return o =
       {
-         categoryLevel: UTILS.DOM.countPreviousSiblings(td       ),
-         optionIndex  : UTILS.DOM.countPreviousSiblings(optionDiv)
-      }
+         categoryLevel: $(td       ).index(),
+         optionIndex  : $(optionDiv).index()
+      };
    }
 
    /*

@@ -32,11 +32,11 @@ function BottomDrawer()
       UTILS.DOM.setDimensions(drawerContent, '0px', DRAWER_CONTENT_WIDTH  + 'px' );
 
       // Add event listener to drawer heading.
-      drawerHeading.addEventListener('mousedown', onMouseDown, false);
+      $(drawerHeading).mousedown(onMouseDown);
 
       // Add event listeners to window.
-      window.addEventListener('mousemove', onMouseMove, false);
-      window.addEventListener('mouseup'  , onMouseUp  , false);
+      $(window).mousemove(onMouseMove);
+      $(window).mouseup(onMouseUp);
    };
 
    // Private Functions. ////////////////////////////////////////////////////////////////////////

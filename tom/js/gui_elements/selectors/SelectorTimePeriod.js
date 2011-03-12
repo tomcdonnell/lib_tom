@@ -29,13 +29,11 @@ function SelectorTimePeriod()
     */
    this.getSelectedPeriod = function ()
    {
-      var p =
+      return p =
       {
          start : sTimeSelector.getSelectedTime(),
          finish: fTimeSelector.getSelectedTime()
       };
-
-      return p;
    };
 
    /*
@@ -43,13 +41,11 @@ function SelectorTimePeriod()
     */
    this.getSelectors = function ()
    {
-      var s =
+      return s =
       {
          start : sTimeSelector.getSelectors(),
          finish: fTimeSelector.getSelectors()
       };
-
-      return s;
    };
 
    // Setters. --------------------------------------------------------------------------------//
@@ -161,10 +157,10 @@ function SelectorTimePeriod()
       var sSelectors = sTimeSelector.getSelectors();
       var fSelectors = fTimeSelector.getSelectors();
 
-      sSelectors.hour.change(onChangeStime);
-      fSelectors.hour.change(onChangeFtime);
-      sSelectors.minute.change(onChangeStime);
-      fSelectors.minute.change(onChangeFtime);
+      $(sSelectors.hour  ).change(onChangeStime);
+      $(fSelectors.hour  ).change(onChangeFtime);
+      $(sSelectors.minute).change(onChangeStime);
+      $(fSelectors.minute).change(onChangeFtime);
    }
 
    // Public variables. /////////////////////////////////////////////////////////////////////////

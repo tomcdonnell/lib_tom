@@ -47,31 +47,6 @@ UTILS.DOM.implode = function (separator, elements, container, boolWithDataAndEve
 };
 
 /*
- * DEPRECATED
- * ----------
- * There is an equivalent jQuery function.
- * Use $(parentHtmlElement).index(htmlElement) instead.
- */
-UTILS.DOM.countPreviousSiblings = function (htmlElement)
-{
-   var f = 'UTILS.DOM.countPreviousSiblings()';
-   UTILS.checkArgs(f, arguments, ['Defined']);
-
-   var n = -1;
-
-   // Enclose in array so jQuery functions may be used.
-   htmlElements = [htmlElement];
-
-   while (htmlElements.length > 0)
-   {
-      htmlElements = $(htmlElements[0]).prev();
-      ++n;
-   }
-
-   return n;
-};
-
-/*
  *
  */
 UTILS.DOM.selectOptionWithValue = function (selector, value)
@@ -91,6 +66,29 @@ UTILS.DOM.selectOptionWithValue = function (selector, value)
    }
 
    throw new Exception(f, "No option with value '" + value + "' found.", '');
+};
+
+/*
+ *
+ */
+UTILS.DOM.fillSelector = function (selector, options, instructionText)
+{
+   var f = 'UTILS.DOM.fillSelector()';
+   UTILS.checkArgs(f, arguments, [HTMLSelectElement, Array, 'nullOrString']);
+
+   var selectorJq = $(selector);
+   selectorJq.html('');
+
+   if (instructionText !== null)
+   {
+      selectorJq.append(OPTION({value: '-1'}, instructionText));
+   }
+
+   for (var i = 0, len = options.length; i < len; ++i)
+   {
+      var option = options[i];
+      selectorJq.append(OPTION({value: option.id}, option.text));
+   }
 };
 
 /*******************************************END*OF*FILE********************************************/

@@ -155,7 +155,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          UTILS.checkArgs(f, arguments, [Object]);
 
          // Determine whether 'asc' or 'dsc' was clicked.
-         switch (UTILS.DOM.countPreviousSiblings(e.target))
+         switch ($(e.target).index())
          {
           case 0: var ascORdesc = 'asc' ; break;
           case 1: var ascORdesc = 'desc'; break;
@@ -163,7 +163,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          }
 
          // Determine which column contains the button clicked.
-         var colIndex = UTILS.DOM.countPreviousSiblings(e.target.parentNode);
+         var colIndex = $(e.target.parentNode).index();
          UTILS.assert(f, 0, 0 <= colIndex && colIndex < _state.n_cols);
 
          _state.nextRequestResultTableParams.orderByInfo = [[colIndex, ascORdesc]];
