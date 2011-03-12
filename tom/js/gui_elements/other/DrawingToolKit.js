@@ -84,9 +84,9 @@ function DrawingToolKit()
 
       if (canvas !== null)
       {
-         canvas.removeEventListener('mousedown', onMouseDownCanvas, false);
-         document.body.removeEventListener('mouseup', onMouseUp, false);
-         canvas.removeEventListener('mousemove', onMouseMoveCanvas, false);
+         $(canvas       ).unbind('mousedown', onMouseDownCanvas);
+         $(document.body).unbind('mouseup'  , onMouseUp        );
+         $(canvas       ).unbind('mousemove', onMouseMoveCanvas);
       }
    };
 
@@ -122,7 +122,7 @@ function DrawingToolKit()
    this.simulateMouseDownCanvasEvent = function (e)
    {
       var f = 'DrawingToolKit.simulateMouseDownCanvasEvent()';
-      UTILS.checkArgs(f, arguments, [MouseEvent]);
+      UTILS.checkArgs(f, arguments, [Object]);
 
       onMouseDownCanvas(e);
    };
@@ -158,7 +158,7 @@ function DrawingToolKit()
       try
       {
          var f = 'DrawingToolKit.onResizeWindow()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          if (canvasWrapper !== null)
          {
@@ -181,7 +181,7 @@ function DrawingToolKit()
       try
       {
          var f = 'DrawingToolKit.onMouseDownCanvas()';
-         UTILS.checkArgs(f, arguments, ['nullOrMouseEvent']);
+         UTILS.checkArgs(f, arguments, ['nullOrObject']);
 
          state.mouseIsHovering = false;
 
@@ -210,7 +210,7 @@ function DrawingToolKit()
       try
       {
          var f = 'DrawingToolKit.onMouseUp()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          state.mouseIsHovering = true;
       }
@@ -228,7 +228,7 @@ function DrawingToolKit()
       try
       {
          var f = 'DrawingToolKit.onMouseMoveCanvas()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          switch (mousePos === null)
          {
@@ -288,7 +288,7 @@ function DrawingToolKit()
       try
       {
          var f = 'DrawingToolKit.onClickSubmit()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          userCallbacks.onClickSubmit(e);
       }
@@ -308,7 +308,7 @@ function DrawingToolKit()
       try
       {
          var f = 'DrawingToolKit.onChangeSelectorColor()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var selector    = inputs.selectors.color;
          ctx.strokeStyle = selector.options[selector.selectedIndex].value;
@@ -327,7 +327,7 @@ function DrawingToolKit()
       try
       {
          var f = 'DrawingToolKit.onChangeSelectorDrawingTool()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          // Remember the selected drawing tool rather than getting
          // the value as is done here after every mousemove event.
@@ -348,7 +348,7 @@ function DrawingToolKit()
       try
       {
          var f = 'DrawingToolKit.onChangeSelectorPenWidth()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var selector      = inputs.selectors.penWidth;
          var selectedIndex = selector.selectedIndex;
@@ -369,7 +369,7 @@ function DrawingToolKit()
       try
       {
          var f = 'DrawingToolKit.onChangeSelectorDrawingMode()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
          
       }
       catch (e)
@@ -386,7 +386,7 @@ function DrawingToolKit()
    function initMousePos(e)
    {
       var f = 'DrawingToolKit.initMousePos()';
-      UTILS.checkArgs(f, arguments, [MouseEvent]);
+      UTILS.checkArgs(f, arguments, [Object]);
 
       mousePos = new VectorRec2d(e.clientX, e.clientY);
 

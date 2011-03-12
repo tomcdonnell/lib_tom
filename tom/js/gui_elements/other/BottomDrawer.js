@@ -51,7 +51,7 @@ function BottomDrawer()
       try
       {
          var f = 'BottomDrawer.onMouseDown()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          // Remember the mouse pointer Y coordinate.
          dragY = e.clientY;
@@ -89,7 +89,7 @@ function BottomDrawer()
       try
       {
          var f = 'BottomDrawer.onMouseMove()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          if (isBeingDragged)
          {
@@ -118,7 +118,7 @@ function BottomDrawer()
       try
       {
          var f = 'BottomDrawer.onMouseUp()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          // Calculate the amount to move the drawer.
          var dhB = UTILS.DOM.removePXsuffix(drawerHeading.style.bottom);

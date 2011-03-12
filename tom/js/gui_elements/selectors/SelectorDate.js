@@ -170,7 +170,7 @@ function SelectorDate()
       try
       {
          var f = 'SelectorDate.onChangeYear()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          if (mSelector.selectedIndex == 1)
          {
@@ -194,7 +194,7 @@ function SelectorDate()
       try
       {
          var f = 'SelectorDate.onChangeMonth()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var n = UTILS.date.getN_daysInMonth
          (

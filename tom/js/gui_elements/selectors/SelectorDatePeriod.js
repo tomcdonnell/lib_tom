@@ -118,7 +118,7 @@ function SelectorDatePeriod()
       try
       {
          var f = 'SelectorDatePeriod.onChangeSdate()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var s = sDateSelector.getSelectedDate();
          var f = fDateSelector.getSelectedDate();
@@ -144,7 +144,7 @@ function SelectorDatePeriod()
       try
       {
          var f = 'SelectorDatePeriod.onChangeFdate()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var s = sDateSelector.getSelectedDate();
          var f = fDateSelector.getSelectedDate();

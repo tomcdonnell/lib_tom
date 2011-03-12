@@ -10,7 +10,7 @@
 *
 * TODO: The large HTML table used at present is too slow to generate.
 *       A better idea is to use a pre-generated image, then determine which pixel was clicked using
-*       the coordinates supplied with the MouseEvent and knowledge of the layout of the image.
+*       the coordinates supplied with the Object and knowledge of the layout of the image.
 *
 * Author: Tom McDonnell 2008-03-29.
 *
@@ -57,7 +57,7 @@ function SelectorColor(tableWidth, n_cols)
       try
       {
          var f = 'SelectorColor.onClickColorGrid()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var x = $(e.target).index();
          var y = n_rows - $(e.target.parentNode).index();
@@ -89,7 +89,7 @@ function SelectorColor(tableWidth, n_cols)
       try
       {
          var f = 'SelectorColor.onBlurSelectedColorTextBox()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          colorStr = tdSelectedColorTextBox.value;
 

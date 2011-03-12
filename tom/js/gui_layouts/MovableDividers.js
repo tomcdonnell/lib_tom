@@ -61,7 +61,7 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       try
       {
          var f = 'MovableDividers.onResize()';
-         UTILS.assert(f, 0, arguments.length <= 1); // Expect arguments to be [Event] or [].
+         UTILS.assert(f, 0, arguments.length <= 1); // Expect arguments to be [Object] or [].
 
          // Calculate the height and width of the screen area devoted to the three frames.
          var fullH = UTILS.DOM.getDimensionInPixels(framesContainerDiv, 'height');
@@ -139,7 +139,7 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       try
       {
          var f = 'MovableDividers.onMouseDown()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          $(window).mousemove(onMouseMove);
          $(window).mouseout(onMouseOut);
@@ -175,7 +175,7 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       try
       {
          var f = 'BottomDrawers.onMouseMove()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          if (vDividerIsBeingDragged)
          {
@@ -224,7 +224,7 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       try
       {
          var f = 'MovableDividers.onMouseOut()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          if (e.relatedTarget == null || e.relatedTarget == HTML_DOM_ELEMENT)
          {
@@ -245,12 +245,12 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       try
       {
          var f = 'MovableDividers.onMouseUp()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          // Remove event listeners.
-         window.removeEventListener('mousemove', onMouseMove, false);
-         window.removeEventListener('mouseout' , onMouseOut , false);
-         window.removeEventListener('mouseup'  , onMouseUp  , false);
+         $(window).unbind('mousemove', onMouseMove);
+         $(window).unbind('mouseout' , onMouseOut );
+         $(window).unbind('mouseup'  , onMouseUp  );
 
          if (vDividerIsBeingDragged)
          {

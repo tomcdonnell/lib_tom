@@ -102,7 +102,7 @@ function SelectorTimePeriod()
       try
       {
          var f = 'SelectorTimePeriod.onChangeStime()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var sTime = sTimeSelector.getSelectedTime();
          var fTime = fTimeSelector.getSelectedTime();
@@ -128,7 +128,7 @@ function SelectorTimePeriod()
       try
       {
          var f = 'SelectorTimePeriod.onChangeFtime()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var sTime = sTimeSelector.getSelectedTime();
          var fTime = fTimeSelector.getSelectedTime();

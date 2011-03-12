@@ -85,7 +85,7 @@ function PasswordPopup(serverSideFilename)
       try
       {
          var f = 'PasswordPopup.onClickPasswordSubmit()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var bp = inputs.buttons.password;
          var t  = inputs.textboxes;
@@ -109,7 +109,7 @@ function PasswordPopup(serverSideFilename)
       try
       {
          var f = 'PasswordPopup.onClickPasswordCancel()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          divs.message.style.display = 'none' ;
          mainDiv.style.display      = 'none' ;
@@ -131,7 +131,7 @@ function PasswordPopup(serverSideFilename)
       try
       {
          var f = 'PasswordPopup.onClickEmailSend()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var be = inputs.buttons.email;
 
@@ -154,7 +154,7 @@ function PasswordPopup(serverSideFilename)
       try
       {
          var f = 'PasswordPopup.onClickEmailCancel()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          divs.forgotPassword.style.display = 'none' ;
          divs.enterPassword.style.display  = 'block';
@@ -173,7 +173,7 @@ function PasswordPopup(serverSideFilename)
       try
       {
          var f = 'PasswordPopup.onClickForgotPassword()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          divs.enterPassword.style.display  = 'none' ;
          divs.forgotPassword.style.display = 'block';
@@ -259,7 +259,7 @@ function PasswordPopup(serverSideFilename)
       var f = 'PasswordPopup.setMessageDivMessage()';
       UTILS.checkArgs(f, arguments, [String]);
 
-      UTILS.DOM.replaceElement(divs.message.firstChild, document.createTextNode(msg));
+      $(divs.message.firstChild).replaceWith(document.createTextNode(msg));
    }
 
    // Initialisation functions. ---------------------------------------------------------------//

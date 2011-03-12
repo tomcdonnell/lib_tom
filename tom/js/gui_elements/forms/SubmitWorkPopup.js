@@ -121,7 +121,7 @@ function SubmitWorkPopup(onSubmitWorkFunction)
       try
       {
          var f = 'SubmitWorkPopup.onFocusInput()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          showOrHideMessageDiv('hide');
       }
@@ -139,7 +139,7 @@ function SubmitWorkPopup(onSubmitWorkFunction)
       try
       {
          var f = 'SubmitWorkPopup.onChangeSubmittedWorkBefore()';
-         UTILS.checkArgs(f, arguments, ['nullOrEvent']);
+         UTILS.checkArgs(f, arguments, ['nullOrObject']);
 
          var elements        = domElements.conditionalDisplay;
          var submittedBefore = inputs.checkboxes.submittedBefore.checked;
@@ -184,7 +184,7 @@ function SubmitWorkPopup(onSubmitWorkFunction)
       try
       {
          var f = 'SubmitWorkPopup.onClickSubmit()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          if (validate())
          {
@@ -205,7 +205,7 @@ function SubmitWorkPopup(onSubmitWorkFunction)
       try
       {
          var f = 'SubmitWorkPopup.onClickCancel()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          mainDiv.style.display = 'none';
          userCallbacks.onCancel();
@@ -224,7 +224,7 @@ function SubmitWorkPopup(onSubmitWorkFunction)
       try
       {
          var f = 'SubmitWorkPopup.onClickSubmittedWorkOk()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          // Hide main div but prepare to show table if main div is revealed.
          successDiv.style.display = 'none';

@@ -71,7 +71,7 @@ function CanvasWrapper(canvas)
     *
     * Window coordinates:
     *   The normal coordinates used inside the browser window.
-    *   MouseEvents supply these coordinates.
+    *   Objects supply these coordinates.
     *   Eg. (x: 0                , y: 0                 ) is top    left  corner,
     *       (x: window.innerWidth, y: window.innerHeight) is bottom right corner.
     *

@@ -44,7 +44,7 @@ function onClickSubmit(e)
    try
    {
       var f = 'onClickSubmit()';
-      UTILS.checkArgs(f, arguments, [MouseEvent]);
+      UTILS.checkArgs(f, arguments, [Object]);
 
       var inputs =
       {

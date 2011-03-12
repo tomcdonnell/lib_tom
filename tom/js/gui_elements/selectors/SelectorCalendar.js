@@ -82,7 +82,7 @@ function SelectorCalendar(initialDate)
       try
       {
          var f = 'SelectorCalendar.onClickDecrementYear()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          --selectedYear;
          if (selectedMonth == 2)
@@ -108,7 +108,7 @@ function SelectorCalendar(initialDate)
       try
       {
          var f = 'SelectorCalendar.onClickIncrementYear()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          ++selectedYear;
          if (selectedMonth == 2)
@@ -134,7 +134,7 @@ function SelectorCalendar(initialDate)
       try
       {
          var f = 'SelectorCalendar.onClickDecrementMonth()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          if (selectedMonth == 1)
          {
@@ -167,7 +167,7 @@ function SelectorCalendar(initialDate)
       try
       {
          var f = 'SelectorCalendar.onClickIncrementMonth()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          if (selectedMonth == 12)
          {
@@ -200,7 +200,7 @@ function SelectorCalendar(initialDate)
       try
       {
          var f = 'SelectorCalendar.onClickDaySquare()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          selectedDaySquare.removeAttribute('class');
 

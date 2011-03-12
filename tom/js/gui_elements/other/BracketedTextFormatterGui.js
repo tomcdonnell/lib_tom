@@ -44,7 +44,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickToggleFormat()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var inputTextarea      = inputs.textareas.input;
          var outputPre          = domElements.pres.output;
@@ -91,7 +91,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickToggleFormat()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          inputs.textareas.input.value = '';
 
@@ -114,7 +114,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onBlurMaxCharsPerLineTextbox()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var mcplTextbox = inputs.textboxes.maxCharsPerLine;
 
@@ -141,7 +141,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickIgnoreMaxCharsPerLineCheckbox()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var settings = bracketedTextFormatter.getSettings();
          settings.ignoreMaxCharsPerLineForUnbreakableStrings = e.target.checked;
@@ -161,7 +161,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickRemoveAllNewLineCharactersFromStrings()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          var settings = bracketedTextFormatter.getSettings();
          settings.removeAllNewLineCharactersFromStrings = e.target.checked;
@@ -181,7 +181,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickInsertExampleText()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          inputs.textareas.input.value =
          (

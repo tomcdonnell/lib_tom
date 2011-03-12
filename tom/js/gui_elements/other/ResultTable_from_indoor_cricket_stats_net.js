@@ -115,7 +115,7 @@ function ResultTable(data)
       try
       {
          var f = 'ResultTable.onClickPrevOrNextButton()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          that.disableAllButtons();
 
@@ -158,7 +158,7 @@ function ResultTable(data)
       try
       {
          var f = 'ResultTable.onClickSortButton()';
-         UTILS.checkArgs(f, arguments, [MouseEvent]);
+         UTILS.checkArgs(f, arguments, [Object]);
 
          that.disableAllButtons();
 
