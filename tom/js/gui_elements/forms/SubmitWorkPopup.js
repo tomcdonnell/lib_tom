@@ -427,14 +427,14 @@ function SubmitWorkPopup(onSubmitWorkFunction)
       textboxes:
       {
          // NOTE: The maxLength attributes must match restrictions imposed at the server.
-         artistName   : INPUT({type: 'text', class: 'textbox', maxlength: 32}),
-         storyForkName: INPUT({type: 'text', class: 'textbox', maxlength: 64}),
-         emailAddress : INPUT({type: 'text', class: 'textbox', maxlength: 32})
+         artistName   : INPUT({type: 'text', 'class': 'textbox', maxlength: 32}),
+         storyForkName: INPUT({type: 'text', 'class': 'textbox', maxlength: 64}),
+         emailAddress : INPUT({type: 'text', 'class': 'textbox', maxlength: 32})
       },
       passwords:
       {
-         one: INPUT({type: 'password', class: 'textbox'                         }),
-         two: INPUT({type: 'password', class: 'textbox displayIfSubmittedBefore'})
+         one: INPUT({type: 'password', 'class': 'textbox'                         }),
+         two: INPUT({type: 'password', 'class': 'textbox displayIfSubmittedBefore'})
       },
       selectors:
       {
@@ -448,21 +448,21 @@ function SubmitWorkPopup(onSubmitWorkFunction)
       },
       buttons:
       {
-         submit: INPUT({class: 'submit', type: 'button', value: 'Submit'}),
-         cancel: INPUT({class: 'cancel', type: 'button', value: 'Cancel'})
+         submit: INPUT({'class': 'submit', type: 'button', value: 'Submit'}),
+         cancel: INPUT({'class': 'cancel', type: 'button', value: 'Cancel'})
       },
       links:
       {
-         resendPassword: SPAN({class: 'link'}, 'here')
+         resendPassword: SPAN({'class': 'link'}, 'here')
       }
    };
 
    var domElements =
    {
-      messageDiv: DIV({class: 'errorMsg heading', style: 'float: left;'}),
+      messageDiv: DIV({'class': 'errorMsg heading', style: 'float: left;'}),
       successDiv: DIV
       (
-         {class: 'success', style: 'visibility: hidden;'},
+         {'class': 'success', style: 'visibility: hidden;'},
          inputs.buttons.submit
       ),
       conditionalDisplay:
@@ -501,7 +501,7 @@ function SubmitWorkPopup(onSubmitWorkFunction)
       H1('Submit Work'),
       P
       (
-         {class: 'leftSideWrapper'},
+         {'class': 'leftSideWrapper'},
          P
          (
             inputs.checkboxes.submittedBefore, 'I have submitted work before.'
@@ -509,7 +509,7 @@ function SubmitWorkPopup(onSubmitWorkFunction)
          P
          (
             H2('Your Name'), inputs.textboxes.artistName,
-            DIV({class: 'clearFloats'}),
+            DIV({'class': 'clearFloats'}),
             UL
             (
                LI
@@ -525,10 +525,10 @@ function SubmitWorkPopup(onSubmitWorkFunction)
             domElements.conditionalDisplay.ifSubmittedBefore.enterPasswordH2,
             domElements.conditionalDisplay.ifNotSubmittedBefore.choosePasswordH2,
             inputs.passwords.one,
-            DIV({class: 'clearFloats'}),
+            DIV({'class': 'clearFloats'}),
             domElements.conditionalDisplay.ifNotSubmittedBefore.confirmPasswordH2,
             inputs.passwords.two,
-            DIV({class: 'clearFloats'}),
+            DIV({'class': 'clearFloats'}),
             UL
             (
                LI('A password is required to stop others submitting work in your name.'),
@@ -536,14 +536,14 @@ function SubmitWorkPopup(onSubmitWorkFunction)
             )
          )
       ),
-      P({class: 'verticalGap'}),
+      P({'class': 'verticalGap'}),
       P
       (
-         {class: 'rightSideWrapper'},
+         {'class': 'rightSideWrapper'},
          P
          (
             H2('Story Fork Name'), inputs.textboxes.storyForkName,
-            DIV({class: 'clearFloats'}),
+            DIV({'class': 'clearFloats'}),
             UL
             (
                LI('Short description of plot development.  Eg. "Frankie goes to Hollywood".')
@@ -552,7 +552,7 @@ function SubmitWorkPopup(onSubmitWorkFunction)
          P
          (
             H2('Email Address'), inputs.textboxes.emailAddress,
-            DIV({class: 'clearFloats'}),
+            DIV({'class': 'clearFloats'}),
             UL
             (
                domElements.conditionalDisplay.ifSubmittedBefore.emailAddressLi,
@@ -574,9 +574,9 @@ function SubmitWorkPopup(onSubmitWorkFunction)
             )
          )
       ),
-      DIV({class: 'clearFloats'  }), domElements.messageDiv,
-      DIV({style: 'float: right;'} , inputs.buttons.submit , inputs.buttons.cancel),
-      DIV({class: 'clearFloats'  })
+      DIV({'class': 'clearFloats'  }), domElements.messageDiv,
+      DIV({style  : 'float: right;'} , inputs.buttons.submit , inputs.buttons.cancel),
+      DIV({'class': 'clearFloats'  })
    );
 
    // Other private variables. ----------------------------------------------------------------//

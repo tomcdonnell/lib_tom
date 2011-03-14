@@ -51,7 +51,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
          var errorPre           = domElements.pres.error;
          var toggleFormatButton = inputs.buttons.toggleFormat;
 
-         switch (UTILS.DOM.getStyleProperty(outputPre, 'display'))
+         switch ($(outputPre).css('display'))
          {
           case 'none':
             try
@@ -95,7 +95,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
 
          inputs.textareas.input.value = '';
 
-         if (UTILS.DOM.getStyleProperty(domElements.pres.output, 'display') == 'block')
+         if ($(domElements.pres.output).css('display') == 'block')
          {
             onClickToggleFormat(e);
          }

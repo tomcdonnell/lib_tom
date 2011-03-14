@@ -333,7 +333,7 @@ function PasswordPopup(serverSideFilename)
    {
       enterPassword: DIV
       (
-         P({class: 'heading'}, 'Enter Password'),
+         P({'class': 'heading'}, 'Enter Password'),
          inputs.textboxes.userName     , BR(),
          inputs.textboxes.password     , BR(),
          inputs.buttons.password.submit,
@@ -358,8 +358,8 @@ function PasswordPopup(serverSideFilename)
       ),
       accessGranted: DIV
       (
-         {class: 'accessGranted', style: 'display: none;'},
-         P({class: 'heading'}, '.........', BR(), 'Access Granted', BR(), '.........')
+         {'class': 'accessGranted', style: 'display: none;'},
+         P({'class': 'heading'}, '.........', BR(), 'Access Granted', BR(), '.........')
       )
    };
 

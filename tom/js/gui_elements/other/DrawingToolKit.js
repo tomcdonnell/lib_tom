@@ -428,7 +428,7 @@ function DrawingToolKit()
    {
       buttons:
       {
-         submit: INPUT({class: 'button', type: 'button', value: 'Submit'})
+         submit: INPUT({'class': 'button', type: 'button', value: 'Submit'})
       },
       selectors:
       {
@@ -469,7 +469,7 @@ function DrawingToolKit()
       {
          tools: TABLE
          (
-            {class: 'DrawingToolKit', style: 'display: none;'},
+            {'class': 'DrawingToolKit', style: 'display: none;'},
             TBODY
             (
                TR
