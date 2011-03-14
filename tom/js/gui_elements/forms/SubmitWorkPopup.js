@@ -276,19 +276,19 @@ function SubmitWorkPopup(onSubmitWorkFunction)
 
       var n_lines   = lines.length;
       var div       = domElements.messageDiv;
-      div.innerHTML = '';
+      $(div).html('');
 
       if (n_lines == 0)
       {
          return;
       }
 
-      div.appendChild(document.createTextNode(lines[0]));
+      $(div).append(document.createTextNode(lines[0]));
 
       for (var i = 1, len = lines.length; i < len; ++i)
       {
-         div.appendChild(BR());
-         div.appendChild(document.createTextNode(lines[i]));
+         $(div).append(BR());
+         $(div).append(document.createTextNode(lines[i]));
       }
    }
 

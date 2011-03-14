@@ -154,7 +154,7 @@ function InteractiveTableHeadingsRow(columnHeadings)
       var f = 'InteractiveTableHeadingsRow._init()';
       UTILS.checkArgs(f, arguments, []);
 
-      _domElements.tr.innerHTML = '';
+      $(_domElements.tr).html('');
 
       var ths              = [];
       var n_columnHeadings = columnHeadings.length;

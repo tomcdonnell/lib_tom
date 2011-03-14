@@ -91,7 +91,7 @@ function SelectorCalendar(initialDate)
          }
 
          removeDayTableRows();
-         selectedYearSquare.innerHTML = String(selectedYear);
+         $(selectedYearSquare).html(selectedYear);
          appendDayTableRows();
       }
       catch (e)
@@ -117,7 +117,7 @@ function SelectorCalendar(initialDate)
          }
 
          removeDayTableRows();
-         selectedYearSquare.innerHTML = String(selectedYear);
+         $(selectedYearSquare).html(selectedYear);
          appendDayTableRows();
       }
       catch (e)
@@ -139,7 +139,7 @@ function SelectorCalendar(initialDate)
          if (selectedMonth == 1)
          {
             --selectedYear;
-            selectedYearSquare.innerHTML = String(selectedYear);
+            $(selectedYearSquare).html(selectedYear);
             selectedMonth = 12;
          }
          else
@@ -150,7 +150,7 @@ function SelectorCalendar(initialDate)
          ensureSelectedDateExists();
 
          removeDayTableRows();
-         selectedMonthSquare.innerHTML = UTILS.date.getMonthAbbrev(selectedMonth);
+         $(selectedMonthSquare).html(UTILS.date.getMonthAbbrev(selectedMonth));
          appendDayTableRows();
       }
       catch (e)
@@ -172,7 +172,7 @@ function SelectorCalendar(initialDate)
          if (selectedMonth == 12)
          {
             ++selectedYear;
-            selectedYearSquare.innerHTML = String(selectedYear);
+            $(selectedYearSquare).html(selectedYear);
             selectedMonth = 1;
          }
          else
@@ -183,7 +183,7 @@ function SelectorCalendar(initialDate)
          ensureSelectedDateExists();
 
          removeDayTableRows();
-         selectedMonthSquare.innerHTML = UTILS.date.getMonthAbbrev(selectedMonth);
+         $(selectedMonthSquare).html(UTILS.date.getMonthAbbrev(selectedMonth));
          appendDayTableRows();
       }
       catch (e)
@@ -202,11 +202,11 @@ function SelectorCalendar(initialDate)
          var f = 'SelectorCalendar.onClickDaySquare()';
          UTILS.checkArgs(f, arguments, [Object]);
 
-         selectedDaySquare.removeAttribute('class');
+         $(selectedDaySquare).removeClass('selected');
 
          selectedDaySquare = e.target;
-         selectedDaySquare.setAttribute('class', 'selected');
-         selectedDay = Number(selectedDaySquare.innerHTML);
+         $(selectedDaySquare).addClass('selected');
+         selectedDay = Number($(selectedDaySquare).html());
       }
       catch (e)
       {
@@ -288,7 +288,7 @@ function SelectorCalendar(initialDate)
 
          if (d == selectedDay)
          {
-            daySquare.setAttribute('class', 'selected');
+            $(daySquare).addClass('selected');
             selectedDaySquare = daySquare;
          }
 
@@ -340,7 +340,7 @@ function SelectorCalendar(initialDate)
 
       for (r = 2; r < n_rows; ++r)
       {
-         tbody.removeChild(rows[2]);
+         $(tbody).remove(rows[2]);
       }
    }
 

@@ -134,9 +134,9 @@ function SelectorColor(tableWidth, n_cols)
 
       tdSelectedColorTextBox.value = colorStr;
 
-      tdCompColR.innerHTML = compColStrR;
-      tdCompColG.innerHTML = compColStrG;
-      tdCompColB.innerHTML = compColStrB;
+      $(tdCompColR).html(compColStrR);
+      $(tdCompColG).html(compColStrG);
+      $(tdCompColB).html(compColStrB);
    }
 
    /*
@@ -373,10 +373,10 @@ function SelectorColor(tableWidth, n_cols)
 
             $(td).click(onClickTd);
 
-            tr.appendChild(td);
+            $(tr).append(td);
          }
 
-         tbody.appendChild(tr);
+         $(tbody).append(tr);
       }
 
       $(tdSelectedColorTextBox).blur(onBlurSelectedColorTextBox);
@@ -399,8 +399,8 @@ function SelectorColor(tableWidth, n_cols)
       tdCompColG = TD(attribs);
       tdCompColB = TD(attribs);
 
-      tbody.appendChild(TR(tdSelectedColor));
-      tbody.appendChild(TR(tdCompColR, tdCompColG, tdCompColB));
+      $(tbody).append(TR(tdSelectedColor));
+      $(tbody).append(TR(tdCompColR, tdCompColG, tdCompColB));
 
       selectedIntensity = -1;
    }

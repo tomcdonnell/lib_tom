@@ -134,15 +134,15 @@ function Tabs(divPairs)
       switch (bool)
       {
        case true:
-         headingDiv.setAttribute('class', 'selected');
-         contentDiv.setAttribute('class', 'selected');
-         contentDiv.style.display = 'block';
+         $(headingDiv).addClass('selected');
+         $(contentDiv).addClass('selected');
+         $(contentDiv).css('display', 'block');
          selectedHeadingDiv = headingDiv;
          break;
        case false:
-         headingDiv.removeAttribute('class');
-         contentDiv.removeAttribute('class');
-         contentDiv.style.display = 'none';
+         $(headingDiv).removeClass('selected');
+         $(contentDiv).removeClass('selected');
+         $(contentDiv).css('display', 'none');
          break;
       }
    }

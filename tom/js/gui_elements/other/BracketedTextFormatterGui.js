@@ -56,11 +56,11 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
           case 'none':
             try
             {
-               outputPre.innerHTML = bracketedTextFormatter.formatText(inputTextarea.value);
+               $(outputPre).html(bracketedTextFormatter.formatText(inputTextarea.value));
             }
             catch (e)
             {
-               errorPre.innerHTML          = 'ERROR: ' + e.type + '\n\n' + e.details;
+               $(errorPre).html('ERROR: ' + e.type + '\n\n' + e.details);
                errorPre.style.display      = 'block';
                inputTextarea.style.display = 'none';
                toggleFormatButton.value    = 'Unformat Text';
@@ -224,8 +224,8 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       var f = 'BracketedTextFormatter.init()';
       UTILS.checkArgs(f, arguments, []);
 
-      domElements.divs.main.appendChild(domElements.pres.output);
-      domElements.divs.main.appendChild(domElements.pres.error );
+      $(domElements.divs.main).append(domElements.pres.output);
+      $(domElements.divs.main).append(domElements.pres.error );
 
       var buttons    = inputs.buttons;
       var checkboxes = inputs.checkboxes;

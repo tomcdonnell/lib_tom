@@ -38,8 +38,8 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
       var f = 'ExplorableTable.initRootCategoryRows()';
       UTILS.checkArgs(f, arguments, [Number]);
 
-      _state.idCategoryRoot        = idCategoryRoot;
-      _domElements.tbody.innerHTML = '';
+      _state.idCategoryRoot = idCategoryRoot;
+      $(_domElements.tbody).html('');
 
       _state.ajaxParams.data = {action: 'getColumnHeadings', idCategory: idCategoryRoot};
       $.ajax(_state.ajaxParams);
