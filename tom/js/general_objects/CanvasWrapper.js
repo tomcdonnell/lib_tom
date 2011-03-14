@@ -57,8 +57,10 @@ function CanvasWrapper(canvas)
       var f = 'CanvasWrapper.setOffsets()';
       UTILS.checkArgs(f, arguments, []);
 
-      canvasOffsetTop  = UTILS.DOM.getAbsoluteOffsetTop(canvas);
-      canvasOffsetLeft = UTILS.DOM.getAbsoluteOffsetLeft(canvas);
+      var offset = $(canvas).offset();
+
+      canvasOffsetTop  = offset.top;
+      canvasOffsetLeft = offset.left;
    };
 
    // Other public functions. -----------------------------------------------------------------//
