@@ -53,7 +53,7 @@ function Exception(f, type, details)
    }
    else
    {
-      console.error
+      alert
       (
          'Error detected.' +
          '\n  Function: Exception()' +
@@ -84,7 +84,7 @@ UTILS.printExceptionToConsole = function (f, e)
       // Print the information given in the supplied exception.
       if (e.constructor == Exception)
       {
-         console.error
+         alert
          (
             'Exception caught in function ' + f + '.' +
             '\n  Function: ' + e.f    +
@@ -102,7 +102,7 @@ UTILS.printExceptionToConsole = function (f, e)
    }
    else
    {
-      console.error
+      alert
       (
          'Error detected.' +
          '\n  Function: UTILS.printExceptionToConsole()' +
@@ -159,7 +159,20 @@ UTILS.checkArgs = function (f, args, types)
          // use the extra type checking capabilities of UTILS.validator.
          if (typeof UTILS.validator == 'object' && type.constructor == String)
          {
-            UTILS.validator.checkType(arg, type);
+            try
+            {
+               UTILS.validator.checkType(arg, type);
+            }
+            catch (e)
+            {
+               throw new Exception
+               (
+                  f, 'Incorrect type for argument[' + i + '].',
+                  'Expected "' + type + '".\n            Received "' +
+                  ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
+               );
+            }
+
             continue;
          }
 
