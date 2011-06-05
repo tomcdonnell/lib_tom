@@ -53,9 +53,9 @@ function onClickSubmit(e)
          replyEmailAddress: document.getElementById('replyEmailAddressInput')
       };
 
-      for each (var input in inputs)
+      for (var key in inputs)
       {
-         if (input.value == '')
+         if (inputs[key].value == '')
          {
             alert('The email will not be sent unless all fields contain text.');
             e.preventDefault();
