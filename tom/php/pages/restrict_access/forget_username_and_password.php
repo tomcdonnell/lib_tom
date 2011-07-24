@@ -16,8 +16,9 @@
 
 // Settings. ///////////////////////////////////////////////////////////////////////////////////////
 
-error_reporting(E_ALL ^ E_STRICT);
+error_reporting(-1);
 session_start();
+
 unset($_SESSION['soeAuthentication']);
 
 if (array_key_exists('redirectUrl', $_GET)) {
