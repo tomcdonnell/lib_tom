@@ -109,7 +109,12 @@ try
       $subject        = Utils_misc::arrayValueOrDefault('subject'      , $_GET, ''            );
 
       $backAnchorHrefGetString     = Utils_misc::arrayValueOrBlank('backAnchorHrefGetString',$_GET);
-      $backAnchorHrefPlusGetString = "$backAnchorHref?$backAnchorHrefGetString";
+      $backAnchorHrefPlusGetString = $backAnchorHref;
+
+      if ($backAnchorHrefGetString != '')
+      {
+         $backAnchorHref .= "?$backAnchorHrefGetString";
+      }
 
       // This function is used here only to check that an
       // email address is known for the given emailDstName.
