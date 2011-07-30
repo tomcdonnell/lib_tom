@@ -44,8 +44,8 @@ function NumToWords()
     *   digit were zero.  Combine all strings so produced into a single string.
     *   Eg. 94615 => 'ninety thousand' + 'four thousand' + 'six hundred' + 'ten' + 'five'
     * Step 2:
-    *   Remove redundant words and substitute 'teen' words where appropriate.  Also add an 'and'
-    *   between the last two words if the second last word ends in  'dred', 'sand', or 'ion'.
+    *   Remove redundant words and substitute 'teen' words where appropriate.
+    *   Also add an 'and' between the last two words if it is needed (see code).
     *   Eg. 'ninety thousand four thousand'   |   'ten five'
     *         => 'ninety-four thousand'       |     => 'fifteen'
     * Step 3:
