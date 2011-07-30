@@ -11,7 +11,7 @@
 * License: Permission is granted to copy and redistribute under the GPL license.
 *          http://www.gnu.org/licenses/gpl-3.0.txt
 *
-* Author: Tom McDonnell 2011-07-27.
+* Author: Tom McDonnell 2011-07-27 (www.tomcdonnell.net).
 *
 \**************************************************************************************************/
 
