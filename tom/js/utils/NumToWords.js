@@ -8,16 +8,14 @@
 *
 * Purpose: Convert a given integer to words (eg 1115 => 'one thousand, one hundred and fifteen').
 *
+* License: Permission is granted to copy and redistribute under the GPL license.
+*          http://www.gnu.org/licenses/gpl-3.0.txt
+*
 * Author: Tom McDonnell 2011-07-27.
 *
 \**************************************************************************************************/
 
 /**
- * @author Tom McDonnell (tomcdonnell.net) 2011-07-27
- *
- * Permission is granted to copy and redistribute under the GPL license
- *   http://www.gnu.org/licenses/gpl-3.0.txt
- *
  * Usage
  * -----
  * var numToWords = new NumToWords();
@@ -25,7 +23,7 @@
  * var intAsWords = numToWords.convert(int);
  *
  * Tom's Notes to Self
- * ------------------
+ * -------------------
  * This file is linked to in the blog post at
  *   http://tomcdonnell.blogspot.com/2011/07/converting-numbers-to-words-in.html
  * Check the blog after updating the code.
