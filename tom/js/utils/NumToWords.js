@@ -24,9 +24,12 @@
  * int            = 1345123451;
  * var intAsWords = numToWords.convert(int);
  *
- * Tom's Note to Self
+ * Tom's Notes to Self
  * ------------------
- * This file is linked to in blog post .  Check the blog after updating the code.
+ * This file is linked to in the blog post at
+ *   http://tomcdonnell.blogspot.com/2011/07/converting-numbers-to-words-in.html
+ * Check the blog after updating the code.
+ * This file must have no dependencies.
  */
 function NumToWords()
 {
