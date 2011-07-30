@@ -121,9 +121,10 @@ try
 
       $filesJs  = array
       (
-         'index.js'                  ,
-         '../../../js/utils/utils.js',
-         '../../../js/utils/utilsValidator.js'
+         '../../../js/contrib/jquery/1.5/jquery_minified.js',
+         '../../../js/utils/utils.js'                       ,
+         '../../../js/utils/utilsValidator.js'              ,
+         'index.js'
       );
       $pageType = 'contactForm';
    }
