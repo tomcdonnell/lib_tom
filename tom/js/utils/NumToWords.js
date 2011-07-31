@@ -173,8 +173,9 @@ function NumToWords()
    }
 
    /*
-    * If pattern 'hundred <word>', or 'thousand <word>', or 'ion <word>' appears at the end of the string,
-    * and <word> is not 'hundred', 'thousand' or '...ion', an 'and' must be added between the last two words.
+    * If pattern 'hundred <word>', or 'thousand <word>', or 'ion <word>' appears at the end of the
+    * string, and <word> is not 'hundred', 'thousand' or '...ion', an 'and' must be added between
+    * the last two words.
     */
    function _addFinalAndIfNecessary(intAsWords)
    {
@@ -191,8 +192,8 @@ function NumToWords()
 
       if
       (
-         (tok1 == 'hundred'  || tok1 == 'thousand' || tok1.substring(tok1.length - 3) == 'ion') &&
-         (tok2 != 'hundred'  || tok2 != 'thousand' || tok2.substring(tok2.length - 3) != 'ion')
+          (tok1 == 'hundred'  || tok1 == 'thousand' || tok1.substring(tok1.length - 3) == 'ion') &&
+         !(tok2 == 'hundred'  || tok2 == 'thousand' || tok2.substring(tok2.length - 3) == 'ion')
       )
       {
          tokens.splice(nTokens - 1, 0, 'and');
