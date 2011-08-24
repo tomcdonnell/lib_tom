@@ -143,8 +143,6 @@ function NumToWords()
           'sextillion', 'heptillion', 'octillion', 'nonillion', 'decillion'
       ]
    };
-
-   var self = this;
 }
 
 /*******************************************END*OF*FILE********************************************/
