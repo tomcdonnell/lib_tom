@@ -109,7 +109,7 @@ function NumToWords()
          // 20 <= n < 100.
          return _words.tens[Math.floor(n / 10) - 1] +
          (
-            (n % 10 == 0)? '': '-' + _getNonZeroNumberLessThanOneThousandAsWords(n % 10)
+            (n % 10 == 0)? '': '-' + _words.digits[n % 10 - 1]
          );
       }
 
