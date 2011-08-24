@@ -2,7 +2,7 @@
 *
 * vim: ts=3 sw=3 et wrap go-=b
 *
-* Filename: "NumToWords2.js"
+* Filename: "NumToWords.js"
 *
 * Project: Utilities.
 *
