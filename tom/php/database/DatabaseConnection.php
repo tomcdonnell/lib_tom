@@ -13,10 +13,6 @@
 *
 \**************************************************************************************************/
 
-// Includes. ///////////////////////////////////////////////////////////////////////////////////////
-
-require_once dirname(__FILE__) . '/../utils/Utils_misc.php';
-
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -35,7 +31,6 @@ class DatabaseConnection
       $this->username     = $username;
       $this->password     = $password;
       $this->databaseName = $databaseName;
-
       $this->connect();
    }
 
@@ -171,20 +166,17 @@ class DatabaseConnection
     */
    public function rollbackTransaction()
    {
-      Utils_misc::debugMsg('Attempting transaction rollback...');
+      echo "Attempting transaction rollback...\n";
 
       if (!mysql_query('ROLLBACK WORK'))
       {
-         Utls_misc::errorMsg
-         (
-            "Could not rollback transaction.\n" .
-            "MySQL error number : '", mysql_errno(), "'\n" .
-            "MySQL error message: '", mysql_error(), "'\n"
-         );
+         echo "Could not rollback transaction.\n";
+         echo "MySQL error number : '", mysql_errno(), "'\n";
+         echo "MySQL error message: '", mysql_error(), "'\n";
       }
       else
       {
-         Utils_misc::debugMsg('Transaction rolled back OK.');
+         echo "Transaction rolled back OK.\n";
       }
    }
          
