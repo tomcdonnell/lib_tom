@@ -1,4 +1,4 @@
-/*********************************************************************************************************************************************************\
+/**********************************************************************************************************************************************************\
 *
 * vim: ts=3 sw=3 et wrap co=156 go-=b
 *
@@ -10,7 +10,7 @@
 *
 * Author: Tom McDonnell 2011-08-24 (www.tomcdonnell.net).
 *
-\*********************************************************************************************************************************************************/
+\**********************************************************************************************************************************************************/
 
 $(document).ready
 (
@@ -44,7 +44,7 @@ $(document).ready
             [999999999, 'nine hundred and ninety-nine million, nine hundred and ninety-nine thousand, nine hundred and ninety-nine'],
             [9999999999, 'nine billion, nine hundred and ninety-nine million, nine hundred and ninety-nine thousand, nine hundred and ninety-nine'],
             [99999999999, 'ninety-nine billion, nine hundred and ninety-nine million, nine hundred and ninety-nine thousand, nine hundred and ninety-nine'],
-            [1, 'one'],
+            [2, 'two'],
             [12, 'twelve'],
             [112, 'one hundred and twelve'],
             [2112, 'two thousand, one hundred and twelve'],
@@ -54,7 +54,7 @@ $(document).ready
             [12112112, 'twelve million, one hundred and twelve thousand, one hundred and twelve'],
             [112112112, 'one hundred and twelve million, one hundred and twelve thousand, one hundred and twelve'],
             [2112112112, 'two billion, one hundred and twelve million, one hundred and twelve thousand, one hundred and twelve'],
-            [11211211211, 'eleven billion, two hundred and eleven million, two hundred and eleven thousand, two hundred and eleven'],
+            [12112112112, 'twelve billion, one hundred and twelve million, one hundred and twelve thousand, one hundred and twelve'],
             [5, 'five'],
             [50, 'fifty'],
             [505, 'five hundred and five'],
@@ -118,4 +118,4 @@ $(document).ready
    }
 );
 
-/*******************************************END*OF*FILE********************************************/
+/***********************************************************************END*OF*FILE************************************************************************/

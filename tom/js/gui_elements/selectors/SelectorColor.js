@@ -433,7 +433,7 @@ function SelectorColor(tableWidth, n_cols)
    var tdCompColB = null;
 
    var tbody = TBODY();
-   var div = DIV(TABLE({style: 'border-collapse: collapse;'}, tbody));
+   var div   = DIV(TABLE({style: 'border-collapse: collapse;'}, tbody));
 
    // Initialisation code. //////////////////////////////////////////////////////////////////////
 
