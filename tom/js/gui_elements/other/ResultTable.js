@@ -130,10 +130,10 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          // Update nextRequestResultTableParams.offset.
          var p              = _state.returnedAjaxParams;
          var maxRowsPerPage = p.maxRowsPerPage;
-         var n_rowsTotal    = p.n_rowsTotal;
+         var nRowsTotal     = p.nRowsTotal;
          var newOffset      = p.offset + maxRowsPerPage * ((nextClicked)? 1: -1);
-         if (newOffset < 0                           ) {newOffset = 0;                           }
-         if (newOffset > n_rowsTotal - maxRowsPerPage) {newOffset = n_rowsTotal - maxRowsPerPage;}
+         if (newOffset < 0                          ) {newOffset = 0;                          }
+         if (newOffset > nRowsTotal - maxRowsPerPage) {newOffset = nRowsTotal - maxRowsPerPage;}
 
          _state.nextRequestResultTableParams.offset = newOffset;
          _requestDataFromServerViaAjax();
@@ -506,7 +506,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
             footer           : 'string'        ,
             heading          : 'string'        ,
             maxRowsPerPage   : 'nonNegativeInt',
-            n_rowsTotal      : 'nonNegativeInt',
+            nRowsTotal       : 'nonNegativeInt',
             offset           : 'nonNegativeInt',
             rowInfoByRowIndex: 'array'         , // Array of objects.  Expected keys checked below.
             subheading       : 'string'
@@ -907,7 +907,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       (
          (p.rowInfoByRowIndex.length == 0)? 'No rows to display':
          'Rows ' + (p.offset + 1) + ' to ' +
-         Math.min(p.offset + p.rowInfoByRowIndex.length, p.n_rowsTotal) + ' of ' + p.n_rowsTotal
+         Math.min(p.offset + p.rowInfoByRowIndex.length, p.nRowsTotal) + ' of ' + p.nRowsTotal
       );
 
       var o       = UTILS.table;
@@ -1025,11 +1025,11 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
 
       if (p !== null) {
          var maxRowsPerPage = p.maxRowsPerPage;
-         var n_rowsTotal    = p.n_rowsTotal;
+         var nRowsTotal     = p.nRowsTotal;
 
          // Override enable directives if no previous or next page exists.
-         if (!boolPrev) {boolPrev = (p.offset == 0 || n_rowsTotal <= maxRowsPerPage);}
-         if (!boolNext) {boolNext = (p.offset >=      n_rowsTotal -  maxRowsPerPage);}
+         if (!boolPrev) {boolPrev = (p.offset == 0 || nRowsTotal <= maxRowsPerPage);}
+         if (!boolNext) {boolNext = (p.offset >=      nRowsTotal -  maxRowsPerPage);}
       }
 
       var prevPageButton = _inputs.prevPageButton;

@@ -100,19 +100,19 @@ class HighScores
             'gameNameShort' => 'string'           ,
             'gameModeName'  => 'string'           ,
             'idPlayer'      => 'nullOrPositiveInt',
-            'n_rowsPerPage' => 'positiveInt'      ,
+            'nRowsPerPage'  => 'positiveInt'      ,
             'pageNo'        => 'positiveInt'
          )
       );
       extract($params);
 
-      $sqlConditions = array('`game`.`nameShort`=?', '`gameMode`.`name`=?');
-      $sqlParams     = array($gameNameShort        , $gameModeName        );
+      $sqlConditions = array('game.nameShort=?', 'gameMode.name=?');
+      $sqlParams     = array($gameNameShort    , $gameModeName    );
       $playerName    = null;
 
       if ($idPlayer !== null)
       {
-         $sqlConditions[] = '`score`.`idPlayer`=?';
+         $sqlConditions[] = 'score.idPlayer=?';
          $sqlParams[]     = $idPlayer;
          $playerName      = Util_database::getFieldFromRowOfTable
          (
@@ -121,22 +121,22 @@ class HighScores
       }
 
       // Add SQL params for limit and offset.
-      $sqlParams[] = $n_rowsPerPage;
-      $sqlParams[] = $n_rowsPerPage * ($pageNo - 1);
+      $sqlParams[] = $nRowsPerPage;
+      $sqlParams[] = $nRowsPerPage * ($pageNo - 1);
 
       $rows = $dbc->query
       (
-         'SELECT `gameMode`.`name` AS `gameModeName`,
-                 `player`.`playerName` AS `playerName`,
-                 DATE(`score`.`create`) AS `create`,
-                 `score`.`score` AS `score`,
-                 `score`.`details` AS `details`
-          FROM `score`
-          JOIN `game`     ON (`score`.`idGame`    =`game`.`id`    )
-          JOIN `gameMode` ON (`score`.`idGameMode`=`gameMode`.`id`)
-          JOIN `player`   ON (`score`.`idPlayer`  =`player`.`id`  )
+         'SELECT gameMode.name AS gameModeName,
+                 player.playerName AS playerName,
+                 DATE(score.`create`) AS `create`,
+                 score.score AS score,
+                 score.details AS details
+          FROM score
+          JOIN game     ON (score.idGame    =game.id    )
+          JOIN gameMode ON (score.idGameMode=gameMode.id)
+          JOIN player   ON (score.idPlayer  =player.id  )
           WHERE ' . implode(' AND ', $sqlConditions) . '
-          ORDER BY `score` DESC, `score`.`create` ASC
+          ORDER BY score DESC, score.`create` ASC
           LIMIT ?
           OFFSET ?',
          $sqlParams

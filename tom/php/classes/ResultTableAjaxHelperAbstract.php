@@ -80,13 +80,13 @@ abstract class ResultTableAjaxHelperAbstract
 
       $db->setFetchMode(Zend_Db::FETCH_ASSOC);
 
-      $n_rowsTotal       = (int)($db->fetchOne('SELECT FOUND_ROWS()'));
+      $nRowsTotal        = (int)($db->fetchOne('SELECT FOUND_ROWS()'));
       $rowInfoByRowIndex = $this->_getRowInfoByRowIndex($rows);
 
       // Remove from $colInfoByColumnIndex details that are irrelevant to the client.
       foreach ($colInfoByColIndex as $colIndex => &$colInfo) {unset($colInfo['sqlExpression']);}
 
-      return $this->_getFilledDataArray($colInfoByColIndex, $rowInfoByRowIndex, $n_rowsTotal);
+      return $this->_getFilledDataArray($colInfoByColIndex, $rowInfoByRowIndex, $nRowsTotal);
    }
 
    /*
@@ -466,7 +466,7 @@ abstract class ResultTableAjaxHelperAbstract
          'footer'            => $this->_getEmptyTableFooter() ,
          'heading'           => $this->_getEmptyTableHeading(),
          'maxRowsPerPage'    => $this->_getMaxRowsPerPage()   ,
-         'n_rowsTotal'       => 0                             ,
+         'nRowsTotal'        => 0                             ,
          'offset'            => 0                             ,
          'rowInfoByRowIndex' => array()                       ,
          'subheading'        => ''
@@ -476,7 +476,7 @@ abstract class ResultTableAjaxHelperAbstract
    /*
     *
     */
-   private function _getFilledDataArray($colInfoByColIndex, $rowInfoByRowIndex, $n_rowsTotal)
+   private function _getFilledDataArray($colInfoByColIndex, $rowInfoByRowIndex, $nRowsTotal)
    {
       return array
       (
@@ -485,7 +485,7 @@ abstract class ResultTableAjaxHelperAbstract
          'footer'            => $this->_getFooter()                ,
          'heading'           => $this->_getHeading()               ,
          'maxRowsPerPage'    => $this->_getMaxRowsPerPage()        ,
-         'n_rowsTotal'       => (int)$n_rowsTotal                  ,
+         'nRowsTotal'        => (int)$nRowsTotal                   ,
          'offset'            => $this->_resultTableParams['offset'],
          'rowInfoByRowIndex' => $rowInfoByRowIndex                 ,
          'subheading'        => $this->_getSubheading()
