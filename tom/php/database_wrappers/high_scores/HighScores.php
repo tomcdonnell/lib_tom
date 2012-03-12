@@ -104,9 +104,10 @@ class HighScores
             'pageNo'        => 'positiveInt'
          )
       );
+      extract($params);
 
-      $sqlConditions = array('`game`.`nameShort`=?'  , '`gameMode`.`name`=?'  );
-      $sqlParams     = array($params['gameNameShort'], $params['gameModeName']);
+      $sqlConditions = array('`game`.`nameShort`=?', '`gameMode`.`name`=?');
+      $sqlParams     = array($gameNameShort        , $gameModeName        );
       $playerName    = null;
 
       if ($idPlayer !== null)
@@ -120,8 +121,8 @@ class HighScores
       }
 
       // Add SQL params for limit and offset.
-      $sqlParams[] = $params['n_rowsPerPage'];
-      $sqlParams[] = $params['n_rowsPerPage'] * ($params['pageNo'] - 1);
+      $sqlParams[] = $n_rowsPerPage;
+      $sqlParams[] = $n_rowsPerPage * ($pageNo - 1);
 
       $rows = $dbc->query
       (
