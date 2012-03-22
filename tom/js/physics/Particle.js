@@ -23,28 +23,6 @@ function Particle(p, v, m, r)
    // Since Particle is designed to be inheritable,
    // it must accept zero arguments (see "inheritance.js").
    var f = 'Particle()';
-   switch (arguments.length)
-   {
-    case 0:
-      p = new VectorRec2d(0, 0);
-      v = new VectorRec2d(0, 0);
-      m = 1;
-      r = 0;
-      break;
-    case 4:
-      UTILS.checkArgs(f, arguments, [VectorRec2d, VectorRec2d, Number, Number]);
-      this.p = p;
-      this.v = v;
-      this.setMass(m);
-      this.setRadius(r);
-      break;
-    default:
-      throw new Exception
-      (
-         f, 'Incorrect arguments.',
-         'Expected 0 or 4 arguments.  Received ' + arguments.length + '.'
-      );
-   }
 
    // Public functions. /////////////////////////////////////////////////////////////////////////
 
@@ -110,6 +88,31 @@ function Particle(p, v, m, r)
 
    var mass   = m;
    var radius = r;
+
+   // Initialisation code. //////////////////////////////////////////////////////////////////////
+
+   switch (arguments.length)
+   {
+    case 0:
+      p = new VectorRec2d(0, 0);
+      v = new VectorRec2d(0, 0);
+      m = 1;
+      r = 0;
+      break;
+    case 4:
+      UTILS.checkArgs(f, arguments, [VectorRec2d, VectorRec2d, Number, Number]);
+      this.p = p;
+      this.v = v;
+      this.setMass(m);
+      this.setRadius(r);
+      break;
+    default:
+      throw new Exception
+      (
+         f, 'Incorrect arguments.',
+         'Expected 0 or 4 arguments.  Received ' + arguments.length + '.'
+      );
+   }
 }
 
 /*******************************************END*OF*FILE********************************************/
