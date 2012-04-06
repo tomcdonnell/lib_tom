@@ -131,7 +131,7 @@ UTILS.validator.checkType = function (v, type)
     case 'nullOrObject'    : b = (v === null || v.constructor == Object              ); break;
     case 'nullOrString'    : b = (v === null || v.constructor == String              ); break;
     case 'nullOrEvent'     : b = (v === null || v.constructor == Event               ); break;
-    case 'nullOrObject': b = (v === null || v.constructor == Object          ); break;
+    case 'nullOrObject'    : b = (v === null || v.constructor == Object              ); break;
     case 'nullOrInt'       : b = (v === null || v.constructor == Number && v % 1 == 0); break;
 
     // HTML elements or null.

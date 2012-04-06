@@ -210,7 +210,6 @@ UTILS.assert = function (functionName, assertNo, expression)
 
    if (!expression)
    {
-alert(f + ' throwing exception.');
       throw new Exception
       (
          f, 'Assertion failed.',
