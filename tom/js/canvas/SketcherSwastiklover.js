@@ -52,10 +52,9 @@ function SketcherSwastiklover(ctx)
    function _drawSwastikaFractal(x, y, armSegmentLength, boolClockwise, positionName)
    {
       var oldStrokeStyle = ctx.strokeStyle;
+      ctx.strokeStyle    = _strokeStyle;
 
       ctx.beginPath();
-      ctx.strokeStyle = _strokeStyle;
-
       _drawSwastika(x, y, armSegmentLength, boolClockwise);
       ctx.stroke();
 
@@ -68,7 +67,7 @@ function SketcherSwastiklover(ctx)
       {
        case true : var l1 = armSegmentLength; var l2 = armSegmentLength / 2; break;
        case false: var l2 = armSegmentLength; var l1 = armSegmentLength / 2; break;
-       default: throw new Exception('_drawSwastikaFractal', 'Unexpected value for boolean.', '');
+       default: throw 'Unexpected value for boolean.';
       }
 
       var swastikaDetails =
@@ -80,7 +79,6 @@ function SketcherSwastiklover(ctx)
       ];
 
       ctx.beginPath();
-      ctx.strokeStyle = _strokeStyle;
 
       for (var i = 0, len = swastikaDetails.length; i < len; ++i)
       {
@@ -109,7 +107,6 @@ function SketcherSwastiklover(ctx)
       }
 
       ctx.stroke();
-
       ctx.strokeStyle = oldStrokeStyle;
    }
 
