@@ -31,13 +31,11 @@ function SketcherSwastiklover(ctx)
             delayMs            : 'nonNegativeInt',
             armSegmentLengthMin: 'positiveInt'   ,
             armSegmentLength   : 'positiveInt'   ,
-            strokeStyle        : 'string'        ,
             x                  : 'float'         ,
             y                  : 'float'
          }
       );
 
-      _strokeStyle         = o.strokeStyle;
       _delayMs             = o.delayMs;
       _armSegmentLengthMin = o.armSegmentLengthMin;
 
@@ -51,9 +49,6 @@ function SketcherSwastiklover(ctx)
     */
    function _drawSwastikaFractal(x, y, armSegmentLength, boolClockwise, positionName)
    {
-      var oldStrokeStyle = ctx.strokeStyle;
-      ctx.strokeStyle    = _strokeStyle;
-
       ctx.beginPath();
       _drawSwastika(x, y, armSegmentLength, boolClockwise);
       ctx.stroke();
@@ -107,7 +102,6 @@ function SketcherSwastiklover(ctx)
       }
 
       ctx.stroke();
-      ctx.strokeStyle = oldStrokeStyle;
    }
 
    /*
@@ -131,7 +125,6 @@ function SketcherSwastiklover(ctx)
 
    var _delayMs             = null;
    var _armSegmentLengthMin = null;
-   var _strokeStyle         = null;
 }
 
 /*******************************************END*OF*FILE********************************************/

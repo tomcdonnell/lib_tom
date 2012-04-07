@@ -70,7 +70,6 @@ function SketcherSwastikloverTiled(canvas)
                nSwastikasPerLine  : nSwastikasPerLine  ,
                offsetX            : spacingX * i       ,
                offsetY            : spacingY * i       ,
-               strokeStyle        : '#000'             ,
                spacingX           :  spacingX          ,
                spacingY           : -spacingY
             }
@@ -100,7 +99,6 @@ function SketcherSwastikloverTiled(canvas)
                nSwastikasPerLine  : nSwastikasPerLine  ,
                offsetX            : spacingX * i       ,
                offsetY            : spacingY * i       ,
-               strokeStyle        : '#000'             ,
                spacingX           :  spacingX          ,
                spacingY           : -spacingY
             }
@@ -117,7 +115,6 @@ function SketcherSwastikloverTiled(canvas)
                nSwastikasPerLine  : nSwastikasPerLine             ,
                offsetX            : spacingX * i + 0.75 * spacingX,
                offsetY            : spacingY * i - 0.25 * spacingX,
-               strokeStyle        : '#000'                        ,
                spacingX           :  spacingX                     ,
                spacingY           : -spacingY
             }
@@ -134,13 +131,12 @@ function SketcherSwastikloverTiled(canvas)
       (
          o,
          {
-            armSegmentLength   : 'float'         ,
-            armSegmentLengthMin: 'float'         ,
-            offsetX            : 'float'         ,
-            offsetY            : 'float'         ,
-            nSwastikasPerLine  : 'positiveInt'   ,
-            strokeStyle        : 'string'        ,
-            spacingX           : 'float'         ,
+            armSegmentLength   : 'float'      ,
+            armSegmentLengthMin: 'float'      ,
+            offsetX            : 'float'      ,
+            offsetY            : 'float'      ,
+            nSwastikasPerLine  : 'positiveInt',
+            spacingX           : 'float'      ,
             spacingY           : 'float'
          }
       );
@@ -169,8 +165,7 @@ function SketcherSwastikloverTiled(canvas)
                y                  : y                    ,
                armSegmentLength   : o.armSegmentLength   ,
                armSegmentLengthMin: o.armSegmentLengthMin,
-               delayMs            : 0                    ,
-               strokeStyle        : o.strokeStyle
+               delayMs            : 0
             }
          );
       }
