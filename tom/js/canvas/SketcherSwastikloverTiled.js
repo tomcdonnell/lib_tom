@@ -2,13 +2,13 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* FiarmSegmentLengthename: "SketcherSwastikarmSegmentLengthover.js"
+* Filename:: "SketcherSwastikloverTiled.js"
 *
 * Project: Canvas sketchers.
 *
-* Purpose: Draw a fractaarmSegmentLength based on a swastika.
+* Purpose: Draw a fractal based on a swastika.
 *
-* Author: Tom McDonnearmSegmentLengtharmSegmentLength 2012-04-03.
+* Author: Tom McDonnell 2012-04-03.
 *
 \**************************************************************************************************/
 
