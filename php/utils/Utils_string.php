@@ -33,6 +33,51 @@ class Utils_string
    /*
     *
     */
+   public static function filterNonPrintable($string)
+   {
+      // Note on Error Reporting
+      // -----------------------
+      // The iconv function causes notice-level error messages in some circumstances.
+      //
+      // Eg. Notice: iconv(): Detected an incomplete multibyte character in input string in <file>
+      //
+      // Therefore E_NOTICE level errors are temporarily disabled.
+      $oldErrorLevel = error_reporting();
+      error_reporting($oldErrorLevel & ~E_NOTICE);
+
+      $string = iconv('UTF-8', 'ASCII//IGNORE', $string);
+      $string = str_replace("\n", '_{_NEWLINE_}_', $string);
+      $string = preg_replace( '/[^[:print:]]/', '', $string);
+      $string = str_replace('_{_NEWLINE_}_', "\n", $string);
+      $string = trim($string);
+
+      // Reset error reporting level to old value.
+      error_reporting($oldErrorLevel);
+
+      return $string;
+   }
+
+   /*
+    *
+    */
+   public static function countOccurrencesOfCharacter($string, $character)
+   {
+      $n = 0;
+
+      for ($i = 0; $i < strlen($string); ++$i)
+      {
+         if ($string[$i] == $character)
+         {
+            ++$n;
+         }
+      }
+
+      return $n;
+   }
+
+   /*
+    *
+    */
    public static function removeAllNonAlphaCharacters($string)
    {
       $stringLength = strlen($string);
@@ -175,6 +220,33 @@ class Utils_string
       }
 
       return $str . $number;
+   }
+
+   /*
+    *
+    */
+   public static function isAllUppercase($string)
+   {
+      for ($i = 0; $i < strlen($string); ++$i)
+      {
+         $c = $string[$i];
+
+         if ($c != strtoupper($c))
+         {
+            return false;
+         }
+      }
+
+      return true;
+   }
+
+   /*
+    *
+    */
+   public static function replaceAllWhitespaceCharsWithSingleSpaces($string)
+   {
+      $string = preg_replace('/\s/', ' ', $string);
+      return preg_replace('/  +/', ' ', $string);
    }
 }
 

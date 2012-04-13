@@ -27,7 +27,7 @@ class Utils_array
     */
    public function __construct()
    {
-      throw new Exception('This class is not intended to be instatiated.');
+      throw new Exception('This class is not intended to be instantiated.');
    }
 
    /*
@@ -46,13 +46,34 @@ class Utils_array
 
       for ($i = 0; $i < $count; ++$i)
       {
-         if ($a[$i] != $b[$i])
+         $ai = $a[$i];
+         $bi = $b[$i];
+
+         if (gettype($ai) != gettype($bi))
+         {
+            return false;
+         }
+
+         $valuesAreEqual = (is_array($ai))? self::arraysAreEqual($ai, $bi): ($ai == $bi);
+
+         if (!$valuesAreEqual)
          {
             return false;
          }
       }
 
       return true;
+   }
+
+   /*
+    *
+    */
+   public static function arraysAreEqualWhenSorted($a, $b)
+   {
+      sort($a);
+      sort($b);
+
+      return self::arraysAreEqual($a, $b);
    }
 
    /*
@@ -89,34 +110,34 @@ class Utils_array
          return '';
       }
 
-      $n_strings = count($strings);
+      $nStrings  = count($strings);
       $tableType =
       (
-         ($n_strings <= $maxRowsForSingleColumn)? 'small':
+         ($nStrings <= $maxRowsForSingleColumn)? 'small':
          (
-            ($n_strings <= $maxRowsForSingleColumn * $maxColumns)? 'medium': 'large'
+            ($nStrings <= $maxRowsForSingleColumn * $maxColumns)? 'medium': 'large'
          )
       );
 
       switch ($tableType)
       {
        case 'small':
-         $n_cols = 1;
-         $n_rows = $n_strings;
+         $nCols = 1;
+         $nRows = $nStrings;
          break;
        case 'medium':
-         $n_rows = ceil(sqrt($n_strings));
-         $n_cols = $n_rows;
+         $nRows = ceil(sqrt($nStrings));
+         $nCols = $nRows;
          break;
        case 'large':
-         $n_cols = $maxColumns;
-         $n_rows = ceil($n_strings / $n_cols);
+         $nCols = $maxColumns;
+         $nRows = ceil($nStrings / $nCols);
          break;
        default:
          throw new Exception('Unexpected case.');
       }
 
-      $twoDimStringsArray = self::fill2dArrayMaintainingColumnOrder($strings, $n_rows, $n_cols);
+      $twoDimStringsArray = self::fill2dArrayMaintainingColumnOrder($strings, $nRows, $nCols);
 
       $i     = &$indent;
       $html  = "$i<table class='$className'>\n";
@@ -153,13 +174,13 @@ class Utils_array
       }
 
       $firstRow = $arrayIn[0];
-      $n_rows   = count($arrayIn );
-      $n_cols   = count($firstRow);
-      $arrayOut = array_fill(0, $n_cols, array());
+      $nRows    = count($arrayIn );
+      $nCols    = count($firstRow);
+      $arrayOut = array_fill(0, $nCols, array());
 
-      for ($r = 0; $r < $n_rows; ++$r)
+      for ($r = 0; $r < $nRows; ++$r)
       {
-         for ($c = 0; $c < $n_cols; ++$c)
+         for ($c = 0; $c < $nCols; ++$c)
          {
             $arrayOut[$c][$r] = $arrayIn[$r][$c];
          }
@@ -168,12 +189,58 @@ class Utils_array
       return $arrayOut;
    }
 
+   /*
+    * Return a new array containing for each shared key, the sum of the corresponding values.
+    * If the value is an array, process recursively.
+    *
+    * If any value is not an integer and is not an array, or if the types of the values for the
+    * same key do not match in the two arrays, throw an exception.
+    *
+    * Example:
+    *    $array1 = array('a' => 1, 'b' => array('c' => 2, 'd' => 3          )          );
+    *    $array2 = array('a' => 4, 'b' => array('c' => 5, 'd' => 6, 'e' => 7), 'f' => 8);
+    *    $result = array('a' => 5, 'b' => array('c' => 7, 'e' => 9, 'e' => 7 , 'f' => 8);
+    */
+   public static function mergeSumRecursive($array1, $array2)
+   {
+      $mergedArray      = array();
+      $uniqueKeysAsKeys = array();
+
+      foreach (array_keys($array1) as $key) {$uniqueKeysAsKeys[$key] = null;}
+      foreach (array_keys($array2) as $key) {$uniqueKeysAsKeys[$key] = null;}
+
+      foreach (array_keys($uniqueKeysAsKeys) as $key)
+      {
+         $value1 = (array_key_exists($key, $array1))? $array1[$key]: null;
+         $value2 = (array_key_exists($key, $array2))? $array2[$key]: null;
+
+         if ($value1 !== null && $value2 === null) {$mergedArray[$key] = $value1; continue;}
+         if ($value2 !== null && $value1 === null) {$mergedArray[$key] = $value2; continue;}
+
+         if (is_int($value1) && is_int($value2))
+         {
+            $mergedArray[$key] = $value1 + $value2;
+            continue;
+         }
+
+         if (is_array($value1) && is_array($value2))
+         {
+            $mergedArray[$key] = self::mergeSumRecursive($value1, $value2);
+            continue;
+         }
+
+         throw new Exception("Unexpected type or type mismatch for key '$key'.");
+      }
+
+      return $mergedArray;
+   }
+
    // Private functions. ////////////////////////////////////////////////////////////////////////
 
    /*
     * Eg. Given $array       = array('one', 'two', 'three', 'four', 'five');
-    *           $n_rows      = 2;
-    *           $n_cols      = 2;
+    *           $nRows       = 2;
+    *           $nCols       = 2;
     *           $fillerValue = '';
     *
     *     Return array
@@ -186,25 +253,25 @@ class Utils_array
     */
    private static function fill2dArrayMaintainingColumnOrder
    (
-      $values, $n_rows, $n_cols, $fillerValue = ''
+      $values, $nRows, $nCols, $fillerValue = ''
    )
    {
       $valuesArray = array();
-      $n_values    = count($values);
+      $nValues     = count($values);
       $n           = -1;
 
-      if ($n_values > $n_rows * $n_cols)
+      if ($nValues > $nRows * $nCols)
       {
          throw new Exception('Too many values for given array dimensions.');
       }
 
-      for ($c = 0; $c < $n_cols; ++$c)
+      for ($c = 0; $c < $nCols; ++$c)
       {
          $valuesArray[$c] = array();
 
-         for ($r = 0; $r < $n_rows; ++$r)
+         for ($r = 0; $r < $nRows; ++$r)
          {
-            $valuesArray[$c][$r] = (++$n < $n_values)? $values[$n]: $fillerValue;
+            $valuesArray[$c][$r] = (++$n < $nValues)? $values[$n]: $fillerValue;
          }
       }
 

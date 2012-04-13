@@ -16,12 +16,8 @@
 *
 \**************************************************************************************************/
 
-// Includes. ///////////////////////////////////////////////////////////////////////////////////////
-
 require_once dirname(__FILE__) . '/../../../Zend/Db/Adapter/Pdo/Mysql.php';
 require_once dirname(__FILE__) . '/../utils/Utils_validator.php';
-
-// Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
  * Abstract class for use with the Javascript ResultTable object.
@@ -78,6 +74,8 @@ abstract class ResultTableAjaxHelperAbstract
           $sqlQueryPartTwo"
       );
 
+      self::_replaceSpecialStringsInRowData($rows);
+
       $db->setFetchMode(Zend_Db::FETCH_ASSOC);
 
       $nRowsTotal        = (int)($db->fetchOne('SELECT FOUND_ROWS()'));
@@ -94,8 +92,10 @@ abstract class ResultTableAjaxHelperAbstract
     */
    public function callCustomAjaxResponderFunction($db, $functionName, $params)
    {
-      Utils_validator::checkArray(
-         $params, array(
+      Utils_validator::checkArray
+      (
+         $params, array
+         (
             'classClientParams' => 'array' ,
             'resultTableParams' => 'array' ,
             'rowId'             => 'string', // NOTE: May be other than int (eg. GUID).
@@ -106,8 +106,10 @@ abstract class ResultTableAjaxHelperAbstract
 
       // Save the parameters to private variables so that they are available
       // to the descendent class via the protected _get...() functions.
-      $this->_validateParamsAndSaveToPrivateVariables(
-         $db, array(
+      $this->_validateParamsAndSaveToPrivateVariables
+      (
+         $db, array
+         (
             'classClientParams' => $classClientParams,
             'resultTableParams' => $resultTableParams
          )
@@ -115,8 +117,10 @@ abstract class ResultTableAjaxHelperAbstract
 
       $this->$functionName($rowId, $valueByColIndex);
 
-      return $this->getData(
-         $db, array(
+      return $this->getData
+      (
+         $db, array
+         (
             'classClientParams' => $classClientParams,
             'resultTableParams' => $resultTableParams
          )
@@ -178,8 +182,6 @@ abstract class ResultTableAjaxHelperAbstract
     * The id should be a number that allows the server to determine what rows of what tables need
     * to be updated when it receives a 'updateRow' message from the client via AJAX.  The id will
     * be included in the 'updateRow' message.
-    *
-    * Note that since the table displayed at the client may 
     *
     * Eg. return
     *     (
@@ -343,12 +345,14 @@ abstract class ResultTableAjaxHelperAbstract
          {
             Utils_validator::checkArray
             (
-               $buttonInfo, array(
+               $buttonInfo, array
+               (
                   'cssClassesStr' => 'string',
                   'titleStr'      => 'string',
                   'valueStr'      => 'string'
                ),
-               array(
+               array
+               (
                   'anchorHref'            => 'string',
                   'confirmString'         => 'string',
                   'jsOnClickFunctionName' => 'string',
@@ -356,7 +360,8 @@ abstract class ResultTableAjaxHelperAbstract
                   'successMsg'            => 'string'
                )
             );
-            // Substiture rowId into anchorHref if necessary.
+
+            // Substitute rowId into anchorHref if necessary.
             if (array_key_exists('anchorHref', $buttonInfo))
             {
                $buttonInfo['anchorHref'] = str_replace
@@ -439,7 +444,8 @@ abstract class ResultTableAjaxHelperAbstract
          // call.  If the resultTableParams['orderByInfo'] is out of range, it is simply ignored.
          if ($colNo < count($columnHeadingSqlExpressions))
          {
-            $orderByExpressions[] = (
+            $orderByExpressions[] =
+            (
                "{$columnHeadingSqlExpressions[$colNo]} " . strtoupper($ascORdesc)
             );
          }
@@ -490,6 +496,24 @@ abstract class ResultTableAjaxHelperAbstract
          'rowInfoByRowIndex' => $rowInfoByRowIndex                 ,
          'subheading'        => $this->_getSubheading()
       );
+   }
+
+   /*
+    *
+    */
+   private function _replaceSpecialStringsInRowData(&$rows)
+   {
+      foreach ($rows as &$colValueByIndex)
+      {
+         foreach ($colValueByIndex as $index => &$colValue)
+         {
+            // ASSUMPTION
+            // ----------
+            // The value at row index zero is the rowId.
+            // This is ensured in function self::getData().
+            $colValue = str_replace('__RowId__', $colValueByIndex[0], $colValue);
+         }
+      }
    }
 
    // Private variables. ////////////////////////////////////////////////////////////////////////

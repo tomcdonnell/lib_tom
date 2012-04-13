@@ -69,7 +69,7 @@ class LoginAndRejectionPageGenerator
    /*
     *
     */
-   public static function echoLoginPageHtml($whitelist, $blacklist, $n_minutesRememberLoginDetails)
+   public static function echoLoginPageHtml($whitelist, $blacklist, $nMinutesRememberLoginDetails)
    {
       if (self::_expectedConstantsAreDefined())
       {
@@ -81,7 +81,7 @@ class LoginAndRejectionPageGenerator
       {
          $indent = self::_echoLoginPageDefaultHeadHtml
          (
-            $whitelist, $blacklist, $n_minutesRememberLoginDetails
+            $whitelist, $blacklist, $nMinutesRememberLoginDetails
          );
 
          self::_echoLoginPageFormHtml($indent);
@@ -115,7 +115,7 @@ class LoginAndRejectionPageGenerator
     *
     */
    private static function _echoLoginPageDefaultHeadHtml(
-      $whitelist, $blacklist, $n_minutesRememberLoginDetails
+      $whitelist, $blacklist, $nMinutesRememberLoginDetails
    )
    {
       $whitelistExists = ($whitelist === null)? '0': '1';
@@ -163,8 +163,8 @@ class LoginAndRejectionPageGenerator
       echo "  <p>Enter both, then click 'Submit' to continue.</p>\n";
       echo "  <p>\n";
       echo "   If upon clicking 'Submit' you are granted access, your SOE id and password will\n";
-      echo "   be remembered for $n_minutesRememberLoginDetails minutes.<br/>\n";
-      echo "   The time to forget will be reset to $n_minutesRememberLoginDetails minutes each\n";
+      echo "   be remembered for $nMinutesRememberLoginDetails minutes.<br/>\n";
+      echo "   The time to forget will be reset to $nMinutesRememberLoginDetails minutes each\n";
       echo "   time you view a restricted page.<br/>\n";
       echo "   This will prevent you from having to repeatedly re-enter your SOE id and\n";
       echo "   password when viewing restricted pages.\n";

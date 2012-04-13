@@ -15,12 +15,12 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../database/DatabaseConnection.php';
+require_once dirname(__FILE__) . '/../database/DatabaseManager.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
- * NOTE: This class assumes the existence of a DatabaseConnection named 'information_schema'.
+ *
  */
 class Utils_dbSchema
 {
@@ -43,10 +43,10 @@ class Utils_dbSchema
 
       $rows = $dbc->query
       (
-         'SELECT `COLUMN_NAME`
-          FROM `COLUMNS`
-          WHERE `TABLE_SCHEMA`=?
-          AND `TABLE_NAME`=?',
+         'SELECT COLUMN_NAME
+          FROM COLUMNS
+          WHERE TABLE_SCHEMA=?
+          AND TABLE_NAME=?',
          array($databaseName, $tableName)
       );
 
@@ -68,9 +68,9 @@ class Utils_dbSchema
 
       $rows = $dbc->query
       (
-         'SELECT DISTINCT `TABLE_NAME`
-          FROM `COLUMNS`
-          WHERE `TABLE_SCHEMA`=?',
+         'SELECT DISTINCT TABLE_NAME
+          FROM COLUMNS
+          WHERE TABLE_SCHEMA=?',
          array($databaseName)
       );
 
@@ -114,10 +114,10 @@ class Utils_dbSchema
          'SELECT EXISTS
           (
              SELECT *
-             FROM `COLUMNS`
-             WHERE `TABLE_SCHEMA`=?
-             AND `TABLE_NAME`=?
-             AND `COLUMN_NAME`=?
+             FROM COLUMNS
+             WHERE TABLE_SCHEMA=?
+             AND TABLE_NAME=?
+             AND COLUMN_NAME=?
           ) AS `exists`',
          array($databaseName, $tableName, $columnName)
       );

@@ -39,28 +39,28 @@ class Utils_validator
    /*
     *
     */
-   public static function checkArray($array, $typesByRequiredKeys, $typesByOptionalKeys = array())
+   public static function checkArray($array, $typeByRequiredKey, $typeByOptionalKey = array())
    {
-      assert('is_array($array              )');
-      assert('is_array($typesByRequiredKeys)');
-      assert('is_array($typesByOptionalKeys)');
+      assert('is_array($array            )');
+      assert('is_array($typeByRequiredKey)');
+      assert('is_array($typeByOptionalKey)');
 
-      $n_keys         = count($array              );
-      $n_keysRequired = count($typesByRequiredKeys);
-      $n_keysOptional = count($typesByOptionalKeys);
-      $n_keysMax      = $n_keysRequired + $n_keysOptional;
+      $nKeys         = count($array            );
+      $nKeysRequired = count($typeByRequiredKey);
+      $nKeysOptional = count($typeByOptionalKey);
+      $nKeysMax      = $nKeysRequired + $nKeysOptional;
 
-      if ($n_keys < $n_keysRequired || $n_keys > $n_keysMax)
+      if ($nKeys < $nKeysRequired || $nKeys > $nKeysMax)
       {
          throw new Exception
          (
-            "Incorrect number of keys in array ($n_keys).  " .
-            "Expected number in range [$n_keysRequired, $n_keysMax]."
+            "Incorrect number of keys in array ($nKeys).  " .
+            "Expected number in range [$nKeysRequired, $nKeysMax]."
          );
       }
 
       // Check required keys and types.
-      foreach ($typesByRequiredKeys as $key => $type)
+      foreach ($typeByRequiredKey as $key => $type)
       {
          if (!array_key_exists($key, $array))
          {
@@ -73,30 +73,60 @@ class Utils_validator
          }
          catch (Exception $e)
          {
-            echo "Type check failed for required key '$key'.\n";
-            echo $e->getMessage();
-            exit(0);
+            throw new Exception("Type check failed for required key '$key'.\n" . $e->getMessage());
          }
       }
 
       // Check optional keys and types.
-      $arrayExtra = array_diff_key($array, $typesByRequiredKeys);
+      $arrayExtra = array_diff_key($array, $typeByRequiredKey);
       foreach (array_keys($arrayExtra) as $key)
       {
-         if (!array_key_exists($key, $typesByOptionalKeys))
+         if (!array_key_exists($key, $typeByOptionalKey))
          {
             throw new Exception("Unexpected key '$key' found.");
          }
 
          try
          {
-            self::checkType($array[$key], $typesByOptionalKeys[$key]);
+            self::checkType($array[$key], $typeByOptionalKey[$key]);
          }
          catch (Exception $e)
          {
-            echo "Type check failed for optional key '$key'.\n";
-            echo $e->getMessage();
-            exit(0);
+            throw new Exception("Type check failed for optional key '$key'.\n" . $e->getMessage());
+         }
+      }
+   }
+
+   /*
+    *
+    */
+   public static function checkArrayAndSetDefaults
+   (
+      &$array, $typeByRequiredKey, $typeAndDefaultByOptionalKey = array()
+   )
+   {
+      $typeByOptionalKey = array();
+
+      foreach ($typeAndDefaultByOptionalKey as $key => $typeAndDefault)
+      {
+         if (!is_array($typeAndDefault) || count($typeAndDefault) != 2)
+         {
+            throw new Exception
+            (
+               'Type and default value for optional parameter must be two-element array.'
+            );
+         }
+
+         $typeByOptionalKey[$key] = $typeAndDefault[0];
+      }
+
+      self::checkArray($array, $typeByRequiredKey, $typeByOptionalKey);
+
+      foreach ($typeAndDefaultByOptionalKey as $key => $typeAndDefault)
+      {
+         if (!array_key_exists($key, $array))
+         {
+            $array[$key] = $typeAndDefault[1];
          }
       }
    }
@@ -115,7 +145,8 @@ class Utils_validator
       {
        // Basic types.
        case 'array'   : $b = is_array($v)   ; break;
-       case 'bool'    : $b = is_bool($v)    ; break;
+       case 'bool'    : // Fall through.
+       case 'boolean' : $b = is_bool($v)    ; break;
        case 'float'   : $b = is_float($v)   ; break;
        case 'int'     : $b = is_int($v)     ; break;
        case 'null'    : $b = is_null($v)    ; break;
@@ -386,14 +417,14 @@ class Utils_validator
 
       // Match any combination of alphabet characters
       // spaces and selected punctuation characters ("-", "'", "`").
-      $n_matches = preg_match("/^[a-zA-Z\-\'\` ]*$/", $str);
+      $nMatches = preg_match("/^[a-zA-Z\-\'\` ]*$/", $str);
 
-      if ($n_matches === false)
+      if ($nMatches === false)
       {
          throw new Exception('An error occurred during running of preg_match().');
       }
 
-      return ($n_matches > 0);
+      return ($nMatches > 0);
    }
 
    /*
@@ -413,14 +444,14 @@ class Utils_validator
 
       // Match any combination of alphabet characters
       // spaces and selected punctuation characters ("-", "'", "`", ".", ",", ":", ";", "!").
-      $n_matches = preg_match('/^[a-zA-Z\-\'\`\.,:;! ]*$/', $str);
+      $nMatches = preg_match('/^[a-zA-Z\-\'\`\.,:;! ]*$/', $str);
 
-      if ($n_matches === false)
+      if ($nMatches === false)
       {
          throw new Exception('An error occurred during running of preg_match().');
       }
 
-      return ($n_matches > 0);
+      return ($nMatches > 0);
    }
 
    /*
@@ -440,14 +471,14 @@ class Utils_validator
     */
    public static function checkStringIsDecimalFloat($str)
    {
-      $n_matches = preg_match('/^[0-9]*\.?[0-9]*$/', $str);
+      $nMatches = preg_match('/^[0-9]*\.?[0-9]*$/', $str);
 
-      if ($n_matches === false)
+      if ($nMatches === false)
       {
          throw new Exception('An error occurred during running of preg_match().');
       }
 
-      return ($n_matches > 0);
+      return ($nMatches > 0);
    }
 }
 

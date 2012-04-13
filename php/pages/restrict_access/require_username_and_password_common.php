@@ -120,6 +120,9 @@ try
       $_SESSION['soeAuthentication'] = array();
    }
 
+// Temporary try...catch block while investigating a bug that only occurs for Prathe.
+try
+{
    Utils_validator::checkArray
    (
       $_SESSION['soeAuthentication'], array(), array
@@ -142,6 +145,14 @@ try
          'echoLoginPageHtmlFunctions' => 'array'
       )
    );
+}
+catch (Exception $e)
+{
+   echo "Prathe, is it you?<br/>\n";
+   echo "That damn pesky \$_SESSION related bug has resurfaced!<br/>\n";
+   echo "Clear your \$_SESSION as a workaround.\n";
+   echo $e;
+}
 
    // Note Regarding $_GET and $_POST Parameters
    // ------------------------------------------

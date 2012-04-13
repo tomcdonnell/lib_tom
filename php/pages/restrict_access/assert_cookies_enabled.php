@@ -17,10 +17,13 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
+require_once dirname(__FILE__) . '/../../utils/Utils_html.php';
 require_once dirname(__FILE__) . '/../../utils/Utils_htmlForm.php';
 
 // Settings. ///////////////////////////////////////////////////////////////////////////////////////
 
+// Passing -1 will show every possible error.
+// (see tip at http://www.php.net/manual/en/function.error-reporting.php).
 error_reporting(-1);
 
 // Global variables. ///////////////////////////////////////////////////////////////////////////////
@@ -113,13 +116,13 @@ function displayEnableCookiesMessagePageAndExit($redirectUrl)
   <p>The requested page requires that cookies be enabled in your web browser.</p>
   <p>
    Instructions on how to enable cookies in your web browser may be found
-   <a href='<?php echo $COOKIES_EXPLANATION_URL; ?>'>here</a>.
+   <a href='<?php echo Utils_html::escapeSingleQuotes($COOKIES_EXPLANATION_URL); ?>'>here</a>.
   </p>
   <p>Enable cookies in your web browser then click 'Proceed' below.</p>
   <p>
    Note that refreshing this page even after enabling cookies will not have the desired effect.
   </p>
-  <form action='<?php echo $postUrl ?>' method='POST'>
+  <form action='<?php echo Utils_html::escapeSingleQuotes($postUrl); ?>' method='POST'>
 <?php
    Utils_htmlForm::echoArrayAsHiddenInputs($_POST, '   ');
 ?>

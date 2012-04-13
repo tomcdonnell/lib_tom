@@ -80,8 +80,19 @@ try
 }
 catch (Exception $e)
 {
+   $errorMessage = $e->getMessage();
+
+   // TODO
+   // ----
+   // This is a hack specific to the TAAS Admin project and does not belong in library code.
+   // Find another way to accomplish this in a generic fashion.
+   if (strpos($errorMessage, 'Integrity constraint violation: 1062 Duplicate entry') !== false)
+   {
+      $errorMessage = 'Another item already exists with the same name (it may be inactivated)';
+   }
+
    // NOTE: The 'action' parameter in the reply message is set to 'updateRow' for all replies.
-   echo json_encode(array('action' => 'updateRow', 'success' => false, 'reply' =>$e->getMessage()));
+   echo json_encode(array('action' => 'updateRow', 'success' => false, 'reply' => $errorMessage));
 }
 
 /*******************************************END*OF*FILE********************************************/

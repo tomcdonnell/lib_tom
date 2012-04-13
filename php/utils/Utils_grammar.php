@@ -104,13 +104,13 @@ class Utils_grammer
       $str = '';
       $inSeries = false;
       $n = 0;
-      $n_checked = 0;
+      $nChecked = 0;
       while ($n < $count)
       {
          if ($array[$n])
          {
             // Element $n + 1 is checked.
-            ++$n_checked;
+            ++$nChecked;
 
             if ($inSeries)
               ++$n;
@@ -121,17 +121,17 @@ class Utils_grammer
                if ($str != '')
                  $str .= ', ';
 
-              $str .= $n + 1;
+               $str .= $n + 1;
 
                if ($n <= $count - 3 && $array[$n + 1] && $array[$n + 2])
                {
                   // The next two elements are also checked (elements $n + 2 and $n + 3),
                   // so element $n + 1 is the start of a series.
 
-                  $inSeries = true;
-                  $str .= '-';
-                  $n_checked += 2; // Increment n_counted (1st in series has already been counted).
-                  $n += 3; // Proceed to next unknown element.
+                  $inSeries  = true;
+                  $str      .= '-';
+                  $nChecked += 2; // Increment nChecked (1st in series has already been counted).
+                  $n        += 3; // Proceed to next unknown element.
                }
                else
                  // Element $n + 1 is not any part of a series.
@@ -160,7 +160,7 @@ class Utils_grammer
       for ($i = strlen($str) - 1; $i > 0 && $str[$i] != ','; --$i);
       if ($i > 0)
       {
-         if ($n_checked > 2)
+         if ($nChecked > 2)
            // Insert the string ' and' after the last comma in $str.
            $str = substr_replace($str, ' and', $i + 1, 0);
          else

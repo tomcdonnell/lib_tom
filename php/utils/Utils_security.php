@@ -40,7 +40,7 @@ class Utils_security
     */
    public static function dpiLdapUserCheck($params)
    {
-      Utils_validator::checkArray
+      Utils_validator::checkArrayAndSetDefaults
       (
          $params, array
          (
@@ -51,23 +51,17 @@ class Utils_security
          ),
          array
          (
-            'logLoginFailuresFilename'  => 'nullOrString',
-            'logLoginSuccessesFilename' => 'nullOrString',
-            'baseDn'                    => 'string' // Directory Name maybe?
-         )                                          // See documentation for ldap_search().
+            // Note Regarding Parameter 'basdDn'
+            // ---------------------------------
+            // Unsure of meaning of baseDn.  Directory Name?  See documentation for ldap_search().
+            'logLoginFailuresFilename'  => array('nullOrString', null),
+            'logLoginSuccessesFilename' => array('nullOrString', null),
+            'baseDn'                    => array('string'      , ''  )
+         )
       );
       extract($params);
 
-      $logLoginFailuresFilename  = (
-         Utils_misc::arrayValueOrNull('logLoginFailuresFilename' , $params)
-      );
-      $logLoginSuccessesFilename = (
-         Utils_misc::arrayValueOrNull('logLoginSuccessesFilename', $params)
-      );
-
-      $baseDn   = Utils_misc::arrayValueOrBlank('baseDn', $params);
       $username = strtolower($username);
-if ($username == 'tm37') {return 'Tom McDonnell';}
 
       // IMPORTANT
       // ---------
@@ -86,43 +80,49 @@ if ($username == 'tm37') {return 'Tom McDonnell';}
       while (true)
       {
          $ldapFunctionName = 'ldap_connect';
-         $ldapLinkId       =  @ldap_connect($host, $port);
+         $ldapLinkId       = @ldap_connect($host, $port);
          if ($ldapLinkId === false) {break;}
 
          $ldapFunctionName = 'ldap_bind';
-         $ldapBindResult   =  @ldap_bind($ldapLinkId, $username, $password);
+         $ldapBindResult   = @ldap_bind($ldapLinkId, $username, $password);
          if ($ldapBindResult === false) {break;}
 
          $ldapFunctionName = 'ldap_search';
-         $searchResult     =  @ldap_search($ldapLinkId, $baseDn, "uid=$username");
+         $searchResult     = @ldap_search($ldapLinkId, $baseDn, "uid=$username");
          if ($searchResult === false) {break;}
 
          $ldapFunctionName = 'ldap_first_entry';
-         $ldapEntry        =  @ldap_first_entry($ldapLinkId, $searchResult);
+         $ldapEntry        = @ldap_first_entry($ldapLinkId, $searchResult);
          if ($ldapEntry === false) {break;}
 
          $ldapFunctionName = 'ldap_get_attributes';
-         $ldapAttributes   =  @ldap_get_attributes($ldapLinkId, $ldapEntry);
+         $ldapAttributes   = @ldap_get_attributes($ldapLinkId, $ldapEntry);
          if ($ldapAttributes === false) {break;}
 
          $msg = 'Expected array key "cn" not present in LDAP entry.';
          if (!array_key_exists('cn', $ldapAttributes)) {throw new Exception($msg);}
 
          $msg = 'LDAP entry \'cn\' is not an array.';
-         if (!is_array($ldapAttributes['cn'])) {throw new Exception();}
+         if (!is_array($ldapAttributes['cn'])) {throw new Exception($msg);}
 
          $msg = 'LDAP entry \'cn\' is an empty array.';
-         if (count($ldapAttributes['cn']) == 0) {throw new Exception();}
+         if (count($ldapAttributes['cn']) == 0) {throw new Exception($msg);}
 
          // Success!
-         $staffName = $ldapAttributes['cn'][0];
+         $fullName = $ldapAttributes['cn'][0];
          ldap_close($ldapLinkId);
-         self::_logLdapSuccess($username, $logLoginSuccessesFilename);
-         return $staffName;
+         if ($logLoginSuccessesFilename !== null)
+         {
+            self::_logLdapSuccess($username, $fullName, $logLoginSuccessesFilename);
+         }
+         return true;
       }
 
       // Failure.
-      self::_logLdapError($ldapLinkId, $ldapFunctionName, $username, $logLoginFailuresFilename);
+      if ($logLoginFailuresFilename !== null)
+      {
+         self::_logLdapError($ldapLinkId, $ldapFunctionName, $username, $logLoginFailuresFilename);
+      }
       return false;
    }
 
@@ -131,14 +131,14 @@ if ($username == 'tm37') {return 'Tom McDonnell';}
    /*
     *
     */
-   private static function _logLdapSuccess($username, $logFilename)
+   private static function _logLdapSuccess($username, $fullName, $logFilename)
    {
-      $message = date('Y-m-d H:i:s') . " Username: '$username'\n";
+      $message = date('Y-m-d H:i:s') . " Username: '$username' fullName: '$fullName'\n";
 
       // The '@' is intended to suppress the warning message that may be printed depending on
       // error_reporting settings if the file fails to open.  Since the result of the call to
       // fopen is checked below, the warning can be disregarded.
-      $logFileStream = ($logFilename !== null)? @fopen($logFilename, 'ab'): null;
+      $logFileStream = @fopen($logFilename, 'ab');
 
       if ($logFileStream === false)
       {
@@ -150,6 +150,7 @@ if ($username == 'tm37') {return 'Tom McDonnell';}
 
       fwrite($logFileStream, $message);
    }
+
    /*
     *
     */
@@ -167,13 +168,14 @@ if ($username == 'tm37') {return 'Tom McDonnell';}
       // The '@' is intended to suppress the warning message that may be printed depending on
       // error_reporting settings if the file fails to open.  Since the result of the call to
       // fopen is checked below, the warning can be disregarded.
-      $logFileStream = ($logFilename !== null)? @fopen($logFilename, 'ab'): null;
+      $logFileStream = @fopen($logFilename, 'ab');
 
       if ($logFileStream === false)
       {
          throw new Exception
          (
-            "Log file '$logFilename' could not be opened.  Message '$message' could not be logged."
+            "Log file '$logFilename' could not be opened.  Message '$message' could not be" .
+            ' logged.  Ensure the path is correct, then check file permissions.'
          );
       }
 

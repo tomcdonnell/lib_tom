@@ -41,6 +41,47 @@ class Utils_html
    {
       return str_replace("'", htmlentities("'", ENT_QUOTES), $string);
    }
+
+   /*
+    *
+    */
+   public static function echoHtmlScriptTagsForJsFiles($jsFilenamesWithFullPath, $indent)
+   {
+      // A unix timestamp to append as an unused $_GET variable to the
+      // end of every JS filename so that cached files are not used.
+      $timeUnix = time();
+
+      foreach ($jsFilenamesWithFullPath as $filename)
+      {
+         echo "$indent<script type='text/javascript'";
+         echo " src='", self::escapeSingleQuotes($filename), "?$timeUnix'></script>\n";
+      }
+   }
+
+   /*
+    *
+    */
+   public static function echoHtmlLinkTagsForCssFiles
+   (
+      $cssFilenamesWithFullPath, $indent, $extraAttributeValueByName = array()
+   )
+   {
+      // A unix timestamp to append as an unused $_GET variable to the
+      // end of every JS filename so that cached files are not used.
+      $timeUnix = time();
+
+      foreach ($cssFilenamesWithFullPath as $filename)
+      {
+         echo "$indent<link rel='stylesheet' type='text/css'";
+
+         foreach ($extraAttributeValueByName as $name => $value)
+         {
+            echo " $name='", self::escapeSingleQuotes($value), "'";
+         }
+
+         echo " href='", self::escapeSingleQuotes($filename), "?$timeUnix'/>\n";
+      }
+   }
 }
 
 /*******************************************END*OF*FILE********************************************/

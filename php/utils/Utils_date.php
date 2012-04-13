@@ -141,9 +141,13 @@ class Utils_date
    }
 
    /*
-    * This function may not be necessary due to the existence of function strtotime().
-    * It is used for now because I do not know how function strtotime differentiates between
-    * strings in format 'dd-mm-yyyy' and those in format 'mm-dd-yyyy' where dd is <= 12.
+    * This function is necessary despite the existence of function strtotime().
+    *
+    * It is used for now because strtotime cannot differentiate between strings in format
+    * 'dd-mm-yyyy' and those in format 'mm-dd-yyyy' where dd is <= 12.
+    *
+    * For a list of formats understood by function strtotime(),
+    * see http://au.php.net/manual/en/datetime.formats.date.php.
     */
    public static function getTimestampFromDateString($dateStr, $format = 'yyyy-mm-dd')
    {
@@ -169,6 +173,32 @@ class Utils_date
       }
 
       return false;
+   }
+
+   /*
+    *
+    */
+   public static function getDurationInSecondsOfUnixTimePeriodOverlap
+   (
+      $s1Unix, $f1Unix, $s2Unix, $f2Unix
+   )
+   {
+      if ($s1Unix > $f1Unix || $s2Unix > $f2Unix)
+      {
+         throw new Exception('Supplied start time greater than supplied finish time.');
+      }
+
+      // If period 1 and period 2 do not overlap...
+      if ($f2Unix <= $s1Unix || $s2Unix >= $f1Unix) {return 0;}
+
+      // If period 1 starts   within period 2...
+      if ($s2Unix <= $s1Unix) {return ($f2Unix - $s1Unix);}
+
+      // If period 1 finishes within period 2...
+      if ($f2Unix >= $f1Unix) {return ($f1Unix - $s2Unix);}
+
+      // Else period 2 is entirely within period 1.
+      return ($f2Unix - $s2Unix);
    }
 }
 

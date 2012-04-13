@@ -181,7 +181,7 @@ class Utils_database
     */
    public static function getColFromTable
    (
-      DatabaseConnection $dbc, $colName, $tableName, $whereDetails, $boolCastToInt = false
+      DatabaseConnection $dbc, $colName, $tableName, $whereDetails = array(), $boolCastToInt = false
    )
    {
       assert('is_string($colName  )'  );

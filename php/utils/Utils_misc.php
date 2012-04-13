@@ -71,9 +71,18 @@ class Utils_misc
    /*
     *
     */
-   public static function arrayValueOrDefault($key, $array, $default)
+   public static function arrayValueOrDefault($key, $array, $default, $boolCastToInt = false)
    {
-      return (array_key_exists($key, $array))? $array[$key]: $default;
+      if (array_key_exists($key, $array))
+      {
+         switch ($boolCastToInt)
+         {
+          case true : return (int)$array[$key];
+          case false: return      $array[$key];
+         }
+      }
+
+      return $default;
    }
 
    /*
@@ -103,17 +112,25 @@ class Utils_misc
 
    /*
     * Usage example:
-    *    $var = Utils_misc::switchAssign
+    *    $bestSellingCarModelName = Utils_misc::switchAssign
     *    (
-    *       $inputValue, array
+    *       $carManufacturer, array
     *       (
-    *          'case1' => $outputValue1,
-    *          'case2' => $outputvalue2
+    *          'ford'   => 'falcon',
+    *          'holden' => 'commodore'
     *       )
     *    );
     *
+    * The above code is equivalent to:
+    *    switch ($carManufacturer)
+    *    {
+    *     case 'ford'  : $bestSellingCarModelName = 'falcon'   ; break;
+    *     case 'holden': $bestSellingCarModelName = 'commodore'; break;
+    *     default      : throw new Exception("Unknown car manufacturer '$carManufacturer'.");
+    *    }
+    *
     * @param $defaultOutputValue {any type}
-    *     This parameter is optional.  If it is not supplied, then there will be no output value
+    *   * This parameter is optional.  If it is not supplied, then there will be no output value
     *     for the default case specified and so an exception will be thrown in the default case.
     */
    public static function switchAssign(

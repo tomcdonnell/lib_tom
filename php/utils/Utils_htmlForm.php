@@ -13,6 +13,9 @@
 *
 \**************************************************************************************************/
 
+require_once dirname(__FILE__) . '/Utils_html.php';
+require_once dirname(__FILE__) . '/Utils_validator.php';
+
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -34,28 +37,99 @@ class Utils_htmlForm
     * @param $options {Array}
     *    array
     *    (
-    *       <string optionValue> => <string optionText>
+    *       <string optionValue> =>
+    *          <string optionText OR array('text' => <string>, 'title' => <string>)>
     *       ...
     *    )
     */
    public static function getSelectorHtml
    (
-      $name, $options, $indent, $selectedOptionValue = null, $class = null, $boolDisabled = false
+      $nameAndId, $options, $instructionOptionArray = null,
+      $indent, $selectedOptionValue = null, $class = null, $boolDisabled = false
    )
    {
-      $i           = &$indent;
-      $classStr    = ($class === null)? ''                     : "class='$class'";
-      $disabledStr = ($boolDisabled  )? 'disabled=\'disabled\'': ''              ;
+      // Selected option value must be null (if no option is to be selected by this function), or
+      // a string.  This is to avoid confusion due to bizarre behaviour of PHP loose comparisons.
+      // ('' == 0) === true.  ('0' == 0) === true.  ('php' == 0) === true.  ('1' == 0) === false.
+      // So if there are options with values '0' and 'blank', and the $selectedOptionValue is given
+      // as 0, both would be selected if loose comparisons were used.
+      // See http://www.php.net/manual/en/types.comparisons.php.
+      Utils_validator::checkType($selectedOptionValue, 'nullOrString');
 
-      $html = "$i<select name='$name'$disabledStr$classStr>\n";
+      $i                       = &$indent;
+      $classStr                = ($class === null)? ''                      : " class='$class'";
+      $disabledStr             = ($boolDisabled  )? ' disabled=\'disabled\'': ''               ;
+      $boolFoundSelectedOption = false;
+
+      $html = "$i<select name='$nameAndId' id='$nameAndId'$disabledStr$classStr>\n";
+
+      if ($instructionOptionArray !== null)
+      {
+         $value = $instructionOptionArray[0];
+         $text  = $instructionOptionArray[1];
+
+         if (array_key_exists($value, $options))
+         {
+            throw new Exception("Value supplied for instruction option '$value' already exists.");
+         }
+
+         // NOTE: This is not the same as array_merge(array($value => $text), $options)).
+         $options = array_combine
+         (
+            array_merge(array($value), array_keys($options)  ),
+            array_merge(array($text ), array_values($options))
+         );
+      }
+
+      if (array_key_exists('', $options))
+      {
+         throw new Exception
+         (
+            'Option with empty string key found.  Use of this key is not allowed because the' .
+            ' Firefox browser confuses options having zero key with options having blank key.'
+         );
+      }
 
       foreach ($options as $value => $text)
       {
-         $selectedStr = ($value == $selectedOptionValue)? ' selected="selected"': '';
-         $html .= "$i <option value='$value'$selectedStr>$text</option>\n";
+         if (is_array($text))
+         {
+            Utils_validator::checkArray($text, array('text' => 'string', 'title' => 'string'));
+            $title = $text['title'];
+            $text  = $text['text' ];
+         }
+         else
+         {
+            $title = '';
+         }
+
+         // Convert $value to string to ensure that all comparisons are string::string and so
+         // avoid loose comparison confusion.  Eg. ('' == 0) === true.  ('blank' == 0) === true.
+         $value = (string)$value;
+
+         if ($selectedOptionValue !== null && $selectedOptionValue == $value)
+         {
+            $boolFoundSelectedOption = true;
+            $selectedStr             = ' selected="selected"';
+         }
+         else
+         {
+            $selectedStr = '';
+         }
+
+         $html .=
+         (
+            "$i <option value='" . Utils_html::escapeSingleQuotes($value) . "'$selectedStr" .
+            (($title == '')? '': " title='$title'") . ">" . htmlentities($text) . "</option>\n"
+         );
       }
 
       $html .= "$i</select>\n";
+
+      if ($selectedOptionValue !== null && !$boolFoundSelectedOption)
+      {
+         throw new Exception("Could not find option with value '$selectedOptionValue'.");
+      }
 
       return $html;
    }
@@ -65,12 +139,14 @@ class Utils_htmlForm
     */
    public static function echoSelectorHtml
    (
-      $name, $options, $indent, $selectedOptionValue = null, $class = null, $boolDisabled = false
+      $nameAndId, $options, $instructionOptionArray = null,
+      $indent, $selectedOptionValue = null, $class = null, $boolDisabled = false
    )
    {
       echo self::getSelectorHtml
       (
-         $name, $options, $indent, $selectedOptionValue, $class, $boolDisabled
+         $nameAndId, $options, $instructionOptionArray,
+         $indent, $selectedOptionValue, $class, $boolDisabled
       );
    }
 
@@ -80,15 +156,17 @@ class Utils_htmlForm
    public static function echoTextareaHtml
    (
       $name, $indent,
-      $value = '', $class = null, $n_rows = null, $n_cols = null, $boolDisabled = false
+      $value = '', $class = null, $nRows = null, $nCols = null, $boolDisabled = false
    )
    {
-      $rowsStr     = ($n_rows === null)? '': "rows='$n_rows'";
-      $colsStr     = ($n_cols === null)? '': "cols='$n_cols'";
-      $classStr    = ($class  === null)? '': "class='$class'";
-      $disabledStr = ($boolDisabled   )? "disabled='disabled'": '';
+      echo "$indent<textarea name='", Utils_html::escapeSingleQuotes($name), "'";
 
-      echo "$indent<textarea name='$name'$classStr$rowsStr$colsStr$disabledStr>$value</textarea>\n";
+      if ($nRows !== null) {echo " rows='" , Utils_html::escapeSingleQuotes($nRows), "'";}
+      if ($nCols !== null) {echo " cols='" , Utils_html::escapeSingleQuotes($nCols), "'";}
+      if ($class !== null) {echo " class='", Utils_html::escapeSingleQuotes($class), "'";}
+      if ($boolDisabled  ) {echo " disabled='disabled'"                                 ;}
+
+      echo '>', htmlentities($value), "</textarea>\n";
    }
 
    /*
@@ -96,10 +174,12 @@ class Utils_htmlForm
     */
    public static function echoCheckboxHtml($name, $indent, $boolChecked = false, $class = null)
    {
-      $classStr   = ($class  === null)? '': "class='$class'"   ;
-      $checkedStr = ($boolChecked    )? "checked='checked'": '';
+      echo "$indent<input type='checkbox' name='", Utils_html::escapeSingleQuotes($name), "'";
 
-      echo "$indent<input type='checkbox' name='$name'$classStr$checkedStr/>\n";
+      if ($class !== null) {echo " class='", Utils_html::escapeSingleQuotes($class), "'";}
+      if ($boolChecked   ) {echo " checked='checked'"                                   ;}
+
+      echo "/>\n";
    }
 
    /*
@@ -108,9 +188,7 @@ class Utils_htmlForm
     * TODO
     * ----
     * See php native function http_build_query().  That function
-    * appears to do almost exactly whtat this one does.
-    *
-    * TODO: Check sugarCRM reports carefully for dependencies on this function before pushing live.
+    * appears to do almost exactly what this one does.
     */
    public static function createGetStringFromArray($array, $questionMarkOrAmpersand = '?')
    {
@@ -147,12 +225,16 @@ class Utils_htmlForm
 
             foreach ($value as $arrayValue)
             {
-               echo "$indent<input type='hidden' name='$key' value='$arrayValue'/>\n";
+               echo "$indent<input type='hidden'";
+               echo " name='" , Utils_html::escapeSingleQuotes($key       ), "'";
+               echo " value='", Utils_html::escapeSingleQuotes($arrayValue), "'/>\n";
             }
          }
          else
          {
-            echo "$indent<input type='hidden' name='$key' value='$value'/>\n";
+            echo "$indent<input type='hidden'";
+            echo " name='" , Utils_html::escapeSingleQuotes($key  ), "'";
+            echo " value='", Utils_html::escapeSingleQuotes($value), "'/>\n";
          }
       }
    }
@@ -194,7 +276,8 @@ class Utils_htmlForm
    If no redirection has occurred after a few seconds, then javascript may be disabled in your
    browser.  In that case you should click the 'Continue' button below.
   </p>
-  <form name='redirectForm' action='<?php echo $postUrl ?>' method='post'>
+  <form name='redirectForm' method='post'
+   action='<?php echo Utils_html::escapeSingleQuotes($postUrl); ?>'>
 <?php
       self::echoArrayAsHiddenInputs($postArray, '   ');
 ?>
