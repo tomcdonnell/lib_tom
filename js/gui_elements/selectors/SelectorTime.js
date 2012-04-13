@@ -24,22 +24,17 @@ function SelectorTime()
 
    // Getters. --------------------------------------------------------------------------------//
 
-   this.getSelectedHour   = function () {return hSelector.selectedIndex;};
-   this.getSelectedMinute = function () {return mSelector.selectedIndex;};
-
    /*
     *
     */
    this.getSelectedTime = function ()
    {
-      var t =
+      return t =
       {
          hour  : hSelector.selectedIndex,
          minute: mSelector.selectedIndex,
-         second: 0
+         second: sSelector.selectedIndex
       };
-
-      return t;
    };
 
    /*
@@ -47,13 +42,12 @@ function SelectorTime()
     */
    this.getSelectors = function ()
    {
-      var s =
+      return s =
       {
          hour  : hSelector,
-         minute: mSelector
+         minute: mSelector,
+         second: sSelector
       };
-
-      return s;
    };
 
    // Setters. --------------------------------------------------------------------------------//
@@ -61,15 +55,17 @@ function SelectorTime()
    /*
     *
     */
-   this.setSelectedTime = function (h, m)
+   this.setSelectedTime = function (h, m, s)
    {
       var f = 'SelectorTime.setSelectedTime()';
-      UTILS.checkArgs(f, arguments, [Number, Number]);
+      UTILS.checkArgs(f, arguments, [Number, Number, Number]);
       UTILS.assert(f, 0, 0 <= h && h < 24);
       UTILS.assert(f, 1, 0 <= m && m < 60);
+      UTILS.assert(f, 2, 0 <= s && s < 60);
 
       hSelector.selectedIndex = h;
       mSelector.selectedIndex = m;
+      sSelector.selectedIndex = s;
    };
 
    // Other public functions. -----------------------------------------------------------------//
@@ -77,19 +73,18 @@ function SelectorTime()
    /*
     *
     */
-   this.selectedTimeEquals = function (h, m)
+   this.selectedTimeEquals = function (h, m, s)
    {
-      var bool =
+      return bool =
       (
          0 == UTILS.time.compare
          (
-            h, m,
-            this.getSelectedHour(),
-            this.getSelectedMinute()
+            h, m, s,
+            hSelector.selectedIndex,
+            mSelector.selectedIndex,
+            sSelector.selectedIndex
          )
       );
-
-      return bool;
    };
 
    // Private functions. ////////////////////////////////////////////////////////////////////////
@@ -110,6 +105,7 @@ function SelectorTime()
       for (var m = 0; m < 60; ++m)
       {
          $(mSelector).append(OPTION(((m < 10)? '0': '') + String(m)));
+         $(sSelector).append(OPTION(((m < 10)? '0': '') + String(m)));
       }
    }
 
@@ -123,12 +119,14 @@ function SelectorTime()
 
       hSelector.disabled = bool;
       mSelector.disabled = bool;
+      sSelector.disabled = bool;
    };
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
-   var hSelector = SELECT();
-   var mSelector = SELECT();
+   var hSelector = SELECT({name: 'hour'  });
+   var mSelector = SELECT({name: 'minute'});
+   var sSelector = SELECT({name: 'second'});
 
    // Initialisation code. //////////////////////////////////////////////////////////////////////
 

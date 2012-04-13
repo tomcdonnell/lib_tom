@@ -83,13 +83,11 @@ function SelectorTimePeriod()
     */
    this.selectedPeriodEquals = function (sH, sM, fH, fM)
    {
-      var bool =
+      return bool =
       (
          sTimeSelector.selectedTimeEquals(sH, sM) &&
          fTimeSelector.selectedTimeEquals(fH, fM)
       );
-
-      return bool;
    };
 
    // Private functions. ////////////////////////////////////////////////////////////////////////

@@ -21,34 +21,40 @@ table.calendar
 
 table.calendar > tbody > tr > th
 {
-   background: #bbbbbb;
+   background-color: #bbb;
 }
 
 table.calendar > tbody > tr > th.week
 {
-   background: #bbbbbb;
+   background-color: #bbb;
 }
 
 table.calendar > tbody > tr > th.year
 {
-   background: #eeaaaa;
+   background-color: #eaa;
 }
 
 table.calendar > tbody > tr > th.month
 {
-   background: #aaeeaa;
+   background-color: #aea;
 }
 
 table.calendar > tbody > tr > th.day
 {
-   background: #aaaaee;
+   background-color: #aae;
+}
+
+table.calendar > tbody > tr > td.closeButton
+{
+   background-color: #eaa;
+   text-align: center;
 }
 
 /* Data squares. **********************************************************************************/
 
 table.calendar > tbody > tr > td
 {
-   background: #eeeeee;
+   background-color: #eee;
    text-align: right;
    padding-left: 0.5em;
    padding-right: 0.5em;
@@ -56,19 +62,19 @@ table.calendar > tbody > tr > td
 
 table.calendar > tbody > tr > td.weekNumber
 {
-   background: #cccccc;
+   background-color: #ccc;
    text-align: center;
 }
 
 table.calendar > tbody > tr > td.selected
 {
-   background: #ff0000;
+   background-color: #f00;
 }
 
 table.calendar > tbody > tr > td.prevMonth,
 table.calendar > tbody > tr > td.nextMonth
 {
-   color: #aaaaaa;
+   color: #aaa;
 }
 
 /*******************************************END*OF*FILE********************************************/

@@ -81,7 +81,12 @@ UTILS.date.dateExists = function (y, m, d)
    var f = 'UTILS.date.dateExists()';
    UTILS.checkArgs(f, arguments, [Number, Number, Number]);
 
-   var n = UTILS.date.getN_daysInMonth(y, m);
+   if (m < 1 || m > 12)
+   {
+      return false;
+   }
+
+   var n = UTILS.date.getNDaysInMonth(y, m);
 
    return (y > 0 && 1 <= d && d <= n);
 };
@@ -100,9 +105,9 @@ UTILS.date.isLeapYear = function (y)
 /*
  *
  */
-UTILS.date.getN_daysInMonth = function (y, m)
+UTILS.date.getNDaysInMonth = function (y, m)
 {
-   var f = 'UTILS.date.getN_daysInMonth()';
+   var f = 'UTILS.date.getNDaysInMonth()';
    UTILS.checkArgs(f, arguments, [Number, Number]);
 
    switch (m)
@@ -119,7 +124,8 @@ UTILS.date.getN_daysInMonth = function (y, m)
     case 1: case 3: case 5: case 7: case 8: case 10: case 12:
       return 31;
 
-    default: throw new Exception(f, 'Invalid month', 'Expected [1, 12].  Received "' + m + '".');
+    default:
+      throw new Exception(f, 'Invalid month', 'Expected [1, 12].  Received "' + m + '".');
    }
 };
 
@@ -201,23 +207,23 @@ UTILS.date.getFirstWeekOfMonth = function (year, month)
    else
    {
       // Get the number of days in the first week of the year.
-      var n_daysInFirstWeek = 1;
-      var day = new Date(year, 0, n_daysInFirstWeek);
+      var nDaysInFirstWeek = 1;
+      var day = new Date(year, 0, nDaysInFirstWeek);
       while (day.getDay() != 6)
       {
-         day.setDate(++n_daysInFirstWeek);
+         day.setDate(++nDaysInFirstWeek);
       }
 
       // Count the days in the year before the start of the given month.
-      var n_days = 0;
+      var nDays = 0;
       for (var m = 1; m < month; ++m)
       {
-         n_days += UTILS.date.getN_daysInMonth(year, m);
+         nDays += UTILS.date.getNDaysInMonth(year, m);
       }
 
-      var n_daysSinceEndOfFirstWeek = n_days - n_daysInFirstWeek;
+      var nDaysSinceEndOfFirstWeek = nDays - nDaysInFirstWeek;
 
-      return (1 + Math.floor(n_daysSinceEndOfFirstWeek / 7));
+      return (1 + Math.floor(nDaysSinceEndOfFirstWeek / 7));
    }
 };
 

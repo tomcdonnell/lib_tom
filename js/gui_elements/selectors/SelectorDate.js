@@ -33,14 +33,12 @@ function SelectorDate()
     */
    this.getSelectedDate = function ()
    {
-      var d =
+      return d =
       {
          year : ySelector.selectedIndex + minYear,
          month: mSelector.selectedIndex + 1,
          day  : dSelector.selectedIndex + 1
       };
-
-      return d;
    };
 
    /*
@@ -48,14 +46,12 @@ function SelectorDate()
     */
    this.getSelectors = function ()
    {
-      var s =
+      return s =
       {
          year : ySelector,
          month: mSelector,
          day  : dSelector
       };
-
-      return s;
    };
 
    // Setters. --------------------------------------------------------------------------------//
@@ -117,11 +113,16 @@ function SelectorDate()
    this.setSelectableYearRange = function (minY, maxY)
    {
       var f = 'SelectorDate.setSelectableYearRange()';
-      UTILS.checkArgs(f, arguments, [Number, Number]);
-      UTILS.assert(f, 0, minY > 0 && maxY > minY);
+      UTILS.checkArgs(f, arguments, ['nullOrPositiveInt', 'nullOrPositiveInt']);
+      UTILS.assert(f, 0, minY === null || maxY === null || minY > 0 && minY <= maxY);
 
-      maxYear = maxY;
-      minYear = minY;
+      var prevSelectedYearIndex = ySelector.selectedIndex;
+      var prevSelectedYear      = minYear + prevSelectedYearIndex;
+
+      if (minY !== null) {minYear = minY;}
+      if (maxY !== null) {maxYear = maxY;}
+
+      initYearSelector(prevSelectedYear);
    };
 
    /*
@@ -144,7 +145,7 @@ function SelectorDate()
     */
    this.selectedDateEquals = function (y, m, d)
    {
-      var bool =
+      return bool =
       (
          0 == UTILS.date.compare
          (
@@ -154,13 +155,11 @@ function SelectorDate()
             this.getSelectedDay()
          )
       );
-
-      return bool;
    };
 
    // Private functions. ////////////////////////////////////////////////////////////////////////
 
-   // Event listeners. ------------------------------------------------------------------------//
+   // Object listeners. ------------------------------------------------------------------------//
 
    /*
     *
@@ -196,7 +195,7 @@ function SelectorDate()
          var f = 'SelectorDate.onChangeMonth()';
          UTILS.checkArgs(f, arguments, [Object]);
 
-         var n = UTILS.date.getN_daysInMonth
+         var n = UTILS.date.getNDaysInMonth
          (
             ySelector.selectedIndex + minYear,
             mSelector.selectedIndex + 1
@@ -222,22 +221,21 @@ function SelectorDate()
 
       var today = new Date();
 
-      maxYear = today.getFullYear();
-      minYear = maxYear - 10;
+      maxYear     = today.getFullYear();
+      minYear     = maxYear - 10;
+      mSelectorJq = $(mSelector);
+      dSelectorJq = $(dSelector);
 
-      for (var y = minYear; y <= maxYear; ++y)
-      {
-         $(ySelector).append(OPTION(String(y)));
-      }
+      initYearSelector(null);
 
       for (var m = 1; m <= 12; ++m)
       {
-         $(mSelector).append(OPTION(UTILS.date.getMonthAbbrev(m)));
+         mSelectorJq.append(OPTION({value: m}, UTILS.date.getMonthAbbrev(m)));
       }
 
       for (var d = 1; d <= 31; ++d)
       {
-         $(dSelector).append(OPTION(String(d)));
+         dSelectorJq.append(OPTION({value: d}, String(d)));
       }
 
       ySelector.selectedIndex = maxYear - minYear;
@@ -248,14 +246,41 @@ function SelectorDate()
       $(mSelector).change(onChangeMonth);
    }
 
+   /*
+    * Initialise the year selector for the year-range [minYear, maxYear].
+    *
+    * @param selectedYear {nullOrPositiveInt}
+    *    Year to select if it falls within the new range.
+    *    Specifying a year outside the new range does not cause an exception to
+    *    allow the previously selected year to be passed when the year-range changes.
+    */
+   function initYearSelector(selectedYear)
+   {
+      var f = 'SelectorDate.initYearSelector()';
+      UTILS.checkArgs(f, arguments, ['nullOrPositiveInt']);
+
+      var ySelectorJq = $(ySelector);
+      ySelectorJq.html('');
+
+      for (var y = minYear; y <= maxYear; ++y)
+      {
+         ySelectorJq.append(OPTION({value: y}, String(y)));
+      }
+
+      if (selectedYear !== null && minYear <= selectedYear && selectedYear <= maxYear)
+      {
+         ySelector.selectedIndex = selectedYear - minYear;
+      }
+   }
+
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
    var maxYear;
    var minYear;
 
-   var ySelector = document.createElement('select');
-   var mSelector = document.createElement('select');
-   var dSelector = document.createElement('select');
+   var ySelector = SELECT({name: 'year' });
+   var mSelector = SELECT({name: 'month'});
+   var dSelector = SELECT({name: 'day'  });
 
    // Initialisation code. //////////////////////////////////////////////////////////////////////
 

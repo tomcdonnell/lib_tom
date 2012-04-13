@@ -76,18 +76,19 @@
  *
  */
 function SelectorColumnBasedHierarchical(
-   idAssignmentItem, ajaxUrl, onFinishAutoLoadingOptions, displayAjaxFailureMessageFunction
+   idAssignmentItem, ajaxUrl, onFinishAutoLoadingOptions, displayAjaxFailureMessageFunction,
+   boolViewOnlyMode
 )
 {
    var f = 'SelectorColumnBasedHierarchical()';
-   UTILS.checkArgs(f, arguments, ['nullOrInt', 'nullOrString', Function, Function]);
+   UTILS.checkArgs(f, arguments, ['nullOrInt', 'nullOrString', Function, Function, Boolean]);
 
    // Privileged functions. /////////////////////////////////////////////////////////////////////
 
    // Getters. --------------------------------------------------------------------------------//
 
-   this.getTable            = function () {return _domElements.tables.main;};
-   this.getN_categoryLevels = function () {return _state.n_categoryLevels ;};
+   this.getTable           = function () {return _domElements.tables.main;};
+   this.getNCategoryLevels = function () {return _state.nCategoryLevels  ;};
 
    /*
     * See comment on recursive slave function.
@@ -143,12 +144,11 @@ function SelectorColumnBasedHierarchical(
       //    Also note that whether an optionId containing consecutive pipes ('||') is in the
       // fullyChecked list or the partiallyChecked list, the collapsible optionIds added for that
       // optionId should be added to the partiallyChecked optionIds list.  The reason is that
-      // in the minimal set of optionIds to be saved at the database, the parent option of both
-      // either a fully checked or a partially checked options must be a partially checked option.
+      // in the minimal set of optionIds to be saved at the database, the parent option of either
+      // a fully checked or a partially checked option must be a partially checked option.
       optionIdsLists.partiallyChecked = optionIdsLists.partiallyChecked.concat
       (
-         _getExtraOptionIdsForCollapsedColumnsFromOptionIds(optionIdsLists.fullyChecked    )
-         //_getExtraOptionIdsForCollapsedColumnsFromOptionIds(optionIdsLists.partiallyChecked)
+         _getExtraOptionIdsForCollapsedColumnsFromOptionIds(optionIdsLists.fullyChecked)
       );
 
       return optionIdsLists;
@@ -335,7 +335,7 @@ function SelectorColumnBasedHierarchical(
             selectorTsc.getCheckedStateFromOptionIdCollapsed(optionIdCollapsed)
          );
 
-         if (categoryLevel < _state.n_categoryLevels - 1)
+         if (categoryLevel < _state.nCategoryLevels - 1)
          {
             _applyCallbackToDescendentOptionsRecursively
             (
@@ -452,15 +452,15 @@ function SelectorColumnBasedHierarchical(
       var f = 'SelectorColumnBasedHierarchical._initTableRows()';
       UTILS.checkArgs(f, arguments, [Array]);
 
-      var n_columns       = categoryLevelNames.length;
+      var nColumns        = categoryLevelNames.length;
       var headingsTr      = _domElements.trs.headingsTr;
       var optionsTr       = _domElements.trs.optionsTr;
-      var percentageWidth = Math.floor(100 / n_columns);
+      var percentageWidth = Math.floor(100 / nColumns);
 
       $(headingsTr).empty();
       $(optionsTr ).empty();
 
-      for (var i = 0; i < n_columns; ++i)
+      for (var i = 0; i < nColumns; ++i)
       {
          var div = DIV();
          $(div).css('float', 'left');
@@ -473,12 +473,12 @@ function SelectorColumnBasedHierarchical(
       }
 
       _state.categoryLevelNames = categoryLevelNames;
-      _state.n_categoryLevels   = categoryLevelNames.length;
+      _state.nCategoryLevels   = categoryLevelNames.length;
 
       // Do not display columns at categories that are not accessible.
       var headingTds = $(headingsTr).children();
       var optionTds  = $(optionsTr ).children();
-      for (var i = 0; i < _state.n_categoryLevels; ++i)
+      for (var i = 0; i < _state.nCategoryLevels; ++i)
       {
          if (i < _state.lowestCategoryLevelToDisplay || i > _state.highestCategoryLevelToDisplay)
          {
@@ -524,6 +524,15 @@ function SelectorColumnBasedHierarchical(
       var selectorTsc   = selectorTscs[categoryLevel];
 
       // NOTE: The optionsInfo array may be empty if the user has limited privileges.
+
+      if (boolViewOnlyMode)
+      {
+         // Override 'checkable' property of all options.
+         for (var i = 0; i < optionsInfo.length; ++i)
+         {
+            optionsInfo[i].userCheckable = false;
+         }
+      }
 
       // If the options have a parent option...
       if (categoryLevel > 0)
@@ -664,7 +673,7 @@ function SelectorColumnBasedHierarchical(
 
       var childCategoryLevel = _getCategoryLevelFromOptionIdCollapsedOrNot(optionIdCollapsed) + 1;
 
-      if (childCategoryLevel != _state.n_categoryLevels)
+      if (childCategoryLevel != _state.nCategoryLevels)
       {
          var childSelectorTsc = _guiElements.selectorTriStateCheckboxes[childCategoryLevel];
          var idsOfChildOptionsCollapsed =
@@ -715,7 +724,7 @@ function SelectorColumnBasedHierarchical(
 
       var optionCategoryLevel = _getCategoryLevelFromOptionIdCollapsedOrNot(optionIdCollapsed);
 
-      if (optionCategoryLevel < 0 || childCategoryLevel >= _state.n_categoryLevels)
+      if (optionCategoryLevel < 0 || childCategoryLevel >= _state.nCategoryLevels)
       {
          throw new Exception
          (
@@ -723,7 +732,7 @@ function SelectorColumnBasedHierarchical(
          );
       }
 
-      if (optionCategoryLevel == _state.n_categoryLevels - 1)
+      if (optionCategoryLevel == _state.nCategoryLevels - 1)
       {
          return [];
       }
@@ -767,19 +776,19 @@ function SelectorColumnBasedHierarchical(
       var f = 'SelectorTsc._getCategoryLevelFromOptionIdCollapsedOrNot()';
       UTILS.checkArgs(f, arguments, [String]);
 
-      var tokens          = optionId.split('|');
-      var n_tokensCounted = 0;
+      var tokens         = optionId.split('|');
+      var nTokensCounted = 0;
 
       for (var i = 0; i < tokens.length; ++i)
       {
-         ++n_tokensCounted;
+         ++nTokensCounted;
       }
 
       // The first token should never be an empty
       // string, and so should always be counted.
-      UTILS.assert(f, 0, n_tokensCounted >= 1);
+      UTILS.assert(f, 0, nTokensCounted >= 1);
 
-      return n_tokensCounted - 1;
+      return nTokensCounted - 1;
    }
 
    /*
@@ -916,7 +925,7 @@ function SelectorColumnBasedHierarchical(
       var childCategoryLevel   = _getCategoryLevelFromOptionIdCollapsedOrNot(optionIdCollapsed) + 1;
       var childSelectorTsc     = _guiElements.selectorTriStateCheckboxes[childCategoryLevel];
       var countsByCheckedState = {checked: 0, unchecked: 0, partiallyChecked: 0};
-      var n_nonHeadingOptions   = 0;
+      var nNonHeadingOptions   = 0;
 
       for (var i = 0; i < childOptionIdsCollapsed.length; ++i)
       {
@@ -924,7 +933,7 @@ function SelectorColumnBasedHierarchical(
 
          if (!childSelectorTsc.optionIsHeading(childOptionIdCollapsed))
          {
-            ++n_nonHeadingOptions;
+            ++nNonHeadingOptions;
             ++countsByCheckedState[
                childSelectorTsc.getCheckedStateFromOptionIdCollapsed(childOptionIdCollapsed)
             ];
@@ -933,9 +942,9 @@ function SelectorColumnBasedHierarchical(
 
       var newCheckedState =
       (
-         (countsByCheckedState.checked == n_nonHeadingOptions)? 'checked':
+         (countsByCheckedState.checked == nNonHeadingOptions)? 'checked':
          (
-            (countsByCheckedState.unchecked == n_nonHeadingOptions)? 'unchecked': 'partiallyChecked'
+            (countsByCheckedState.unchecked == nNonHeadingOptions)? 'unchecked': 'partiallyChecked'
          )
       );
 
@@ -1042,7 +1051,7 @@ function SelectorColumnBasedHierarchical(
       }
 
       // If the child category level is the highest level...
-      if (childCategoryLevel == _state.n_categoryLevels - 1)
+      if (childCategoryLevel == _state.nCategoryLevels - 1)
       {
          if (optionIdsLists.partiallyChecked.length != 0)
          {
@@ -1190,7 +1199,7 @@ function SelectorColumnBasedHierarchical(
       highestCategoryLevelToDisplay             : null ,
       initialLoadInProgress                     : null ,
       lowestCategoryLevelToDisplay              : null ,
-      n_categoryLevels                          : null ,
+      nCategoryLevels                           : null ,
       optionIdsToSelectAutomatically            : []   ,
       optionIdsToSelectAutomaticallyOriginal    : []   ,
       parentOptionIdsOfExpectedOptionSetsAsKeys : {}   ,
@@ -1203,9 +1212,10 @@ function SelectorColumnBasedHierarchical(
          dataType: 'json' ,
          type    : 'POST' ,
          url     : ajaxUrl,
-         success : UTILS.ajax.createReceiveAjaxMessageFunction(
-            'SelectorColumnBasedHierarchical', displayAjaxFailureMessageFunction, {
-
+         success : UTILS.ajax.createReceiveAjaxMessageFunction
+         (
+            'SelectorColumnBasedHierarchical', displayAjaxFailureMessageFunction,
+            {
                getInitialisationInfo: function (reply)
                {
                   var f = 'SelectorColumnBasedHierarchical.ajaxResponder1()';

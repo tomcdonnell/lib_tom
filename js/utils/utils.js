@@ -53,7 +53,7 @@ function Exception(f, type, details)
    }
    else
    {
-      alert
+      console.error
       (
          'Error detected.' +
          '\n  Function: Exception()' +
@@ -84,7 +84,7 @@ UTILS.printExceptionToConsole = function (f, e)
       // Print the information given in the supplied exception.
       if (e.constructor == Exception)
       {
-         alert
+         console.error
          (
             'Exception caught in function ' + f + '.' +
             '\n  Function: ' + e.f    +
@@ -102,7 +102,7 @@ UTILS.printExceptionToConsole = function (f, e)
    }
    else
    {
-      alert
+      console.error
       (
          'Error detected.' +
          '\n  Function: UTILS.printExceptionToConsole()' +
@@ -172,7 +172,6 @@ UTILS.checkArgs = function (f, args, types)
                   ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
                );
             }
-
             continue;
          }
 
@@ -248,7 +247,7 @@ UTILS.assertEqualsOneOf = function (functionName, assertNo, variable, options)
 
 /*
  * Usage example:
- *    var bestSellingCarModelName = Utils_misc::switchAssign
+ *    var bestSellingCarModelName = UTILS.switchAssign
  *    (
  *       carManufacturer,
  *       {
@@ -256,6 +255,14 @@ UTILS.assertEqualsOneOf = function (functionName, assertNo, variable, options)
  *          holden: 'commodore'
  *       }
  *    );
+ *
+ * The above code is equivalent to:
+ *    switch (carManufacturer)
+ *    {
+ *     case 'ford'  : var bestSellingCarModelName = 'falcon'   ; break;
+ *     case 'holden': var bestSellingCarModelName = 'commodore'; break;
+ *     default      : throw new Exception('Unknown car manufacturer "' + carManufacturer + '".');
+ *    }
  *
  * @param defaultOutputValue {any type}
  *     This parameter is optional.  If it is not supplied, then there will be no output value
@@ -283,5 +290,25 @@ UTILS.switchAssign = function (inputValue, outputValueByInputValue, defaultOutpu
       f, 'Case "' + inputValue + '" not handled in switchAssign and no default supplied.', ''
    );
 };
+
+
+/*
+ *
+ */
+UTILS.getKeyCodeForEvent = function (ev)
+{
+   var f = 'UTILS.getKeyCodeForEvent()';
+   UTILS.checkArgs(f, arguments, [Object]);
+
+   // Note Regarding Browser Compatibility
+   // ------------------------------------
+   // Explorer doesn't fire the keypress event for delete, end, enter, escape, function keys, home,
+   // insert, pageUp/Down and tab.
+   // If you need to detect these keys, do yourself a favour and search for their keyCode using
+   // onkeydown/onkeyup, and ignore both onkeypress and charCode.
+   // http://stackoverflow.com/questions/4084715/
+   //    javascript-e-keycode-doesnt-catch-backspace-del-in-ie
+   return (window.event == undefined)? ev.which: ev.keyCode;
+}
 
 /*******************************************END*OF*FILE********************************************/

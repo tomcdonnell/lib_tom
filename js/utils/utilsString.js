@@ -169,7 +169,7 @@ UTILS.string.countOccurrencesOfSubstring = function (string, substring)
    var f = 'UTILS.string.countOccurrencesOfSubstring()';
    UTILS.checkArgs(f, arguments, [String, String]);
 
-   var n_substrings    = 0;
+   var nSubstrings     = 0;
    var inSubstring     = false;
    var substringLength = substring.length;
 
@@ -201,13 +201,13 @@ UTILS.string.countOccurrencesOfSubstring = function (string, substring)
          {
             if (substringI == substringLength - 1)
             {
-               ++n_substrings;
+               ++nSubstrings;
             }
          }
       }
    }
 
-   return n_substrings;
+   return nSubstrings;
 };
 
 /*

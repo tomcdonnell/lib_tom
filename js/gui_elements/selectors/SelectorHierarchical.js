@@ -32,6 +32,43 @@ function SelectorHierarchical(params)
 
    // Public functions. /////////////////////////////////////////////////////////////////////////
 
+   /*
+    * This function should be called immediately after the SelectorHierarchical object has been
+    * created.
+    *
+    * This function is not incorporated into the _init() function so that the
+    * onReceiveOptionsSetFromServerFunction may refer to the SelectorHierarchical object if
+    * necessary.  At the time the _init() function executes, the new SelectorHierarchical object
+    * has not yet been returned.
+    */
+   this.startAutoSelectProcess = function ()
+   {
+      var f = 'SelectorHierarchical.startAutoSelectProcess()';
+      UTILS.checkArgs(f, arguments, []);
+
+      _state.ajaxParams.success = UTILS.ajax.createReceiveAjaxMessageFunction
+      (
+         'SelectorHierarchical', params.onAjaxFailureFunction,
+         {
+            getOptions: function (reply)
+            {
+               var selector = _selectors[reply.selectorIndex];
+
+               _replaceOptionsSetForSelector(reply.options, reply.selectorIndex);
+               $(selector).attr('disabled', false);
+
+               if (_state.onReceiveOptionsSetFromServerFunction !== null)
+               {
+                  _state.onReceiveOptionsSetFromServerFunction();
+               }
+            }
+         }
+      );
+
+      $.ajax(_state.ajaxParams);
+      _disableSelectorAndClearOptions(0, 'Loading...');
+   }
+
    // Getters. --------------------------------------------------------------------------------//
 
    this.getSelectors = function () {return _selectors;};
@@ -184,7 +221,7 @@ function SelectorHierarchical(params)
          var f = 'SelectorHierarchical._onChangeSelector()';
          UTILS.checkArgs(f, arguments, [Object]);
 
-         var n_selectors         = _selectors.length;
+         var nSelectors          = _selectors.length;
          var selector            = e.currentTarget;
          var selectorIndex       = _getSelectorIndexFromSelector(selector);
          var options             = selector.options;
@@ -219,7 +256,7 @@ function SelectorHierarchical(params)
                _disableSelectorAndClearOptions(selectorIndex + 1, 'Loading...');
             }
 
-            for (var i = lowestSelectorIndexToDisable; i < n_selectors; ++i)
+            for (var i = lowestSelectorIndexToDisable; i < nSelectors; ++i)
             {
                _disableSelectorAndClearOptions(i, null);
             }
@@ -278,7 +315,7 @@ function SelectorHierarchical(params)
       var f = 'SelectorHierarchical._replaceOptionsSetForSelector()';
       UTILS.checkArgs(f, arguments, [Object, 'nonNegativeInt']);
 
-      var n_selectors           = _selectors.length;
+      var nSelectors            = _selectors.length;
       var selector              = _selectors[selectorIndex];
       var previousSelectedIndex = selector.selectedIndex;
       $(selector).html('');
@@ -387,26 +424,6 @@ function SelectorHierarchical(params)
             params: {selectorIndex: 0, parentId: null}
          }
       );
-
-      _state.ajaxParams.success = UTILS.ajax.createReceiveAjaxMessageFunction(
-         'SelectorHierarchical', params.onAjaxFailureFunction, {
-            getOptions: function (reply)
-            {
-               var selector = _selectors[reply.selectorIndex];
-
-               _replaceOptionsSetForSelector(reply.options, reply.selectorIndex);
-               $(selector).attr('disabled', false);
-
-               if (_state.onReceiveOptionsSetFromServerFunction !== null)
-               {
-                  _state.onReceiveOptionsSetFromServerFunction();
-               }
-            }
-         }
-      );
-
-      $.ajax(_state.ajaxParams);
-      _disableSelectorAndClearOptions(0, 'Loading...');
    }
 
    /*

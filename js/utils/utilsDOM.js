@@ -69,7 +69,7 @@ UTILS.DOM.selectOptionWithValue = function (selector, value)
 };
 
 /*
- *
+ * TODO: Check whether this function is used anywhere.  If not, remove it.
  */
 UTILS.DOM.fillSelector = function (selector, options, instructionText)
 {

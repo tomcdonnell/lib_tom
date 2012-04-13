@@ -370,10 +370,10 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
 
          UTILS.validator.checkObject
          (
-            info, {id: 'int', name: 'string', n_childCategories: 'int', n_childDataRows: 'int'}
+            info, {id: 'int', name: 'string', nChildCategories: 'int', nChildDataRows: 'int'}
          );
 
-         if (info.n_childDataRows == 0)
+         if (info.nChildDataRows == 0)
          {
             continue;
          }
@@ -390,7 +390,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
          $(td).append(bCat);
          $(td).append(bRow);
 
-         if (info.n_childCategories > 0 && info.n_childDataRows > 10)
+         if (info.nChildCategories > 0 && info.nChildDataRows > 10)
          {
             $(bCat).addClass('expand');
             $(bCat).attr('disabled', false);
@@ -398,7 +398,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
             $(bCat).click(_onClickExpandContractButton);
          }
 
-         if (info.n_childDataRows > 0)
+         if (info.nChildDataRows > 0)
          {
             $(bRow).addClass('expand');
             $(bRow).attr('disabled', false);
@@ -406,7 +406,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
             $(bRow).click(_onClickExpandContractButton);
          }
 
-         $(td).append(document.createTextNode(info.name + ' (' + info.n_childDataRows + ')'));
+         $(td).append(document.createTextNode(info.name + ' (' + info.nChildDataRows + ')'));
          trs.push(TR({id: 'categoryTr_' + info.id + '_' + idCategoryParentString}, td));
       }
 
@@ -512,9 +512,9 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
       var f = 'ExplorableTable._convertArraysOfStringsToTrsWithSeparators()';
       UTILS.checkArgs(f, arguments, [Array]);
 
-      var trs              = [];
-      var n_columnHeadings = _state.columnHeadings.length;
-      var separatorTh      = TH
+      var trs             = [];
+      var nColumnHeadings = _state.columnHeadings.length;
+      var separatorTh     = TH
       (
          {'class': 'columnHeadingSeparator', style: 'width: ' + _COLUMN_SEPARATOR_WIDTH + 'px;'}, ''
       );

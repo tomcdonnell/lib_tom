@@ -24,22 +24,22 @@ UTILS.validator = {};
 /*
  *
  */
-UTILS.validator.checkObject = function (o, typesByRequiredKeys, typesByOptionalKeys)
+UTILS.validator.checkObject = function (o, typeByRequiredKey, typeByOptionalKey)
 {
    var f = 'UTILS.validator.checkObject()';
    UTILS.assert(f, 0, arguments.length == 2 || arguments.length == 3);
-   UTILS.assert(f, 1, typesByRequiredKeys.constructor == Object);
-   UTILS.assert(f, 2, arguments.length == 2 || typesByOptionalKeys.constructor == Object);
+   UTILS.assert(f, 1, typeByRequiredKey.constructor == Object);
+   UTILS.assert(f, 2, arguments.length == 2 || typeByOptionalKey.constructor == Object);
 
-   if (typeof typesByOptionalKeys == 'undefined')
+   if (typeof typeByOptionalKey == 'undefined')
    {
-      typesByOptionalKeys = {};
+      typeByOptionalKey = {};
    }
 
    // Check required keys and types.
-   for (var key in typesByRequiredKeys)
+   for (var key in typeByRequiredKey)
    {
-      var type = typesByRequiredKeys[key];
+      var type = typeByRequiredKey[key];
 
       if (typeof o[key] == 'undefined')
       {
@@ -55,23 +55,68 @@ UTILS.validator.checkObject = function (o, typesByRequiredKeys, typesByOptionalK
    }
 
    // Check optional keys and types.
-   var keysExtra = UTILS.object.diff_key(o, typesByRequiredKeys);
+   var keysExtra = UTILS.object.diff_key(o, typeByRequiredKey);
    for (var i = 0, len = keysExtra.length; i < len; ++i)
    {
       var key = keysExtra[i];
 
-      if (typeof typesByOptionalKeys[key] == 'undefined')
+      if (typeof typeByOptionalKey[key] == 'undefined')
       {
          throw new Exception(f, "Unexpected key '" + key + "' found.", '');
       }
 
-      try {UTILS.validator.checkType(o[key], typesByOptionalKeys[key]);}
+      try {UTILS.validator.checkType(o[key], typeByOptionalKey[key]);}
       catch (e)
       {
          console.error(f, "Unexpected type for key '" + key + "'.", '');
          UTILS.printExceptionToConsole(f, e);
       }
    }
+};
+
+/*
+ *
+ */
+UTILS.validator.checkObjectAndSetDefaults = function
+(
+   o, typeByRequiredKey, typeAndDefaultByOptionalKey
+)
+{
+   var f = 'UTILS.validator.checkObjectAndSetDefaults()';
+   UTILS.assert(f, 0, arguments.length == 2 || arguments.length == 3);
+   UTILS.assert(f, 1, typeByRequiredKey.constructor == Object);
+   UTILS.assert(f, 2, arguments.length == 2 || typeAndDefaultByOptionalKey.constructor == Object);
+
+   var typeByOptionalKey = {};
+
+   for (key in typeAndDefaultByOptionalKey)
+   {
+      var typeAndDefault = typeAndDefaultByOptionalKey[key];
+
+      if (typeAndDefault.constructor != Array || typeAndDefault.length != 2)
+      {
+         throw new Exception
+         (
+            'Type and default value for optional parameter must be two-element array.'
+         );
+      }
+
+      typeByOptionalKey[key] = typeAndDefault[0];
+   }
+
+   UTILS.validator.checkObject(o, typeByRequiredKey, typeByOptionalKey);
+
+   for (key in typeAndDefaultByOptionalKey)
+   {
+      var typeAndDefault = typeAndDefaultByOptionalKey[key];
+
+      if (typeof o[key] == 'undefined')
+      {
+         o[key] = typeAndDefault[1];
+      }
+   }
+
+   return o;
 };
 
 /*
@@ -131,7 +176,7 @@ UTILS.validator.checkType = function (v, type)
     case 'nullOrObject'    : b = (v === null || v.constructor == Object              ); break;
     case 'nullOrString'    : b = (v === null || v.constructor == String              ); break;
     case 'nullOrEvent'     : b = (v === null || v.constructor == Event               ); break;
-    case 'nullOrObject'    : b = (v === null || v.constructor == Object              ); break;
+    case 'nullOrMouseEvent': b = (v === null || v.constructor == MouseEvent          ); break;
     case 'nullOrInt'       : b = (v === null || v.constructor == Number && v % 1 == 0); break;
 
     // HTML elements or null.

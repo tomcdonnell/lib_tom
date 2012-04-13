@@ -58,7 +58,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
 
          switch (bool)
          {
-          case true : jqInputs.addClass('disabled'); break;
+          case true : jqInputs.addClass('disabled')   ; break;
           case false: jqInputs.removeClass('disabled'); break;
          }
       }
@@ -112,7 +112,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
    /*
     *
     */
-   function _onClickPrevOrNextButton(e)
+   function _onClickPrevOrNextButton(ev)
    {
       try
       {
@@ -120,11 +120,11 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          UTILS.checkArgs(f, arguments, [Object]);
 
          // Determine whether 'prev' or 'next' was clicked.
-         switch (e.target)
+         switch (ev.target)
          {
           case _inputs.prevPageButton: var nextClicked = false; break;
           case _inputs.nextPageButton: var nextClicked = true ; break;
-          default: throw new Exception(f, 'Unexpected e.target.', '');
+          default: throw new Exception(f, 'Unexpected ev.target.', '');
          }
 
          // Update nextRequestResultTableParams.offset.
@@ -147,7 +147,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
    /*
     *
     */
-   function _onClickSortButton(e)
+   function _onClickSortButton(ev)
    {
       try
       {
@@ -155,7 +155,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          UTILS.checkArgs(f, arguments, [Object]);
 
          // Determine whether 'asc' or 'dsc' was clicked.
-         switch ($(e.target).index())
+         switch ($(ev.target).index())
          {
           case 0: var ascORdesc = 'asc' ; break;
           case 1: var ascORdesc = 'desc'; break;
@@ -163,8 +163,8 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          }
 
          // Determine which column contains the button clicked.
-         var colIndex = $(e.target.parentNode).index();
-         UTILS.assert(f, 0, 0 <= colIndex && colIndex < _state.n_cols);
+         var colIndex = $(ev.target.parentNode).index();
+         UTILS.assert(f, 0, 0 <= colIndex && colIndex < _state.nCols);
 
          _state.nextRequestResultTableParams.orderByInfo = [[colIndex, ascORdesc]];
          _requestDataFromServerViaAjax();
@@ -179,7 +179,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
     * Create a new tr element containing editable cells, positioned above the tr element
     * on which it is based.  Hide the tr element on which the editable tr element is based.
     */
-   function _onClickEditRowButton(e)
+   function _onClickEditRowButton(ev)
    {
       try
       {
@@ -187,7 +187,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          UTILS.checkArgs(f, arguments, [Object]);
 
          var editInfo   = _state.editInfo;
-         var originalTr = $(e.currentTarget).parent().parent()[0];
+         var originalTr = $(ev.currentTarget).parent().parent()[0];
 
          if (editInfo === null)
          {
@@ -212,14 +212,14 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
     * Remove the TR element containing the button clicked, and reveal the next TR
     * element, which is assumed to be the uneditable version of the TR element removed.
     */
-   function _onClickRevertRowButton(e)
+   function _onClickRevertRowButton(ev)
    {
       try
       {
          var f = 'ResultTable._onClickRevertRowButton()';
          UTILS.checkArgs(f, arguments, [Object]);
 
-         var editableTr = $(e.currentTarget).parent().parent()[0];
+         var editableTr = $(ev.currentTarget).parent().parent()[0];
          $(editableTr).next().show();
          $(editableTr).remove();
       }
@@ -232,7 +232,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
    /*
     *
     */
-   function _onClickSaveRowButton(e)
+   function _onClickSaveRowButton(ev)
    {
       try
       {
@@ -240,19 +240,35 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          UTILS.checkArgs(f, arguments, [Object]);
 
          var p                     = _state.returnedAjaxParams;
-         var tr                    = $(e.currentTarget).parent().parent();
+         var tr                    = $(ev.currentTarget).parent().parent();
          var rowIndex              = $(tr).index();
          var trChildren            = $(tr).children();
+         var colInfoByColIndex     = p.colInfoByColIndex;
          var rowValueByColumnIndex = [];
 
          // For each column except the last column (the Actions column)...
          for (var colIndex = 0; colIndex < trChildren.length - 1; ++colIndex)
          {
-            rowValueByColumnIndex.push
-            (
-               (p.colInfoByColIndex[colIndex].isEditable)?
-               $(trChildren[colIndex]).find('input').attr('value'): null
-            );
+            var colInfo = colInfoByColIndex[colIndex];
+            var value   = null;
+
+            if (colInfo.isEditable)
+            {
+               var details = colInfoByColIndex[colIndex].isEditableDetails;
+               var td      = trChildren[colIndex];
+
+               value = UTILS.switchAssign
+               (
+                  details.inputType,
+                  {
+                     date  : $(td).find('input' ).attr('value'),
+                     select: $(td).find('select').attr('value'),
+                     text  : $(td).find('input' ).attr('value')
+                  }
+               );
+            }
+
+            rowValueByColumnIndex.push(value);
          }
 
          _state.ajaxParams.data = JSON.stringify
@@ -282,14 +298,14 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
    /*
     *
     */
-   function _onClickCreateRowButton(e)
+   function _onClickCreateRowButton(ev)
    {
       try
       {
          var f = 'ResultTable._onClickCreateRowButton()';
          UTILS.checkArgs(f, arguments, [Object]);
 
-         var tr                    = $(e.currentTarget).parent().parent();
+         var tr                    = $(ev.currentTarget).parent().parent();
          var trChildren            = $(tr).children();
          var colInfoByColIndex     = _state.returnedAjaxParams.colInfoByColIndex;
          var rowValueByColumnIndex = [];
@@ -340,7 +356,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
    /*
     *
     */
-   function _onClickCustomButtonDefault(e)
+   function _onClickCustomButtonDefault(ev)
    {
       try
       {
@@ -349,7 +365,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
 
          var p                     = _state.returnedAjaxParams;
          var rowInfoByRowIndex     = p.rowInfoByRowIndex;
-         var clickedButton         = e.currentTarget;
+         var clickedButton         = ev.currentTarget;
          var tr                    = $(clickedButton).parent().parent();
          var rowIndex              = $(tr).index();
          var rowInfo               = rowInfoByRowIndex[rowIndex];
@@ -418,6 +434,113 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       }
    }
 
+   /*
+    * Dependency: /tom/js/gui_elements/selectors/SelectorCalendar.js.
+    */
+   function _onFocusDateTextField(ev)
+   {
+      try
+      {
+         var f = 'ResultTable._onFocusDateTextField()';
+         UTILS.checkArgs(f, arguments, [Object]);
+
+         var input    = ev.currentTarget;
+         var td       = $(input).parent();
+         var children = $(td).children();
+
+         if (children.length > 1)
+         {
+            // Calendar popup has already been added.
+            return;
+         }
+
+         var colIndex   = $(td).index();
+         UTILS.assert(f, 0, 0 <= colIndex && colIndex < _state.nCols);
+         var colInfo    = _state.returnedAjaxParams.colInfoByColIndex[colIndex];
+         input.disabled = !colInfo.isEditableDetails.allowTextInputForDate;
+
+         var value = $(input).attr('value');
+         var y     = Number(value.substring(0,  4));
+         var m     = Number(value.substring(5,  7));
+         var d     = Number(value.substring(8, 10));
+
+         var selectedDate =
+         (
+            (isNaN(y) || isNaN(m) || isNaN(d) || !UTILS.date.dateExists(y, m, d))?
+            new Date():
+            new Date(y, m - 1, d)
+         );
+
+         var selectorCalendar = new SelectorCalendar
+         (
+            selectedDate, _onChangeSelectedCalendarDate, _onCloseCalendarPopup
+         );
+
+         var table       = selectorCalendar.getTable();
+         var inputOffset = $(input).offset();
+
+         $(table).css
+         (
+            {
+               position: 'absolute'                          ,
+               top     : inputOffset.top  + $(input).height(),
+               left    : inputOffset.left
+            }
+         );
+
+         $(td).append(table);
+      }
+      catch (e)
+      {
+         UTILS.printExceptionToConsole(f, e);
+      }
+   }
+
+   /*
+    *
+    */
+   function _onChangeSelectedCalendarDate(y, m, d, calendarPopupTableElem)
+   {
+      try
+      {
+         var f = 'ResultTable._onChangeSelectedCalendarDate()';
+         UTILS.checkArgs(f, arguments,['positiveInt','positiveInt','positiveInt',HTMLTableElement]);
+
+         var input = $(calendarPopupTableElem).siblings('input')[0];
+         $(input).attr('value', y + '-' + ((m < 10)? '0': '') + m + '-' + ((d < 10)? '0': '') + d);
+         $(calendarPopupTableElem).remove();
+         input.disabled = false;
+      }
+      catch (e)
+      {
+         UTILS.printExceptionToConsole(f, e);
+      }
+   }
+
+   /*
+    *
+    */
+   function _onCloseCalendarPopup(ev)
+   {
+      try
+      {
+         var f = 'ResultTable._onCloseCalendarPopup()';
+         UTILS.checkArgs(f, arguments, [Object]);
+
+         var closeButtonTd = ev.currentTarget;
+         var calendarTable = $(closeButtonTd).parent().parent().parent();
+         var inputTd       = $(calendarTable).parent();
+         var input         = $(inputTd).children()[0];
+
+         $(calendarTable).remove();
+         input.disabled = false;
+      }
+      catch (e)
+      {
+         UTILS.printExceptionToConsole(f, e);
+      }
+   }
+
    // Other private functions. ----------------------------------------------------------------//
 
    /*
@@ -429,7 +552,8 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       UTILS.checkArgs(f, arguments, [HTMLInputElement]);
 
       var buttonIndexByCountingButtons   = $(button).index();
-      var buttonIndexExcludingEditButton = (
+      var buttonIndexExcludingEditButton =
+      (
          buttonIndexByCountingButtons + ((_state.includeEditButtonInActionsColumn)? -1: 0)
       );
 
@@ -452,19 +576,25 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       {
          var originalTd = originalTrChildren[colIndex];
          var newTd      = TD({'class': $(originalTd).attr('class')});
+         var valueStr   = $(originalTd).text();
 
          if (colIndex < originalTrChildren.length - 1)
          {
-            var valueStr = $(originalTd).html();
-
             switch (colInfoByColIndex[colIndex].isEditable)
             {
              case true:
                $(newTd).addClass('editableTd');
-               $(newTd).append(INPUT({type: 'text', value: valueStr}));
+               $(newTd).append(_getInputElementForEditableField(colIndex, valueStr));
                break;
              case false:
-               $(newTd).append(document.createTextNode(valueStr));
+               // NOTE
+               // ----
+               // $.html() is used below to get and set the SPAN contents so that for example if
+               // the valueStr contains HTML code for an anchor, the anchor will display rather
+               // than the HTML code as a textnode.
+               var span = SPAN();
+               $(span).html(valueStr);
+               $(newTd).append(span);
                break;
             }
          }
@@ -487,6 +617,69 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       }
 
       return editableTr;
+   }
+
+   /*
+    *
+    */
+   function _getInputElementForEditableField(colIndex, valueStr)
+   {
+      var f = 'ResultTable._getInputElementForEditableField()';
+      UTILS.checkArgs(f, arguments, ['int', String]);
+
+      var details = _state.returnedAjaxParams.colInfoByColIndex[colIndex].isEditableDetails;
+
+      switch (details.inputType)
+      {
+       case 'text':
+         return INPUT({type: 'text', value: valueStr});
+
+       case 'select':
+         return _buildSelectElemFromOptionsArray(details.options, valueStr);
+
+       case 'date':
+         var input = INPUT({type: 'text', 'class': 'dateTextField', value: valueStr});
+         $(input).focus(_onFocusDateTextField);
+         return input;
+
+       default:
+         throw new Exception("Unknown intput type '" + details.inputType + "'.");
+      }
+   }
+
+   /*
+    *
+    */
+   function _buildSelectElemFromOptionsArray(options, selectedOptionValue)
+   {
+      var f = 'ResultTable._buildSelectElemFromOptionsArray()';
+      UTILS.checkArgs(f, arguments, [Array, String]);
+
+      var select              = SELECT();
+      var foundSelectedOption = false;
+
+      for (var i = 0, len = options.length; i < len; ++i)
+      {
+         var option     = options[i];
+         var value      = option[0];
+         var text       = option[1];
+         var attributes = {value: value};
+
+         if (value == selectedOptionValue)
+         {
+            attributes.selected      = 'selected';
+            foundSelectedOptionValue = true;
+         }
+
+         $(select).append(OPTION(attributes, text));
+      }
+
+      if (!foundSelectedOptionValue)
+      {
+         throw new Exception("Could not find option with value '" + selectedOptionValue + "'.");
+      }
+
+      return select;
    }
 
    /*
@@ -515,46 +708,40 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
 
       var colInfoByColIndex = reply.colInfoByColIndex;
       var rowInfoByRowIndex = reply.rowInfoByRowIndex;
-      var n_cols            = colInfoByColIndex.length;
-      var n_rows            = rowInfoByRowIndex.length;
+      var nCols             = colInfoByColIndex.length;
+      var nRows             = rowInfoByRowIndex.length;
 
-      for (var colIndex = 0; colIndex < n_cols; ++colIndex)
+      for (var colIndex = 0; colIndex < nCols; ++colIndex)
       {
-         UTILS.validator.checkObject
+         colInfoByColIndex[colIndex] = UTILS.validator.checkObjectAndSetDefaults
          (
             colInfoByColIndex[colIndex],
             {
                cssClassesStr: 'string',
                heading      : 'string',
                isEditable   : 'bool'
+            },
+            {
+               isEditableDetails:
+               [
+                  'object',
+                  {
+                     inputType            : 'text',
+                     options              : null  ,
+                     allowTextInputForDate: false
+                  }
+               ]
             }
          );
       }
 
-      for (var rowIndex = 0; rowIndex < n_rows; ++rowIndex)
+      for (var rowIndex = 0; rowIndex < nRows; ++rowIndex)
       {
-         var rowInfo = rowInfoByRowIndex[rowIndex];
-
-         UTILS.validator.checkObject
-         (
-            rowInfo,
-            {
-               buttonsInfo: 'array',
-               data       : 'object'
-            }
-         );
-
+         var rowInfo        = rowInfoByRowIndex[rowIndex];
+         UTILS.validator.checkObject(rowInfo, {buttonsInfo: 'array', data: 'object'});
          var rowButtonsInfo = rowInfo.buttonsInfo;
          var rowData        = rowInfo.data       ;
-
-         UTILS.validator.checkObject
-         (
-            rowData,
-            {
-               id             : 'string',
-               valueByColIndex: 'array'
-            }
-         );
+         UTILS.validator.checkObject(rowData, {id: 'string', valueByColIndex: 'array'});
 
          for (var buttonIndex = 0; buttonIndex < rowButtonsInfo.length; ++buttonIndex)
          {
@@ -578,12 +765,12 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
 
          var valueByColIndex = rowData.valueByColIndex;
 
-         if (valueByColIndex.length != n_cols)
+         if (valueByColIndex.length != nCols)
          {
             throw new Exception(f, 'Unexpected number of values found in row ' + rowIndex + '.','');
          }
 
-         for (var colIndex = 0; colIndex < n_cols; ++colIndex)
+         for (var colIndex = 0; colIndex < nCols; ++colIndex)
          {
             // Values are allowed to be null because results of SQL queries often contain nulls
             // and it would be burdensome to have to convert nulls to empty strings inside the
@@ -614,14 +801,14 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       // button inside each td in the actions column.  Set both variables to default values first.
       _state.includeActionsColumn             = false;
       _state.includeEditButtonInActionsColumn = false;
-      _state.n_colsEditable                   = 0;
+      _state.nColsEditable                    = 0;
       for (var colIndex = 0; colIndex < colInfoByColIndex.length; ++colIndex)
       {
          if (colInfoByColIndex[colIndex].isEditable)
          {
             _state.includeActionsColumn             = true;
             _state.includeEditButtonInActionsColumn = true;
-            ++_state.n_colsEditable;
+            ++_state.nColsEditable;
             break;
          }
       }
@@ -642,8 +829,8 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
 
       _state.returnedAjaxParams =  params;
       _state.includeRankColumn  = (params.firstRowRank != -1);
-      _state.n_colsDataOnly     =  colInfoByColIndex.length;
-      _state.n_cols             =  _state.n_colsDataOnly +
+      _state.nColsDataOnly      =  colInfoByColIndex.length;
+      _state.nCols              =  _state.nColsDataOnly +
       (
          ((_state.includeRankColumn   )? 1: 0) +
          ((_state.includeActionsColumn)? 1: 0)
@@ -672,7 +859,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       for (var i = 0; i < trElemsD.length; ++i) {$(tbody).append(trElemsD[i]);}
       for (var i = 0; i < trElemsF.length; ++i) {$(tfoot).append(trElemsF[i]);}
 
-      if (_state.n_colsDataOnly > 0)
+      if (_state.nColsDataOnly > 0)
       {
          _fillCreateNewRowTable();
       }
@@ -694,7 +881,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       {
          trElems.push
          (
-            TR({'class': 'heading'}, o.buildTCellWithBRs('h', p.heading, {colspan: _state.n_cols}))
+            TR({'class': 'heading'}, o.buildTCellWithBRs('h', p.heading, {colspan: _state.nCols}))
          );
       }
 
@@ -705,7 +892,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
             TR
             (
                {'class': 'subheading1'},
-               o.buildTCellWithBRs('h', p.subheading, {colspan: _state.n_cols})
+               o.buildTCellWithBRs('h', p.subheading, {colspan: _state.nCols})
             )
          );
       }
@@ -732,7 +919,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       var colInfoByColIndex = p.colInfoByColIndex;
       var shadeBool         = false;
 
-      for (var colIndex = 0; colIndex < _state.n_colsDataOnly; ++colIndex)
+      for (var colIndex = 0; colIndex < _state.nColsDataOnly; ++colIndex)
       {
          $(tr).append
          (
@@ -770,7 +957,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
 
       var p                 = _state.returnedAjaxParams;
       var rowInfoByRowIndex = p.rowInfoByRowIndex;
-      var lastColumnIndex   = _state.n_colsDataOnly - 1;
+      var lastColumnIndex   = _state.nColsDataOnly - 1;
       var prevLastColValue  = NaN;
       var rank              = p.firstRowRank;
       var trElems           = [];
@@ -804,7 +991,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          {
             var tr = TR({'class': 'emptyRow'});
 
-            for (var colIndex = 0; colIndex < _state.n_cols; ++colIndex)
+            for (var colIndex = 0; colIndex < _state.nCols; ++colIndex)
             {
                var cellShadeStr = rowShadeChar + ((colIndex % 2 == 1)? 'l': 'd');
                $(tr).append(TD({'class': cellShadeStr}, '\xA0')); // '\xA0 is non-breaking space.
@@ -838,19 +1025,40 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       }
 
       // For each data column...
-      for (var colIndex = 0; colIndex < _state.n_colsDataOnly; ++colIndex)
+      for (var colIndex = 0; colIndex < _state.nColsDataOnly; ++colIndex)
       {
+         var colInfo      = colInfoByColIndex[colIndex];
          var strOrNull    = valueByColIndex[colIndex];
          var cellShadeStr = rowShadeChar + ((colIndex % 2 == 1)? 'l': 'd');
+         var tdAttributes = {'class': cellShadeStr + ' ' + colInfo.cssClassesStr};
 
-         $(tr).append
-         (
-            UTILS.table.buildTCellWithBRs
-            (
-               'd', strOrNull,
-               {'class': cellShadeStr + ' ' + colInfoByColIndex[colIndex].cssClassesStr}
-            )
-         );
+         // If the first character of the strOrNull string is '<', treat as HTML.
+         if (strOrNull !== null && strOrNull.substr(0, 1) == '<')
+         {
+            var td = TD(tdAttributes);
+
+            // Note Regarding Javascript Injection Attacks
+            // -------------------------------------------
+            // The $(td).text(str) function should always be used to insert text into the HTML
+            // instead of the $(td).html(str) function.  Using the latter method will cause
+            // javascript included in the string to be run when the HTML is updated.
+            // The $(td).html(str) function is used below, but for uneditable fields only.  The
+            // purpose of this is to allow anchor tags to be used in data fields.  Allowing html in
+            // uneditable fields is still a security risk because a developer may later choose to
+            // set a column that was previously editable to uneditable.  That security risk is
+            // considered to be outweighed by the convenience of having anchors in data fields.
+            switch (colInfo.isEditable)
+            {
+             case true : $(td).text(strOrNull); break;
+             case false: $(td).html(strOrNull); break;
+            }
+         }
+         else
+         {
+            var td = UTILS.table.buildTCellWithBRs('d', strOrNull, tdAttributes);
+         }
+
+         $(tr).append(td);
       }
 
       if (_state.includeActionsColumn)
@@ -877,10 +1085,10 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
             var b          = INPUT
             (
                {
-                  type : 'button'                ,
+                  type   : 'button'                ,
                   'class': buttonInfo.cssClassesStr,
-                  title: buttonInfo.titleStr     ,
-                  value: buttonInfo.valueStr
+                  title  : buttonInfo.titleStr     ,
+                  value  : buttonInfo.valueStr
                }
             );
 
@@ -917,7 +1125,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
          (
             {'class': 'footerRowsSummary'}, TD
             (
-               {colspan: _state.n_cols, style: 'text-align: center; white-space: normal;'},
+               {colspan: _state.nCols, style: 'text-align: center; white-space: normal;'},
                SPAN({style: 'float: left' }, _inputs.prevPageButton),
                SPAN(                         rowsSummaryMessage    ),
                SPAN({style: 'float: right'}, _inputs.nextPageButton)
@@ -929,7 +1137,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       {
          trElems.push
          (
-            TR({'class': 'footer'}, o.buildTCellWithBRs('h', p.footer, {colspan: _state.n_cols}))
+            TR({'class': 'footer'}, o.buildTCellWithBRs('h', p.footer, {colspan: _state.nCols}))
          );
       }
 
@@ -956,7 +1164,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       {
          $(tbody).append
          (
-            TR(TH({colspan: _state.n_colsEditable + 1}, configParams.createNewRowHeading))
+            TR(TH({colspan: _state.nColsEditable + 1}, configParams.createNewRowHeading))
          );
       }
 
@@ -964,7 +1172,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       {
          // Create column headings row.
          var trHeadings = TR();
-         for (var colIndex = 0; colIndex < _state.n_colsDataOnly; ++colIndex)
+         for (var colIndex = 0; colIndex < _state.nColsDataOnly; ++colIndex)
          {
             var cellShadeStr = 'l' + ((colIndex % 2 == 1)? 'l': 'd');
             var colInfo      = colInfoByColIndex[colIndex];
@@ -981,7 +1189,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
 
       // Create row of textboxes.
       var trTextboxes = TR();
-      for (var colIndex = 0; colIndex < _state.n_colsDataOnly; ++colIndex)
+      for (var colIndex = 0; colIndex < _state.nColsDataOnly; ++colIndex)
       {
          var cellShadeStr = 'd' + ((colIndex % 2 == 1)? 'l': 'd');
 
@@ -1066,7 +1274,7 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       var shadeBool     = false;
       var dataRowsCount = p.rowInfoByRowIndex.length;
 
-      for (var colIndex = 0; colIndex < _state.n_colsDataOnly; ++colIndex)
+      for (var colIndex = 0; colIndex < _state.nColsDataOnly; ++colIndex)
       {
          var buttons =
          {
@@ -1204,7 +1412,8 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
 
       UTILS.validator.checkObject(params, compulsoryKeyTypePairs, optionalKeyTypePairs);
 
-      _state.ajaxParams.success = UTILS.ajax.createReceiveAjaxMessageFunction(
+      _state.ajaxParams.success = UTILS.ajax.createReceiveAjaxMessageFunction
+      (
          'ResultTable', function (message, boolRemoveAfterDelay)
          {
             var f = 'ResultTable.displayFailureMessage()';
@@ -1280,9 +1489,9 @@ function ResultTable(ajaxUrl, initialClassClientAjaxParams, configParams)
       includeActionsColumn            : false                       ,
       includeEditButtonInActionsColumn: false                       ,
       includeRankColumn               : false                       ,
-      n_cols                          : null                        ,
-      n_colsDataOnly                  : null                        ,
-      n_colsEditable                  : null                        ,
+      nCols                           : null                        ,
+      nColsDataOnly                   : null                        ,
+      nColsEditable                   : null                        ,
       nextRequestClassClientParams    : initialClassClientAjaxParams,
       nextRequestResultTableParams    : null                        ,
       nextSuccessMsg                  : ''                          ,
