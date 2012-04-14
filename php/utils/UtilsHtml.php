@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_html.php"
+* Filename: "UtilsHtml.php"
 *
 * Project: Utilities.
 *
@@ -20,7 +20,7 @@ require_once dirname(__FILE__) . '/Utils_validator.php';
 /*
  *
  */
-class Utils_html
+class UtilsHtml
 {
    // Public functions. /////////////////////////////////////////////////////////////////////////
 
