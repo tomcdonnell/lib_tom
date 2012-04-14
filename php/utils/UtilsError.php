@@ -1,15 +1,23 @@
 <?php
-/*
- * vim: ts=3 sw=3 et wrap co=100 go-=b
- */
+/**************************************************************************************************\
+*
+* vim: ts=3 sw=3 et wrap co=100 go-=b
+*
+* Filename: "UtilsError.php"
+*
+* Project: Utilities.
+*
+* Purpose: Utilities pertaining to arrays.
+*
+* Author: Tom McDonnell 2010-06-18.
+*
+\**************************************************************************************************/
 
 /*
  *
  */
-class Utils_error
+class UtilsError
 {
-   // Public functions. ///////////////////////////////////////////////////////////////////////
-
    /*
     *
     */
@@ -160,4 +168,6 @@ class Utils_error
    private static $_logFileName                     = null;
    private static $_genericErrorPageUrl             = null;
 }
+
+/*******************************************END*OF*FILE********************************************/
 ?>

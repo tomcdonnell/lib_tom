@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_commandLine.php"
+* Filename: "UtilsCommandLine.php"
 *
 * Project: Utilities.
 *
@@ -18,10 +18,8 @@ require_once dirname(__FILE__) . '/Utils_misc.php';
 /*
  *
  */
-class Utils_commandLine
+class UtilsCommandLine
 {
-   // Public functions. /////////////////////////////////////////////////////////////////////////
-
    /*
     *
     */

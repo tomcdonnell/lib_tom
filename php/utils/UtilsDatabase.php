@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_database.php"
+* Filename: "UtilsDatabase.php"
 *
 * Project: Utilities.
 *
@@ -13,19 +13,13 @@
 *
 \**************************************************************************************************/
 
-// Includes. ///////////////////////////////////////////////////////////////////////////////////////
-
 require_once dirname(__FILE__) . '/../database/DatabaseConnection.php';
-
-// Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
  *
  */
-class Utils_database
+class UtilsDatabase
 {
-   // Public functions. -----------------------------------------------------------------------//
-
    /*
     *
     */

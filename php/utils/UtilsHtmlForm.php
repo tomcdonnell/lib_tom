@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_htmlForm.php"
+* Filename: "UtilsHtmlForm.php"
 *
 * Project: Utilities.
 *
@@ -16,15 +16,11 @@
 require_once dirname(__FILE__) . '/Utils_html.php';
 require_once dirname(__FILE__) . '/Utils_validator.php';
 
-// Class definition. ///////////////////////////////////////////////////////////////////////////////
-
 /*
  *
  */
-class Utils_htmlForm
+class UtilsHtmlForm
 {
-   // Public functions. /////////////////////////////////////////////////////////////////////////
-
    /*
     *
     */

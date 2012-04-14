@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_misc.php"
+* Filename: "UtilsMisc.php"
 *
 * Project: Utilities.
 *
@@ -13,15 +13,11 @@
 *
 \**************************************************************************************************/
 
-// Class definition. ///////////////////////////////////////////////////////////////////////////////
-
 /*
  *
  */
-class Utils_misc
+class UtilsMisc
 {
-   // Public functions. -----------------------------------------------------------------------//
-
    /*
     *
     */
@@ -112,7 +108,7 @@ class Utils_misc
 
    /*
     * Usage example:
-    *    $bestSellingCarModelName = Utils_misc::switchAssign
+    *    $bestSellingCarModelName = UtilsMisc::switchAssign
     *    (
     *       $carManufacturer, array
     *       (

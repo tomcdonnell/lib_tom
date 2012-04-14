@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_security.php"
+* Filename: "UtilsSecurity.php"
 *
 * Project: Utilities.
 *
@@ -13,20 +13,14 @@
 *
 \**************************************************************************************************/
 
-// Includes. ///////////////////////////////////////////////////////////////////////////////////////
-
 require_once dirname(__FILE__) . '/Utils_validator.php';
 require_once dirname(__FILE__) . '/Utils_misc.php';
-
-// Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
  *
  */
-class Utils_security
+class UtilsSecurity
 {
-   // Public functions. /////////////////////////////////////////////////////////////////////////
-
    /*
     *
     */

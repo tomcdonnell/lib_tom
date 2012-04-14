@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap go-=b
 *
-* Filename: "Util_2dArrayConverter.php"
+* Filename: "Utils2dArrayConverter.php"
 *
 * Project: Utilities.
 *
@@ -14,16 +14,12 @@
 *
 \**************************************************************************************************/
 
-// Includes. ///////////////////////////////////////////////////////////////////////////////////////
-
 require_once dirname(__FILE__) . '/Utils_string.php';
-
-// Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
  *
  */
-class Utils_2dArrayConverter
+class Utils2dArrayConverter
 {
    // Public functions. /////////////////////////////////////////////////////////////////////////
 

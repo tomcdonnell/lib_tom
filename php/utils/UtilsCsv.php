@@ -3,11 +3,11 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_misc.php"
+* Filename: "UtilsCsv.php"
 *
 * Project: Utilities.
 *
-* Purpose: Miscellaneous utilities.
+* Purpose: Utilities pertaining to CSV files.
 *
 * Author: Tom McDonnell 2008-06-28.
 *
@@ -15,15 +15,11 @@
 
 require_once dirname(__FILE__) . '/Utils_validator.php';
 
-// Class definition. ///////////////////////////////////////////////////////////////////////////////
-
 /*
  *
  */
-class Utils_csv
+class UtilsCsv
 {
-   // Public functions. -----------------------------------------------------------------------//
-
    /*
     *
     */

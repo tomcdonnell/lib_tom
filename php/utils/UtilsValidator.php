@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_validator.php"
+* Filename: "UtilsValidator.php"
 *
 * Project: Utilities.
 *
@@ -13,18 +13,14 @@
 *
 \**************************************************************************************************/
 
-// Includes. ///////////////////////////////////////////////////////////////////////////////////////
-
 require_once dirname(__FILE__) . '/../contrib/EmailAddressValidator.php';
-
-// Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
  * All these functions perform a test, and throw an exception if the test fails.
  *
  * Note: Only use these functions where speed is unimportant.
  */
-class Utils_validator
+class UtilsValidator
 {
    // Public functions. -----------------------------------------------------------------------//
 

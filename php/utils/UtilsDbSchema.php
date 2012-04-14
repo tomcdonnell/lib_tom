@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_dbSchema.php"
+* Filename: "UtilsDbSchema.php"
 *
 * Project: Utilities.
 *
@@ -13,19 +13,13 @@
 *
 \**************************************************************************************************/
 
-// Includes. ///////////////////////////////////////////////////////////////////////////////////////
-
 require_once dirname(__FILE__) . '/../database/DatabaseManager.php';
-
-// Class definition. ///////////////////////////////////////////////////////////////////////////////
 
 /*
  *
  */
-class Utils_dbSchema
+class UtilsDbSchema
 {
-   // Public functions. /////////////////////////////////////////////////////////////////////////
-
    /*
     *
     */
