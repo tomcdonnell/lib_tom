@@ -13,7 +13,7 @@
 *
 \**************************************************************************************************/
 
-require_once dirname(__FILE__) . '/Utils_validator.php';
+require_once dirname(__FILE__) . '/UtilsValidator.php';
 
 /*
  *
@@ -41,7 +41,7 @@ class UtilsHtml
    /*
     *
     */
-   public static function echoHtmlScriptTagsForJsFiles($jsFilenamesWithFullPath, $indent)
+   public static function echoHtmlScriptTagsForJsFiles($jsFilenamesWithFullPath, $indent = '  ')
    {
       // A unix timestamp to append as an unused $_GET variable to the
       // end of every JS filename so that cached files are not used.
@@ -59,7 +59,7 @@ class UtilsHtml
     */
    public static function echoHtmlLinkTagsForCssFiles
    (
-      $cssFilenamesWithFullPath, $indent, $extraAttributeValueByName = array()
+      $cssFilenamesWithFullPath, $indent = '  ', $extraAttributeValueByName = array()
    )
    {
       // A unix timestamp to append as an unused $_GET variable to the
@@ -77,6 +77,18 @@ class UtilsHtml
 
          echo " href='", self::escapeSingleQuotes($filename), "?$timeUnix'/>\n";
       }
+   }
+
+   /*
+    *
+    */
+   public static function echoHtmlScriptAndLinkTagsForJsAndCssFiles
+   (
+      $cssFilenamesWithFullPath, $jsFilenamesWithFullPath, $indent = '  '
+   )
+   {
+      self::echoHtmlScriptTagsForJsFiles($jsFilenamesWithFullPath, $indent);
+      self::echoHtmlLinkTagsForCssFiles($cssFilenamesWithFullPath, $indent);
    }
 }
 
