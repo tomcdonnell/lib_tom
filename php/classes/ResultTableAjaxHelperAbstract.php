@@ -17,7 +17,7 @@
 \**************************************************************************************************/
 
 require_once dirname(__FILE__) . '/../../../Zend/Db/Adapter/Pdo/Mysql.php';
-require_once dirname(__FILE__) . '/../utils/Utils_validator.php';
+require_once dirname(__FILE__) . '/../utils/UtilsValidator.php';
 
 /*
  * Abstract class for use with the Javascript ResultTable object.
@@ -92,7 +92,7 @@ abstract class ResultTableAjaxHelperAbstract
     */
    public function callCustomAjaxResponderFunction($db, $functionName, $params)
    {
-      Utils_validator::checkArray
+      UtilsValidator::checkArray
       (
          $params, array
          (
@@ -343,7 +343,7 @@ abstract class ResultTableAjaxHelperAbstract
 
          foreach ($buttonsInfo as &$buttonInfo)
          {
-            Utils_validator::checkArray
+            UtilsValidator::checkArray
             (
                $buttonInfo, array
                (
@@ -388,7 +388,7 @@ abstract class ResultTableAjaxHelperAbstract
     */
    private function _validateParamsAndSaveToPrivateVariables($db, $params)
    {
-      Utils_validator::checkArray
+      UtilsValidator::checkArray
       (
          $params, array
          (
@@ -397,7 +397,7 @@ abstract class ResultTableAjaxHelperAbstract
          )
       );
 
-      Utils_validator::checkArray
+      UtilsValidator::checkArray
       (
          $params['resultTableParams'], array
          (

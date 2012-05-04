@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "Utils_sqlRelationships.php"
+* Filename: "UtilsSqlRelationships.php"
 *
 * Project: Utilities.
 *
@@ -30,7 +30,7 @@ foreach
 /*
  *
  */
-class Utils_sqlRelationships
+class UtilsSqlRelationships
 {
    // Public functions. -----------------------------------------------------------------------//
 

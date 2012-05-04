@@ -15,8 +15,8 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../../utils/Utils_validator.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_misc.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsValidator.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsMisc.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
@@ -62,7 +62,7 @@ class Person
     */
    public static function insert(DatabaseConnection $dbc, $personRow)
    {
-      Utils_validator::checkArray
+      UtilsValidator::checkArray
       (
          $personRow, array('nameFirst' => 'nonEmptyString'), array
          (
@@ -78,7 +78,7 @@ class Person
 
       try
       {
-         $idPerson = Utils_database::insertRowIntoTable($dbc, 'person', $personRow);
+         $idPerson = UtilsDatabase::insertRowIntoTable($dbc, 'person', $personRow);
       }
       catch (Exception $e)
       {
@@ -96,11 +96,11 @@ class Person
     */
    public static function insertEmail(DatabaseConnection $dbc, $emailAddressFull, $idPerson = null)
    {
-      Utils_validator::checkEmailAddress($emailAddressFull);
+      UtilsValidator::checkEmailAddress($emailAddressFull);
 
       $posOfAtSymbol = strpos($emailAddressFull, '@');
 
-      $idEmail = Utils_database::insertRowIntoTable
+      $idEmail = UtilsDatabase::insertRowIntoTable
       (
          $dbc, 'email', array
          (
@@ -111,7 +111,7 @@ class Person
 
       if ($idPerson !== null)
       {
-         Utils_database::updateRowsInTable
+         UtilsDatabase::updateRowsInTable
          (
             $dbc, 'person',
             array('idEmail' => "$idEmail" ),
@@ -127,13 +127,13 @@ class Person
     */
    public static function insertWebsite(DatabaseConnection $dbc, $website, $idPerson = null)
    {
-      Utils_validator::checkWebsite($website);
+      UtilsValidator::checkWebsite($website);
 
-      $idWebsite = Utils_database::insertRowIntoTable($dbc, 'website', array('domain' => $website));
+      $idWebsite = UtilsDatabase::insertRowIntoTable($dbc, 'website', array('domain' => $website));
 
       if ($idPerson !== null)
       {
-         Utils_database::updateRowsInTable
+         UtilsDatabase::updateRowsInTable
          (
             $dbc, 'person',
             array('idWebsite' => "$idWebsite"),
@@ -158,7 +158,7 @@ class Person
     */
    public static function updateEmailForPerson($dbc, $idPerson, $emailAddressFull)
    {
-      $idEmail = Utils_database::getFieldFromRowOfTable
+      $idEmail = UtilsDatabase::getFieldFromRowOfTable
       (
          $dbc, 'idEmail', 'person', array('id' => $idPerson)
       );
@@ -174,7 +174,7 @@ class Person
 
       $posOfAtSymbol = strpos($emailAddressFull, '@');
 
-      return Utils_database::updateRowsInTable
+      return UtilsDatabase::updateRowsInTable
       (
          $dbc, 'email', array
          (

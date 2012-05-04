@@ -13,8 +13,8 @@
 *
 \**************************************************************************************************/
 
-require_once dirname(__FILE__) . '/Utils_validator.php';
-require_once dirname(__FILE__) . '/Utils_misc.php';
+require_once dirname(__FILE__) . '/UtilsValidator.php';
+require_once dirname(__FILE__) . '/UtilsMisc.php';
 
 /*
  *
@@ -34,7 +34,7 @@ class UtilsSecurity
     */
    public static function dpiLdapUserCheck($params)
    {
-      Utils_validator::checkArrayAndSetDefaults
+      UtilsValidator::checkArrayAndSetDefaults
       (
          $params, array
          (

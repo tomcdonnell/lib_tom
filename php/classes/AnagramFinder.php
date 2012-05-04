@@ -16,7 +16,7 @@
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
 require_once dirname(__FILE__) . '/StringJumbler.php';
-require_once dirname(__FILE__) . '/../utils/Utils_string.php';
+require_once dirname(__FILE__) . '/../utils/UtilsString.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
@@ -56,7 +56,7 @@ class AnagramFinder
     */
    public function getSingleWordAnagrams($string)
    {
-      $string = strtolower(Utils_string::removeAllNonAlphaCharacters($string));
+      $string = strtolower(UtilsString::removeAllNonAlphaCharacters($string));
 
       return $this->getSingleWordAnagramsOfAlphaString($string);
    }
@@ -89,7 +89,7 @@ class AnagramFinder
     */
    public function getMultipleWordAnagramTree($string, $boolShowProgress = false)
    {
-      $string = strtolower(Utils_string::removeAllNonAlphaCharacters($string));
+      $string = strtolower(UtilsString::removeAllNonAlphaCharacters($string));
 
       return $this->getMultipleWordAnagramTreeRecursively($string);
    }
@@ -137,7 +137,7 @@ class AnagramFinder
 
       for ($n_letters = $startN_letters; $n_letters > 0; --$n_letters)
       {
-         $kSubsets             = Utils_string::findAllKSubsets($string, $n_letters);
+         $kSubsets             = UtilsString::findAllKSubsets($string, $n_letters);
          $sortedKSubsetsAsKeys = array();
 
          foreach ($kSubsets as $kSubset)
@@ -211,7 +211,7 @@ class AnagramFinder
       {
          foreach ($sortedKSubsets as $sortedKSubset)
          {
-            $stringMinusSortedKSubset = Utils_string::diff($string, $sortedKSubset);
+            $stringMinusSortedKSubset = UtilsString::diff($string, $sortedKSubset);
 
             if ($stringMinusSortedKSubset == '')
             {

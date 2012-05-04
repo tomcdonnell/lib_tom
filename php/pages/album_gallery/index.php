@@ -24,9 +24,9 @@ error_reporting(-1);
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../../utils/Utils_validator.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_misc.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_file.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsValidator.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsMisc.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsFile.php';
 
 // Global variables. ///////////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +41,7 @@ $BACK_ANCHOR_TEXT  = null;
 
 try
 {
-   Utils_validator::checkArray($_GET, array('path' => 'nonEmptyString'));
+   UtilsValidator::checkArray($_GET, array('path' => 'nonEmptyString'));
 
    
 

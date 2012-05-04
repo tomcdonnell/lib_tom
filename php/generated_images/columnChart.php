@@ -18,8 +18,8 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../utils/Utils_date.php';
-require_once dirname(__FILE__) . '/../utils/Utils_image.php';
+require_once dirname(__FILE__) . '/../utils/UtilsDate.php';
+require_once dirname(__FILE__) . '/../utils/UtilsImage.php';
 
 // Settings. ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ try
 }
 catch (Exception $e)
 {
-   Utils_image::printExceptionAsImage($e, $columnChart->getImage());
+   UtilsImage::printExceptionAsImage($e, $columnChart->getImage());
 }
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
@@ -283,7 +283,7 @@ class ColumnChart
    private function drawAxisLabels($hAxisLabel, $vAxisLabel)
    {
       // Draw horizontal axis label.
-      Utils_image::printXcenteredHorizTextString
+      UtilsImage::printXcenteredHorizTextString
       (
          $this->image, $this->fontSize,
          $this->chartMinX, $this->chartMaxX, $this->chartMaxY + 30,
@@ -291,7 +291,7 @@ class ColumnChart
       );
 
       // Draw vertical axis label.
-      Utils_image::printYcenteredVertTextString
+      UtilsImage::printYcenteredVertTextString
       (
          $this->image, $this->fontSize,
          $this->chartMinX - 50, $this->chartMinY, $this->chartMaxY,
@@ -356,7 +356,7 @@ class ColumnChart
                );
 
                // Draw month abbreviation at center of previous month.
-               Utils_image::printXcenteredHorizTextString
+               UtilsImage::printXcenteredHorizTextString
                (
                   $this->image, $this->fontSize,
                   $prevMonthStartX, $x_newMonthLine, $this->chartMaxY,
@@ -395,7 +395,7 @@ class ColumnChart
                      );
 
                      // Draw year text at center of previous year.
-                     Utils_image::printXcenteredHorizTextString
+                     UtilsImage::printXcenteredHorizTextString
                      (
                         $this->image, $this->fontSize,
                         $prevYearStartX, $x_newMonthLine,
@@ -439,7 +439,7 @@ class ColumnChart
     */
    private function getMonthAbbrevStrForWidth($monthNo, $width)
    {
-      $monthName = Utils_date::getMonthName($monthNo);
+      $monthName = UtilsDate::getMonthName($monthNo);
 
       $limit1 = strlen($monthName) * $this->n_pixelsPerCharX + 10;
       $limit2 = 3 * $this->n_pixelsPerCharX + 5;
@@ -449,9 +449,9 @@ class ColumnChart
       (
          ($width > $limit1)? $monthName:
          (
-            ($width > $limit2)? Utils_date::getMonthThreeLetterAbbrev($monthNo):
+            ($width > $limit2)? UtilsDate::getMonthThreeLetterAbbrev($monthNo):
             (
-               ($width > $limit3)? Utils_date::getMonthOneLetterAbbrev($monthNo): ''
+               ($width > $limit3)? UtilsDate::getMonthOneLetterAbbrev($monthNo): ''
             )
          )
       );

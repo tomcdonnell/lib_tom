@@ -15,9 +15,9 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../../utils/Utils_validator.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_database.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_misc.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsValidator.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsDatabase.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsMisc.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ class HighScores
     */
    public static function insert(DatabaseConnection $dbc, $gameNameShort, $scoreDetails)
    {
-      Utils_validator::checkArray
+      UtilsValidator::checkArray
       (
          $scoreDetails, array
          (
@@ -57,28 +57,28 @@ class HighScores
       );
       extract($scoreDetails);
 
-      if (!Utils_database::rowExistsInTable($dbc, 'game', array('nameShort' => $gameNameShort)))
+      if (!UtilsDatabase::rowExistsInTable($dbc, 'game', array('nameShort' => $gameNameShort)))
       {
          throw new Exception("No game with nameShort '$gameNameShort' found.");
       }
 
-      if (!Utils_database::rowExistsInTable($dbc, 'gameMode', array('name' => $gameMode)))
+      if (!UtilsDatabase::rowExistsInTable($dbc, 'gameMode', array('name' => $gameMode)))
       {
          throw new Exception("No game mode with name '$gameMode' found.");
       }
 
-      Utils_database::insertRowIntoTable
+      UtilsDatabase::insertRowIntoTable
       (
          $dbc, 'score', array
          (
             'score'      => $score                                            ,
             'details'    => $details                                          ,
             'idPlayer'   => self::getOrCreateAndGetIdPlayer($dbc, $playerName),
-            'idGame'     => Utils_database::getFieldFromRowOfTable
+            'idGame'     => UtilsDatabase::getFieldFromRowOfTable
             (
                $dbc, 'id', 'game', array('nameShort' => $gameNameShort)
             ),
-            'idGameMode' => Utils_database::getFieldFromRowOfTable
+            'idGameMode' => UtilsDatabase::getFieldFromRowOfTable
             (
                $dbc, 'id', 'gameMode', array('name' => $gameMode)
             )
@@ -93,7 +93,7 @@ class HighScores
     */
    public static function getHighScores(DatabaseConnection $dbc, $params)
    {
-      Utils_validator::checkArray
+      UtilsValidator::checkArray
       (
          $params, array
          (
@@ -157,15 +157,15 @@ class HighScores
     */
    private static function getOrCreateAndGetIdPlayer(DatabaseConnection $dbc, $playerName)
    {
-      if (Utils_database::rowExistsInTable($dbc, 'player', array('playerName' => $playerName)))
+      if (UtilsDatabase::rowExistsInTable($dbc, 'player', array('playerName' => $playerName)))
       {
-         return Utils_database::getFieldFromRowOfTable
+         return UtilsDatabase::getFieldFromRowOfTable
          (
             $dbc, 'id', 'player', array('playerName' => $playerName)
          );
       }
 
-      return Utils_database::insertRowIntoTable
+      return UtilsDatabase::insertRowIntoTable
       (
          $dbc, 'player', array('playerName' => $playerName)
       );

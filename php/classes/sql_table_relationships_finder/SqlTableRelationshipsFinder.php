@@ -16,7 +16,7 @@
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
 require_once dirname(__FILE__) . '/../../database/DatabaseManager.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_database.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsDatabase.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +33,7 @@ abstract class SqlTableRelationshipsFinder
     */
    public function __construct(DatabaseConnection $dbc, $tableName)
    {
-      if (!Utils_database::tableExistsInDatabase($dbc, $tableName))
+      if (!UtilsDatabase::tableExistsInDatabase($dbc, $tableName))
       {
          throw new Exception("Table `$tableName` not found.");
       }
@@ -42,7 +42,7 @@ abstract class SqlTableRelationshipsFinder
 
       $this->dbc                       = $dbc;
       $this->tableName                 = $tableName;
-      $this->columnHeadingsByTableName = Utils_dbSchema::getColumnHeadingsByTableName($dbName);
+      $this->columnHeadingsByTableName = UtilsDbSchema::getColumnHeadingsByTableName($dbName);
       $this->columnHeadings            = $this->columnHeadingsByTableName[$tableName];
       $this->relationshipsInfo         = $this->getRelationshipsInfo();
    }
@@ -83,7 +83,7 @@ abstract class SqlTableRelationshipsFinder
     */
    public function getMissingLink($linkType, $desiredLinkName, $suppliedLinkName, $suppliedLink)
    {
-      $keyName = Utils_misc::switchAssign
+      $keyName = UtilsMisc::switchAssign
       (
          $linkType, null, array
          (

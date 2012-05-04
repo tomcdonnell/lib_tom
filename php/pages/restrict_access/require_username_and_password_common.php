@@ -93,7 +93,7 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../../utils/Utils_validator.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsValidator.php';
 
 // Defines. ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -123,7 +123,7 @@ try
 // Temporary try...catch block while investigating a bug that only occurs for Prathe.
 try
 {
-   Utils_validator::checkArray
+   UtilsValidator::checkArray
    (
       $_SESSION['soeAuthentication'], array(), array
       (

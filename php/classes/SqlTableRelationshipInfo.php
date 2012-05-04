@@ -17,7 +17,7 @@
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
 require_once dirname(__FILE__) . '/../database/DatabaseManager.php';
-require_once dirname(__FILE__) . '/../utils/Utils_database.php';
+require_once dirname(__FILE__) . '/../utils/UtilsDatabase.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
@@ -36,7 +36,7 @@ class SqlTableRelationshipInfo
    {
       $this->dbc = $dbc;
 
-      if (!Utils_database::tableExistsInDatabase($this->dbc, $tableName))
+      if (!UtilsDatabase::tableExistsInDatabase($this->dbc, $tableName))
       {
          throw new Exception("Table `$tableName` not found.");
       }

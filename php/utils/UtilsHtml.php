@@ -31,7 +31,7 @@ class UtilsHtml
    /*
     * Use this when inserting string into HTML value attributes.
     *
-    * Eg. <input type='text' value='<?php echo Utils_html::escapeSingleQuotes("I'm stringy."); ?>'/>
+    * Eg. <input type='text' value='<?php echo UtilsHtml::escapeSingleQuotes("I'm stringy."); ?>'/>
     */
    public static function escapeSingleQuotes($string)
    {

@@ -14,7 +14,7 @@
 *
 \**************************************************************************************************/
 
-require_once dirname(__FILE__) . '/Utils_string.php';
+require_once dirname(__FILE__) . '/UtilsString.php';
 
 /*
  *
@@ -44,7 +44,7 @@ class Utils2dArrayConverter
 
          foreach ($row as $value)
          {
-            $valuesEnclosed[] = Utils_string::escapeAndEnclose($value, '"');
+            $valuesEnclosed[] = UtilsString::escapeAndEnclose($value, '"');
          }
 
          $csv .= implode(',', $valuesEnclosed) . "\n";
@@ -69,7 +69,7 @@ class Utils2dArrayConverter
 
          foreach ($row as $value)
          {
-            $valuesEnclosed[] = Utils_string::encloseInTdTags($value);
+            $valuesEnclosed[] = UtilsString::encloseInTdTags($value);
          }
 
          $html .= "$i  <tr>" . implode($valuesEnclosed) . "</tr>\n";

@@ -18,13 +18,13 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../utils/Utils_validator.php';
+require_once dirname(__FILE__) . '/../utils/UtilsValidator.php';
 
 // Globally executed code. /////////////////////////////////////////////////////////////////////////
 
 try
 {
-   Utils_validator::checkArray
+   UtilsValidator::checkArray
    (
       $_GET, array
       (
@@ -52,7 +52,7 @@ try
 
    $msg = json_decode(file_get_contents('php://input'), true);
 
-   Utils_validator::checkArray($msg, array('action' => 'string', 'params' => 'array'));
+   UtilsValidator::checkArray($msg, array('action' => 'string', 'params' => 'array'));
    extract($msg);
 
    eval("\$ajaxHelper = new $className();");

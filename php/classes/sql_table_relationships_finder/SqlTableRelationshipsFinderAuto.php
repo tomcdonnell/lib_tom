@@ -20,7 +20,7 @@
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
 require_once dirname(__FILE__) . '/../../database/DatabaseManager.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_database.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsDatabase.php';
 
 // Include all files defining classes that have been created for specific table naming conventions.
 foreach (glob(dirname(__FILE__) . '/specific_naming_conventions/*') as $filename)
@@ -42,7 +42,7 @@ class SqlTableRelationshipsFinderAuto extends SqlTableRelationshipsFinder
     */
    public function __construct(DatabaseConnection $dbc, $tableName)
    {
-      if (!Utils_database::tableExistsInDatabase($dbc, $tableName))
+      if (!UtilsDatabase::tableExistsInDatabase($dbc, $tableName))
       {
          throw new Exception("Table `$tableName` not found.");
       }
@@ -51,7 +51,7 @@ class SqlTableRelationshipsFinderAuto extends SqlTableRelationshipsFinder
 
       $this->dbc                       = $dbc;
       $this->tableName                 = $tableName;
-      $this->columnHeadingsByTableName = Utils_dbSchema::getColumnHeadingsByTableName($dbName);
+      $this->columnHeadingsByTableName = UtilsDbSchema::getColumnHeadingsByTableName($dbName);
       $this->columnHeadings            = $this->columnHeadingsByTableName[$tableName];
 
       $n_linksByNamingConventionName = array();

@@ -17,8 +17,8 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../../utils/Utils_html.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_htmlForm.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsHtml.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsHtmlForm.php';
 
 // Settings. ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,7 +51,7 @@ try
       // Normal case when page first loaded.
       // Set test cookie.
       setcookie('testCookie', '1', time() + $TEST_COOKIE_TTL_SECONDS);
-      Utils_htmlForm::redirectToUrlIncludingGetAndPostParams
+      UtilsHtmlForm::redirectToUrlIncludingGetAndPostParams
       (
          "{$_SERVER['PHP_SELF']}?testCookieSet=1"
       );
@@ -104,11 +104,9 @@ function displayEnableCookiesMessagePageAndExit($redirectUrl)
 {
    global $COOKIES_EXPLANATION_URL;
 
-   $postUrl = $redirectUrl . Utils_htmlForm::createGetStringFromArray($_GET, '?');
+   $postUrl = $redirectUrl . UtilsHtmlForm::createGetStringFromArray($_GET, '?');
 ?>
-<!DOCTYPE html PUBLIC
- "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html>
  <head><title>Cookies Not Enabled</title></head>
  <body>
@@ -116,15 +114,15 @@ function displayEnableCookiesMessagePageAndExit($redirectUrl)
   <p>The requested page requires that cookies be enabled in your web browser.</p>
   <p>
    Instructions on how to enable cookies in your web browser may be found
-   <a href='<?php echo Utils_html::escapeSingleQuotes($COOKIES_EXPLANATION_URL); ?>'>here</a>.
+   <a href='<?php echo UtilsHtml::escapeSingleQuotes($COOKIES_EXPLANATION_URL); ?>'>here</a>.
   </p>
   <p>Enable cookies in your web browser then click 'Proceed' below.</p>
   <p>
    Note that refreshing this page even after enabling cookies will not have the desired effect.
   </p>
-  <form action='<?php echo Utils_html::escapeSingleQuotes($postUrl); ?>' method='POST'>
+  <form action='<?php echo UtilsHtml::escapeSingleQuotes($postUrl); ?>' method='POST'>
 <?php
-   Utils_htmlForm::echoArrayAsHiddenInputs($_POST, '   ');
+   UtilsHtmlForm::echoArrayAsHiddenInputs($_POST, '   ');
 ?>
    <input type='submit' value='Proceed'/>
   </form>

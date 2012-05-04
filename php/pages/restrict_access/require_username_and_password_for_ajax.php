@@ -22,7 +22,7 @@
 require_once dirname(__FILE__) . '/require_soeid_and_password_common.php';
 require_once dirname(__FILE__) . '/classes/LoginAndRejectionPageGenerator.php';
 require_once dirname(__FILE__) . '/classes/WhitelistBlacklistAccessor.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_security.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsSecurity.php';
 
 // Globally executed code. /////////////////////////////////////////////////////////////////////////
 

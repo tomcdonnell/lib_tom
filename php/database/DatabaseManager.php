@@ -16,7 +16,7 @@
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
 require_once dirname(__FILE__) . '/DatabaseConnection.php';
-require_once dirname(__FILE__) . '/../utils/Utils_validator.php';
+require_once dirname(__FILE__) . '/../utils/UtilsValidator.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
@@ -67,7 +67,7 @@ class DatabaseManager
     */
    public static function add($connectionDetails)
    {
-      Utils_validator::checkArray
+      UtilsValidator::checkArray
       (
          $connectionDetails, array
          (

@@ -23,8 +23,8 @@ ini_set('display_startup_errors', '1');
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../../utils/Utils_validator.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_misc.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsValidator.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsMisc.php';
 
 // Global variables. ///////////////////////////////////////////////////////////////////////////////
 
@@ -37,7 +37,7 @@ try
 {
    if (count($_POST) > 0)
    {
-      Utils_validator::checkArray
+      UtilsValidator::checkArray
       (
          $_POST, array
          (
@@ -74,7 +74,7 @@ try
    }
    else
    {
-      Utils_validator::checkArray
+      UtilsValidator::checkArray
       (
          $_GET,
          array
@@ -102,12 +102,12 @@ try
       $backAnchorText = $_GET['backAnchorText'];
       $backAnchorHref = $_GET['backAnchorHref'];
       $emailDstName   = $_GET['emailDstName'  ];
-      $pageTitle      = Utils_misc::arrayValueOrDefault('pageTitle'    , $_GET, 'Contact Form');
-      $pageHeading    = Utils_misc::arrayValueOrDefault('pageHeading'  , $_GET, 'Contact Form');
-      $emailSrcName   = Utils_misc::arrayValueOrDefault('emailSrcName' , $_GET, 'Contact Form');
-      $subject        = Utils_misc::arrayValueOrDefault('subject'      , $_GET, ''            );
+      $pageTitle      = UtilsMisc::arrayValueOrDefault('pageTitle'    , $_GET, 'Contact Form');
+      $pageHeading    = UtilsMisc::arrayValueOrDefault('pageHeading'  , $_GET, 'Contact Form');
+      $emailSrcName   = UtilsMisc::arrayValueOrDefault('emailSrcName' , $_GET, 'Contact Form');
+      $subject        = UtilsMisc::arrayValueOrDefault('subject'      , $_GET, ''            );
 
-      $backAnchorHrefGetString     = Utils_misc::arrayValueOrBlank('backAnchorHrefGetString',$_GET);
+      $backAnchorHrefGetString     = UtilsMisc::arrayValueOrBlank('backAnchorHrefGetString',$_GET);
       $backAnchorHrefPlusGetString = $backAnchorHref;
 
       if ($backAnchorHrefGetString != '')

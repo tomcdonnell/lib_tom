@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap go-=b
 *
-* Filename: "Util_2dArrayConverter.php"
+* Filename: "Utils2dArrayConverter.php"
 *
 * Project: Utilities.
 *
@@ -21,7 +21,7 @@
 /*
  *
  */
-class Util_2dArrayConverter
+class Utils2dArrayConverter
 {
    // Public functions. /////////////////////////////////////////////////////////////////////////
 
@@ -250,7 +250,7 @@ class Util_2dArrayConverter
       $row         = $rows[0];
       $colHeadings = array_map
       (
-         array('Utils_string', 'escapeAndEnclose'), array_keys($row)
+         array('UtilsString', 'escapeAndEnclose'), array_keys($row)
       );
       $csv .= implode(',', $colHeadings) . str_repeat(',', $n_colsToPad) . "\n";
 
@@ -259,7 +259,7 @@ class Util_2dArrayConverter
       {
          $colValues = array_map
          (
-            array('Utils_string', 'escapeAndEnclose'), array_values($row)
+            array('UtilsString', 'escapeAndEnclose'), array_values($row)
          );
          $csv .= implode(',', $colValues) . str_repeat(',', $n_colsToPad) . "\n";
       }
@@ -287,7 +287,7 @@ class Util_2dArrayConverter
       $row         = $rows[0];
       $colHeadings = array_map
       (
-         array('Utils_string', 'encloseInThTags'), array_keys($row)
+         array('UtilsString', 'encloseInThTags'), array_keys($row)
       );
       $html .= "$i<tr>" . implode('', $colHeadings);
       $html .= str_repeat('<th></th>', $n_colsToPad) . "</tr>\n";
@@ -297,7 +297,7 @@ class Util_2dArrayConverter
       {
          $colValues = array_map
          (
-            array('Utils_string', 'encloseInTdTags'), array_values($row)
+            array('UtilsString', 'encloseInTdTags'), array_values($row)
          );
          $html .= "$i<tr>" . implode('', $colValues);
          $html .= str_repeat('<td></td>', $n_colsToPad) . "</tr>\n";

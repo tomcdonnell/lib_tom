@@ -18,8 +18,8 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../utils/Utils_date.php';
-require_once dirname(__FILE__) . '/../utils/Utils_image.php';
+require_once dirname(__FILE__) . '/../utils/UtilsDate.php';
+require_once dirname(__FILE__) . '/../utils/UtilsImage.php';
 
 // Settings. ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ try
 }
 catch (Exception $e)
 {
-   Utils_image::printExceptionAsImage($e, $columnChart->getImage());
+   UtilsImage::printExceptionAsImage($e, $columnChart->getImage());
 }
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
@@ -285,7 +285,7 @@ class Histogram
    private function drawAxisLabelsHorizontal()
    {
       // Draw horizontal axis label.
-      Utils_image::printXcenteredHorizTextString
+      UtilsImage::printXcenteredHorizTextString
       (
          $this->image, $this->fontSize, $this->chartMinX, $this->chartMaxX,
          $this->chartMaxY + 30, $this->headingAxisV, $this->colors['black']
@@ -330,7 +330,7 @@ class Histogram
             ($columnWidth - strlen($textString) * $this->n_pixelsPerCharX) / 2 + 1
          );
          $y = $this->chartMaxY + 5;
-         Utils_image::printXcenteredHorizTextString
+         UtilsImage::printXcenteredHorizTextString
          (
             $this->image, $this->fontSize,
             $this->convChartXToImageX($i    ),
@@ -346,7 +346,7 @@ class Histogram
    private function drawAxisLabelsVertical()
    {
       // Draw left axis label.
-      Utils_image::printYcenteredVertTextString
+      UtilsImage::printYcenteredVertTextString
       (
          $this->image, $this->fontSize, $this->chartMinX - 50, $this->chartMinY, $this->chartMaxY,
          'Frequency', $this->colors['black']

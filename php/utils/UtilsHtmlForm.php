@@ -13,8 +13,8 @@
 *
 \**************************************************************************************************/
 
-require_once dirname(__FILE__) . '/Utils_html.php';
-require_once dirname(__FILE__) . '/Utils_validator.php';
+require_once dirname(__FILE__) . '/UtilsHtml.php';
+require_once dirname(__FILE__) . '/UtilsValidator.php';
 
 /*
  *
@@ -50,7 +50,7 @@ class UtilsHtmlForm
       // So if there are options with values '0' and 'blank', and the $selectedOptionValue is given
       // as 0, both would be selected if loose comparisons were used.
       // See http://www.php.net/manual/en/types.comparisons.php.
-      Utils_validator::checkType($selectedOptionValue, 'nullOrString');
+      UtilsValidator::checkType($selectedOptionValue, 'nullOrString');
 
       $i                       = &$indent;
       $classStr                = ($class === null)? ''                      : " class='$class'";
@@ -90,7 +90,7 @@ class UtilsHtmlForm
       {
          if (is_array($text))
          {
-            Utils_validator::checkArray($text, array('text' => 'string', 'title' => 'string'));
+            UtilsValidator::checkArray($text, array('text' => 'string', 'title' => 'string'));
             $title = $text['title'];
             $text  = $text['text' ];
          }
@@ -115,7 +115,7 @@ class UtilsHtmlForm
 
          $html .=
          (
-            "$i <option value='" . Utils_html::escapeSingleQuotes($value) . "'$selectedStr" .
+            "$i <option value='" . UtilsHtml::escapeSingleQuotes($value) . "'$selectedStr" .
             (($title == '')? '': " title='$title'") . ">" . htmlentities($text) . "</option>\n"
          );
       }
@@ -155,11 +155,11 @@ class UtilsHtmlForm
       $value = '', $class = null, $nRows = null, $nCols = null, $boolDisabled = false
    )
    {
-      echo "$indent<textarea name='", Utils_html::escapeSingleQuotes($name), "'";
+      echo "$indent<textarea name='", UtilsHtml::escapeSingleQuotes($name), "'";
 
-      if ($nRows !== null) {echo " rows='" , Utils_html::escapeSingleQuotes($nRows), "'";}
-      if ($nCols !== null) {echo " cols='" , Utils_html::escapeSingleQuotes($nCols), "'";}
-      if ($class !== null) {echo " class='", Utils_html::escapeSingleQuotes($class), "'";}
+      if ($nRows !== null) {echo " rows='" , UtilsHtml::escapeSingleQuotes($nRows), "'";}
+      if ($nCols !== null) {echo " cols='" , UtilsHtml::escapeSingleQuotes($nCols), "'";}
+      if ($class !== null) {echo " class='", UtilsHtml::escapeSingleQuotes($class), "'";}
       if ($boolDisabled  ) {echo " disabled='disabled'"                                 ;}
 
       echo '>', htmlentities($value), "</textarea>\n";
@@ -170,9 +170,9 @@ class UtilsHtmlForm
     */
    public static function echoCheckboxHtml($name, $indent, $boolChecked = false, $class = null)
    {
-      echo "$indent<input type='checkbox' name='", Utils_html::escapeSingleQuotes($name), "'";
+      echo "$indent<input type='checkbox' name='", UtilsHtml::escapeSingleQuotes($name), "'";
 
-      if ($class !== null) {echo " class='", Utils_html::escapeSingleQuotes($class), "'";}
+      if ($class !== null) {echo " class='", UtilsHtml::escapeSingleQuotes($class), "'";}
       if ($boolChecked   ) {echo " checked='checked'"                                   ;}
 
       echo "/>\n";
@@ -222,15 +222,15 @@ class UtilsHtmlForm
             foreach ($value as $arrayValue)
             {
                echo "$indent<input type='hidden'";
-               echo " name='" , Utils_html::escapeSingleQuotes($key       ), "'";
-               echo " value='", Utils_html::escapeSingleQuotes($arrayValue), "'/>\n";
+               echo " name='" , UtilsHtml::escapeSingleQuotes($key       ), "'";
+               echo " value='", UtilsHtml::escapeSingleQuotes($arrayValue), "'/>\n";
             }
          }
          else
          {
             echo "$indent<input type='hidden'";
-            echo " name='" , Utils_html::escapeSingleQuotes($key  ), "'";
-            echo " value='", Utils_html::escapeSingleQuotes($value), "'/>\n";
+            echo " name='" , UtilsHtml::escapeSingleQuotes($key  ), "'";
+            echo " value='", UtilsHtml::escapeSingleQuotes($value), "'/>\n";
          }
       }
    }
@@ -273,7 +273,7 @@ class UtilsHtmlForm
    browser.  In that case you should click the 'Continue' button below.
   </p>
   <form name='redirectForm' method='post'
-   action='<?php echo Utils_html::escapeSingleQuotes($postUrl); ?>'>
+   action='<?php echo UtilsHtml::escapeSingleQuotes($postUrl); ?>'>
 <?php
       self::echoArrayAsHiddenInputs($postArray, '   ');
 ?>

@@ -22,7 +22,7 @@
 require_once dirname(__FILE__) . '/require_soeid_and_password_common.php';
 require_once dirname(__FILE__) . '/classes/LoginAndRejectionPageGenerator.php';
 require_once dirname(__FILE__) . '/classes/WhitelistBlacklistAccessor.php';
-require_once dirname(__FILE__) . '/../../utils/Utils_security.php';
+require_once dirname(__FILE__) . '/../../utils/UtilsSecurity.php';
 
 // Globally executed code. /////////////////////////////////////////////////////////////////////////
 
@@ -141,7 +141,7 @@ function dealWithCaseDetailsSuppliedViaPost(
    // to lowercase.  All comparisons henceforth are done in lowercase.
    $soeid       = strtolower($_POST['soeid']);
    $password    = $_POST['password'];
-   $ldapSuccess = Utils_security::dpiLdapUserCheck(
+   $ldapSuccess = UtilsSecurity::dpiLdapUserCheck(
       array(
          'host'                      => 'dominoldap.internal.vic.gov.au',
          'logLoginFailuresFilename'  => $logLoginFailuresFilename       ,

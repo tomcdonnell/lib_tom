@@ -43,7 +43,6 @@
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
 require_once dirname(__FILE__) . '/../../../database/DatabaseManager.php';
-require_once dirname(__FILE__) . '/../../../utils/Utils_database.php';
 require_once dirname(__FILE__) . '/../SqlTableRelationshipsFinder.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////

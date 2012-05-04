@@ -201,7 +201,7 @@ class PdoExtended extends PDO
       {
          // Catch 'number of bound variables does not match' error and add more info to exception.
          // Note that this error will only be caught if errors are converted to exceptions.
-         // See Utils_error::initErrorAndExceptionHandler().
+         // See UtilsError::initErrorAndExceptionHandler().
          throw new Exception($e->getMessage() . self::_getSqlAndParamsAsString($sql, $valueByKey));
       }
 
@@ -283,7 +283,7 @@ class PdoExtended extends PDO
       {
          // Catch 'number of bound variables does not match' error and add more info to exception.
          // Note that this error will only be caught if errors are converted to exceptions.
-         // See Utils_error::initErrorAndExceptionHandler().
+         // See UtilsError::initErrorAndExceptionHandler().
          throw new Exception($e->getMessage() . self::_getSqlAndParamsAsString($sql, $params));
       }
 

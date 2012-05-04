@@ -13,7 +13,7 @@
 *
 \**************************************************************************************************/
 
-require_once dirname(__FILE__) . '/Utils_validator.php';
+require_once dirname(__FILE__) . '/UtilsValidator.php';
 
 /*
  *
@@ -156,7 +156,7 @@ class UtilsCsv
     */
    private static function checkOptionsArrayAndSetDefaults(&$options)
    {
-      Utils_validator::checkArrayAndSetDefaults
+      UtilsValidator::checkArrayAndSetDefaults
       (
          $options, array(), array
          (

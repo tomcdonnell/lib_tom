@@ -13,7 +13,7 @@
 *
 \**************************************************************************************************/
 
-require_once dirname(__FILE__) . '/Utils_misc.php';
+require_once dirname(__FILE__) . '/UtilsMisc.php';
 
 /*
  *
@@ -35,7 +35,7 @@ class UtilsCommandLine
    {
       $pos1 = strrpos($filename, '/' );
       $pos2 = strrpos($filename, '\\');
-      $pos  = Utils_misc::switchAssign
+      $pos  = UtilsMisc::switchAssign
       (
          (($pos1 === false)? '1': '0') . '-' . (($pos2 === false)? '1': '0'), array
          (

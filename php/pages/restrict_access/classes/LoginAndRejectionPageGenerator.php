@@ -15,9 +15,9 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../../../utils/Utils_htmlForm.php';
-require_once dirname(__FILE__) . '/../../../utils/Utils_misc.php';
-require_once dirname(__FILE__) . '/../../../utils/Utils_validator.php';
+require_once dirname(__FILE__) . '/../../../utils/UtilsHtmlForm.php';
+require_once dirname(__FILE__) . '/../../../utils/UtilsMisc.php';
+require_once dirname(__FILE__) . '/../../../utils/UtilsValidator.php';
 
 // Class definition. ///////////////////////////////////////////////////////////////////////////////
 
@@ -121,7 +121,7 @@ class LoginAndRejectionPageGenerator
       $whitelistExists = ($whitelist === null)? '0': '1';
       $blacklistExists = ($blacklist === null)? '0': '1';
 
-      $restrictionMsg = Utils_misc::switchAssign
+      $restrictionMsg = UtilsMisc::switchAssign
       (
          "$whitelistExists-$blacklistExists", array
          (
@@ -180,7 +180,7 @@ class LoginAndRejectionPageGenerator
    {
       // The URL to which the SOE id and password are $_POSTed must include the original
       // $_GET string so that this script does not affect the operation of the restricted page.
-      $postUrl = $_SERVER['PHP_SELF'] . Utils_htmlForm::createGetStringFromArray($_GET);
+      $postUrl = $_SERVER['PHP_SELF'] . UtilsHtmlForm::createGetStringFromArray($_GET);
 
       $i = &$indent; // Abbreviation.
 
@@ -188,7 +188,7 @@ class LoginAndRejectionPageGenerator
 
       // The parameters that are $_POSTed from this script must include those originally
       // $_POSTed so that this script does not affect the operation of the restricted page.
-      Utils_htmlForm::echoArrayAsHiddenInputs($_POST, "$i ");
+      UtilsHtmlForm::echoArrayAsHiddenInputs($_POST, "$i ");
 
       echo "$i <table class='soeidLoginFormTable'>\n";
       echo "$i  <tbody>\n";

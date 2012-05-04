@@ -13,7 +13,7 @@
 *
 \**************************************************************************************************/
 
-require_once dirname(__FILE__) . '/../utils/Utils_misc.php';
+require_once dirname(__FILE__) . '/../utils/UtilsMisc.php';
 
 // Code Template for use with class CliHelper. /////////////////////////////////////////////////////
 //
@@ -84,7 +84,7 @@ class CliHelper
 
       $pos1 = strrpos($scriptFilename, '/' );
       $pos2 = strrpos($scriptFilename, '\\');
-      $pos  = Utils_misc::switchAssign
+      $pos  = UtilsMisc::switchAssign
       (
          (($pos1 === false)? '1': '0') . '-' . (($pos2 === false)? '1': '0'), array
          (

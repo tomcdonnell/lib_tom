@@ -15,7 +15,7 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/../../../common/php/utils/Utils_database.php';
+require_once dirname(__FILE__) . '/../../../common/php/utils/UtilsDatabase.php';
 
 // Global variables. ///////////////////////////////////////////////////////////////////////////////
 
@@ -43,7 +43,7 @@ try
    $dbc = DatabaseManager::get('sugar_stakeholders');
 
    echo 'Getting ids from table...';
-   $ids = Utils_database::getColFromTable($dbc, 'id', $TABLE_NAME);
+   $ids = UtilsDatabase::getColFromTable($dbc, 'id', $TABLE_NAME);
    echo 'done.  Got ', count($ids), " ids.\n";
 
    echo 'Trimming all fields...';
@@ -53,7 +53,7 @@ try
    {
       if (++$i % 100 == 0) {echo '.';}
 
-      $row = Utils_database::getRowFromTable($dbc, $TABLE_NAME, array('id' => $id));
+      $row = UtilsDatabase::getRowFromTable($dbc, $TABLE_NAME, array('id' => $id));
 
       foreach ($row as $key => $value)
       {
@@ -64,7 +64,7 @@ try
          $row[$key] = $value;
       }
 
-      $n_rowsUpdated += Utils_database::updateRowsInTable($dbc, $TABLE_NAME, $row, array('id' => $id));
+      $n_rowsUpdated += UtilsDatabase::updateRowsInTable($dbc, $TABLE_NAME, $row, array('id'=>$id));
    }
    echo "done.\n$n_rowsUpdated rows were updated.\n";
 
