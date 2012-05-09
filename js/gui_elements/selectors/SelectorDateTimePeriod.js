@@ -128,9 +128,9 @@ function SelectorDateTimePeriod()
       UTILS.checkArgs(f, arguments, []);
 
       sDateSelector.setSelectedDateToMinimum();
-      sTimeSelector.setSelectedTimeToMinimum();
+      sTimeSelector.setSelectedTime(0, 0, 0);
       fDateSelector.setSelectedDateToMaximum();
-      fTimeSelector.setSelectedTimeToMaximum();
+      fTimeSelector.setSelectedTime(0, 0, 0);
    };
 
    /*
@@ -167,7 +167,7 @@ function SelectorDateTimePeriod()
     */
    this.selectedPeriodEquals = function (sY, sM, sD, sH, sMin, sS, fY, fM, fD, fH, fMin, fS)
    {
-      var f = 'SelectorDateTimePeriod.selectorPeriodEquals()';
+      var f = 'SelectorDateTimePeriod.selectedPeriodEquals()';
       UTILS.checkArgs
       (
          f, arguments,
