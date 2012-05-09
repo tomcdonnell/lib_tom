@@ -7,19 +7,19 @@
 * Project: General.
 *
 * Purpose: A GUI object designed to work similarly to a multi-selector, but without the user having
-*          to hold shift or control in order to make multiple selections.  A TriStateSelector is
+*          to hold shift or control in order to make multiple selections.  A TriStateCheckbox is
 *          displayed to the left of every option, to enable the SelectorTriStateCheckbox object
 *          to be used with the SelectorColumnBasedHierarchical object.
 *
 *          Operation
 *          ----------
-*          Each option is a div containing a TriStateSelector span on the left, and text on the
+*          Each option is a div containing a TriStateCheckbox span on the left, and text on the
 *          right.  Options have six states, since the three checked-states of the TriStateCheckbox
 *          ('checked', 'unchecked', and 'partiallyChecked') are independent of the two selected-
 *          states of the option ('selected', and 'unselected').
-*              Note that clicking on the TriStateSelector span will change the option's checked-
+*              Note that clicking on the TriStateCheckbox span will change the option's checked-
 *          state, but will not change the option's selected-state.  Similarly, clicking on the part
-*          of the option div not occupied by the TriStateSelector will change the selected-state
+*          of the option div not occupied by the TriStateCheckbox will change the selected-state
 *          but will not change the checked-state.
 *
 *          Collapsible Option Ids
