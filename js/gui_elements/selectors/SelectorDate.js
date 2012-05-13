@@ -25,8 +25,8 @@ function SelectorDate()
    // Getters. --------------------------------------------------------------------------------//
 
    this.getSelectedYear  = function () {return ySelector.selectedIndex + minYear;};
-   this.getSelectedMonth = function () {return mSelector.selectedIndex + 1;      };
-   this.getSelectedDay   = function () {return dSelector.selectedIndex + 1;      };
+   this.getSelectedMonth = function () {return mSelector.selectedIndex + 1      ;};
+   this.getSelectedDay   = function () {return dSelector.selectedIndex + 1      ;};
 
    /*
     *
@@ -36,7 +36,7 @@ function SelectorDate()
       return d =
       {
          year : ySelector.selectedIndex + minYear,
-         month: mSelector.selectedIndex + 1,
+         month: mSelector.selectedIndex + 1      ,
          day  : dSelector.selectedIndex + 1
       };
    };
@@ -68,8 +68,8 @@ function SelectorDate()
       if (UTILS.date.dateExists(y, m, d))
       {
          ySelector.selectedIndex = y - minYear;
-         mSelector.selectedIndex = m - 1;
-         dSelector.selectedIndex = d - 1;
+         mSelector.selectedIndex = m - 1      ;
+         dSelector.selectedIndex = d - 1      ;
       }
       else
       {
@@ -150,7 +150,7 @@ function SelectorDate()
          0 == UTILS.date.compare
          (
             y, m, d,
-            this.getSelectedYear(),
+            this.getSelectedYear() ,
             this.getSelectedMonth(),
             this.getSelectedDay()
          )

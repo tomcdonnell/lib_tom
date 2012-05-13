@@ -75,7 +75,8 @@
 /*
  *
  */
-function SelectorColumnBasedHierarchical(
+function SelectorColumnBasedHierarchical
+(
    idAssignmentItem, ajaxUrl, onFinishAutoLoadingOptions, displayAjaxFailureMessageFunction,
    boolViewOnlyMode
 )
