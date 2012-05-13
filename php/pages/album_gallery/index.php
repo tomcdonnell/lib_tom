@@ -17,11 +17,6 @@
 
 session_start();
 
-ini_set('display_errors'        , '1');
-ini_set('display_startup_errors', '1');
-
-error_reporting(-1);
-
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
 require_once dirname(__FILE__) . '/../../utils/UtilsValidator.php';
@@ -42,8 +37,6 @@ $BACK_ANCHOR_TEXT  = null;
 try
 {
    UtilsValidator::checkArray($_GET, array('path' => 'nonEmptyString'));
-
-   
 
    foreach (array_filter(glob("{$_GET['path']}/*"), 'is_dir') as $dir)
    {
