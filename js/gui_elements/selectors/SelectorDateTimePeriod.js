@@ -235,8 +235,8 @@ function SelectorDateTimePeriod()
             fDate.year, fDate.month, fDate.day, sDate.year, sDate.month, sDate.day
          );
 
-         // If the finish date is before the start date...
-         if (dateComparison < 0)
+         // If the start date is after the finish date...
+         if (dateComparison > 0)
          {
             // Set the start date to equal the finish date.
             sDateSelector.setSelectedDate(fDate.year, fDate.month, fDate.day);
