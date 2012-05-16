@@ -29,10 +29,20 @@ function SelectorTimePeriod()
     */
    this.getSelectedPeriod = function ()
    {
+      var f = 'SelectorTimePeriod.getSelectedPeriod()';
+      UTILS.checkArgs(f, arguments, []);
+
+      var sTime = sTimeSelector.getSelectedTime();
+      var fTime = fTimeSelector.getSelectedTime();
+
       return p =
       {
-         start : sTimeSelector.getSelectedTime(),
-         finish: fTimeSelector.getSelectedTime()
+         sHour  : sTime.hour  ,
+         sMinute: sTime.minute,
+         sSecond: sTime.second,
+         fHour  : fTime.hour  ,
+         fMinute: fTime.minute,
+         fSecond: fTime.second
       };
    };
 
@@ -41,10 +51,20 @@ function SelectorTimePeriod()
     */
    this.getSelectors = function ()
    {
+      var f = 'SelectorTimePeriod.getSelectors()';
+      UTILS.checkArgs(f, arguments, []);
+
+      var sTime = sTimeSelector.getSelectors();
+      var fTime = fTimeSelector.getSelectors();
+
       return s =
       {
-         start : sTimeSelector.getSelectors(),
-         finish: fTimeSelector.getSelectors()
+         sHour  : sTime.hour  ,
+         sMinute: sTime.minute,
+         sSecond: sTime.second,
+         fHour  : fTime.hour  ,
+         fMinute: fTime.minute,
+         fSecond: fTime.second
       };
    };
 
@@ -53,18 +73,18 @@ function SelectorTimePeriod()
    /*
     *
     */
-   this.setSelectedPeriod = function (sH, sM, fH, fM)
+   this.setSelectedPeriod = function (sH, sM, sS, fH, fM, sS)
    {
       var f = 'SelectorTimePeriod.setSelectedPeriod()';
-      UTILS.checkArgs(f, arguments, [Number, Number, Number, Number]);
+      UTILS.checkArgs(f, arguments, [Number, Number, Number, Number, Number, Number]);
 
-      if (UTILS.time.compare(sH, sM, 0, fH, fM, 0) > 0)
+      if (UTILS.time.compare(sH, sM, sS, fH, fM, sS) > 0)
       {
          throw new Exception(f, 'Attempted to set invalid period.', '');
       }
 
-      sTimeSelector.setSelectedTime(sH, sM);
-      fTimeSelector.setSelectedTime(fH, fM);
+      sTimeSelector.setSelectedTime(sH, sM, sS);
+      fTimeSelector.setSelectedTime(fH, fM, sS);
    };
 
    /*
@@ -81,12 +101,12 @@ function SelectorTimePeriod()
    /*
     *
     */
-   this.selectedPeriodEquals = function (sH, sM, fH, fM)
+   this.selectedPeriodEquals = function (sH, sM, sS, fH, fM, fS)
    {
       return bool =
       (
-         sTimeSelector.selectedTimeEquals(sH, sM) &&
-         fTimeSelector.selectedTimeEquals(fH, fM)
+         sTimeSelector.selectedTimeEquals(sH, sM, sS) &&
+         fTimeSelector.selectedTimeEquals(fH, fM, fS)
       );
    };
 
@@ -104,12 +124,17 @@ function SelectorTimePeriod()
 
          var sTime = sTimeSelector.getSelectedTime();
          var fTime = fTimeSelector.getSelectedTime();
+         var c     = UTILS.time.compare
+         (
+            sTime.hour, sTime.minute, sTime.second,
+            fTime.hour, fTime.minute, fTime.second
+         );
 
          // If the start time is after the finish time...
-         if ((sTime.hour > fTime.hour) || (sTime.hour == fTime.hour && sTime.minute > fTime.minute))
+         if (c > 0)
          {
             // Set the finish time to equal the start time.
-            fTimeSelector.setSelectedTime(sTime.hour, sTime.minute);
+            fTimeSelector.setSelectedTime(sTime.hour, sTime.minute, sTime.second);
          }
       }
       catch (e)
@@ -130,12 +155,17 @@ function SelectorTimePeriod()
 
          var sTime = sTimeSelector.getSelectedTime();
          var fTime = fTimeSelector.getSelectedTime();
+         var c     = UTILS.time.compare
+         (
+            sTime.hour, sTime.minute, sTime.second,
+            fTime.hour, fTime.minute, fTime.second
+         );
 
-         // If the finish time is before the start time...
-         if ((fTime.hour < sTime.hour) || (sTime.hour == fTime.hour && fTime.minute < sTime.minute))
+         // If the start time is after the finish time...
+         if (c > 0)
          {
             // Set the start time to equal the finish time.
-            sTimeSelector.setSelectedTime(fTime.hour, fTime.minute);
+            sTimeSelector.setSelectedTime(fTime.hour, fTime.minute, fTime.second);
          }
       }
       catch (e)
@@ -159,6 +189,8 @@ function SelectorTimePeriod()
       $(fSelectors.hour  ).change(onChangeFtime);
       $(sSelectors.minute).change(onChangeStime);
       $(fSelectors.minute).change(onChangeFtime);
+      $(sSelectors.second).change(onChangeStime);
+      $(fSelectors.second).change(onChangeFtime);
    }
 
    // Public variables. /////////////////////////////////////////////////////////////////////////

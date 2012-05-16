@@ -3,7 +3,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "UtilsGrammer.php"
+* Filename: "UtilsGrammar.php"
 *
 * Project: Utilities.
 *
@@ -16,7 +16,7 @@
 /*
  *
  */
-class UtilsGrammer
+class UtilsGrammar
 {
    /*
     *

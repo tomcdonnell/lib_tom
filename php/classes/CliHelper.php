@@ -19,8 +19,6 @@ require_once dirname(__FILE__) . '/../utils/UtilsMisc.php';
 //
 // require_once dirname(__FILE__) . '/../../../../lib/tom/php/classes/CliHelper.php';
 // 
-// error_reporting(-1);
-// 
 // $cliHelper = new CliHelper(__FILE__, '// Type script description here.');
 // $config    = $cliHelper->validateArgvAndReturnConfigOrOutputUsageAndDie();
 // 

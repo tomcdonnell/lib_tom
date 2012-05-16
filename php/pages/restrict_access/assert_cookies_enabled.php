@@ -20,12 +20,6 @@
 require_once dirname(__FILE__) . '/../../utils/UtilsHtml.php';
 require_once dirname(__FILE__) . '/../../utils/UtilsHtmlForm.php';
 
-// Settings. ///////////////////////////////////////////////////////////////////////////////////////
-
-// Passing -1 will show every possible error.
-// (see tip at http://www.php.net/manual/en/function.error-reporting.php).
-error_reporting(-1);
-
 // Global variables. ///////////////////////////////////////////////////////////////////////////////
 
 $TEST_COOKIE_TTL_SECONDS = 120;

@@ -16,10 +16,6 @@
 
 // Settings. ///////////////////////////////////////////////////////////////////////////////////////
 
-// Passing -1 will show every possible error.
-// (see tip at http://www.php.net/manual/en/function.error-reporting.php).
-error_reporting(-1);
-
 session_start();
 unset($_SESSION['soeAuthentication']);
 
@@ -30,9 +26,7 @@ if (array_key_exists('redirectUrl', $_GET)) {
 
 // HTML code. //////////////////////////////////////////////////////////////////////////////////////
 ?>
-<!DOCTYPE html PUBLIC
- "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html>
  <head><title>SOE Details Deleted</title></head>
  <body>
