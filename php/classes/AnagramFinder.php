@@ -239,7 +239,7 @@ class AnagramFinder
     */
    private function getAllWordsAsKeys()
    {
-      $allWords       = file('/etc/dictionaries-common/words');
+      $allWords       = file(dirname(__FILE__) . '/../../resource/dictionary/words.txt');
       $allWordsAsKeys = array();
       array_shift($allWords);
 

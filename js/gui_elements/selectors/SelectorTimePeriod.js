@@ -161,8 +161,8 @@ function SelectorTimePeriod()
             fTime.hour, fTime.minute, fTime.second
          );
 
-         // If the finish time is before the start time...
-         if (c < 0)
+         // If the start time is after the finish time...
+         if (c > 0)
          {
             // Set the start time to equal the finish time.
             sTimeSelector.setSelectedTime(fTime.hour, fTime.minute, fTime.second);
