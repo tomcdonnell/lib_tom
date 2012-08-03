@@ -2,7 +2,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename:: "SketcherSwastikloverTiled.js"
+* Filename:: "Tessellator.js"
 *
 * Project: Canvas sketchers.
 *
@@ -15,77 +15,22 @@
 /*
  *
  */
-function SketcherSwastikloverTiled(canvas)
+function Tessellator(canvas)
 {
    /*
+    * @param sketchFunction
+    *    Function expecting a single object as an argument.
+    *    The x and y position of the object to be drawn must be specified
+    *    in the object by two values having keys 'x' and 'y' respectively.
     *
+    * @param sketchFunctionArgument
+    *    An object matching the format expected by the sketcherFunction.
     */
-   this.sketch = function (o)
-   {
-      UTILS.validator.checkObject
-      (
-         o,
-         {
-            armSegmentLength   : 'float',
-            armSegmentLengthMin: 'float',
-            tileSchemeNumber   : 'positiveInt'
-         }
-      );
-
-      _ctx.translate(_midX, _midY);
-      _ctx.scale(1, -1);
-
-      switch (o.tileSchemeNumber)
-      {
-       case 1 :
-         var spacingX       = Math.ceil(o.armSegmentLength * 1.62);
-         var spacingYFactor = 2;
-         _drawSquareGrid(0.5, Math.ceil(spacingX / 2));
-         _drawSquareTessalationRecursively
-         (
-            0, 0, spacingX, spacingYFactor, sketcher.sketch,
-            {
-               armSegmentLength   : o.armSegmentLength   ,
-               armSegmentLengthMin: o.armSegmentLengthMin,
-               delayMs            : 0
-            }
-         );
-         break;
-
-       case 2 :
-         var spacingX       = Math.ceil(o.armSegmentLength * 3.62);
-         var spacingYFactor = 0.5;
-         _drawSquareGrid(-0.5, Math.ceil(spacingX / 2));
-         _drawSquareTessalationRecursively
-         (
-            0, 0, spacingX, spacingYFactor, sketcher.sketch,
-            {
-               armSegmentLength   : o.armSegmentLength   ,
-               armSegmentLengthMin: o.armSegmentLengthMin,
-               delayMs            : 0
-            }
-         );
-         break;
-
-       default:
-         throw 'Invalid tile scheme number "' + o.tileSchemeNumber + '".';
-      }
-
-      _ctx.scale(1, -1);
-      _ctx.translate(-_midX, -_midY);
-   };
-
-   // Private functions. ////////////////////////////////////////////////////////////////////////
-
-   /*
-    *
-    */
-   function _drawSquareTessalationRecursively
+   this.drawSquareTessalationRecursively = function
    (
-      x, y, spacingX, spacingYFactor, sketchFunction, sketchFunctionArgument
+      x, y, spacingX, spacingY, sketchFunction, sketchFunctionArgument
    )
    {
-      var spacingY     = spacingX * spacingYFactor;
       var boolDrawnAny = false;
       var positions    =
       [
@@ -108,8 +53,8 @@ function SketcherSwastikloverTiled(canvas)
 
             if
             (
-               Math.abs(sketchFunctionArgument.x) <  (_canvasWidth  / 2 + spacingX) &&
-               Math.abs(sketchFunctionArgument.y) <  (_canvasHeight / 2 + spacingY)
+               Math.abs(sketchFunctionArgument.x) < (_canvasWidth  / 2 + spacingX) &&
+               Math.abs(sketchFunctionArgument.y) < (_canvasHeight / 2 + spacingY)
             )
             {
                sketchFunction(sketchFunctionArgument);
@@ -124,10 +69,11 @@ function SketcherSwastikloverTiled(canvas)
          for (var i = 0; i < positions.length; ++i)
          {
             var position = positions[i];
-            _drawSquareTessalationRecursively
+            this.drawSquareTessalationRecursively
             (
-               position.x    , position.y    , spacingX,
-               spacingYFactor, sketchFunction, sketchFunctionArgument
+               position.x    , position.y,
+               spacingX      , spacingY  ,
+               sketchFunction, sketchFunctionArgument
             );
          }
       }
@@ -231,7 +177,6 @@ function SketcherSwastikloverTiled(canvas)
    var _ctx                   = canvas.getContext('2d');
    var _midX                  = Math.round(_canvasWidth  / 2);
    var _midY                  = Math.round(_canvasHeight / 2);
-   var _sketcher              = new SketcherSwastiklover(_ctx);
    var _positionsDrawnAtByKey = {};
 }
 

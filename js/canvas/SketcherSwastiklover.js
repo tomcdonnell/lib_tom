@@ -15,7 +15,7 @@
 /*
  *
  */
-function SketcherSwastiklover(ctx)
+function SketcherSwastiklover(ctx, o)
 {
    // Privileged functions. /////////////////////////////////////////////////////////////////////
 
@@ -28,9 +28,9 @@ function SketcherSwastiklover(ctx)
       (
          o,
          {
-            delayMs            : 'nonNegativeInt',
-            armSegmentLengthMin: 'positiveInt'   ,
             armSegmentLength   : 'positiveInt'   ,
+            armSegmentLengthMin: 'positiveInt'   ,
+            delayMs            : 'nonNegativeInt',
             x                  : 'float'         ,
             y                  : 'float'
          }

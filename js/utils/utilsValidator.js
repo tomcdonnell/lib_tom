@@ -128,11 +128,20 @@ UTILS.validator.checkType = function (v, type)
    var f = 'UTILS.validator.checkType()';
    UTILS.assert(f, 0, arguments.length == 2);
    UTILS.assert(f, 1, typeof v != 'undefined');
-   UTILS.assert(f, 2, type.constructor == String);
+   UTILS.assert(f, 2, type.constructor == Object || type.constructor == String);
 
    if (v === null && !(type == 'Defined' || type.substr(0, 4) == 'null'))
    {
       throw new Exception(f, "Expected non-null type '" + type + "'.  Received null.", '');
+   }
+
+   if (type.constructor == Object)
+   {
+      switch (v.constructor == type)
+      {
+       case true : return;
+       case false: throw new Exception('Incorrect type.');
+      }
    }
 
    var b;
