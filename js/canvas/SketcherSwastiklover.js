@@ -15,8 +15,11 @@
 /*
  *
  */
-function SketcherSwastiklover(ctx, o)
+function SketcherSwastiklover(ctx)
 {
+   var f = 'SketcherSwastiklover()';
+   UTILS.checkArgs(f, arguments, [CanvasRenderingContext2D]);
+
    // Privileged functions. /////////////////////////////////////////////////////////////////////
 
    /*
@@ -24,6 +27,9 @@ function SketcherSwastiklover(ctx, o)
     */
    this.sketch = function (o)
    {
+      var f = 'SketcherSwastiklover.sketch()';
+      UTILS.checkArgs(f, arguments, [Object]);
+
       UTILS.validator.checkObject
       (
          o,
@@ -49,6 +55,9 @@ function SketcherSwastiklover(ctx, o)
     */
    function _drawSwastikaFractal(x, y, armSegmentLength, boolClockwise, positionName)
    {
+      var f = 'SketcherSwastiklover._drawSwastikaFractal()';
+      UTILS.checkArgs(f, arguments, ['int', 'int', 'nonNegativeInt', Boolean, 'nullOrString']);
+
       ctx.beginPath();
       _drawSwastika(x, y, armSegmentLength, boolClockwise);
       ctx.stroke();
@@ -109,6 +118,9 @@ function SketcherSwastiklover(ctx, o)
     */
    function _drawSwastika(x, y, l, boolClockwise)
    {
+      var f = 'SketcherSwastiklover._drawSwastika()';
+      UTILS.checkArgs(f, arguments, ['int', 'int', 'nonNegativeInt', Boolean]);
+
       var sign = (boolClockwise)? 1: -1;
 
       ctx.moveTo(x + l, y - sign * l);

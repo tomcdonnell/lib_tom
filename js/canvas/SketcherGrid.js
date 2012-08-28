@@ -17,6 +17,9 @@
  */
 function SketcherGrid(canvas)
 {
+   var f = 'SketcherGrid()';
+   UTILS.checkArgs(f, arguments, [HTMLCanvasElement]);
+
    /*
     * Draw a set of lines having the given gradient and vertical separation, and another
     * set of lines intersecting the first set at right angles so that a square grid is formed.
@@ -24,6 +27,9 @@ function SketcherGrid(canvas)
     */
    this.drawSquareGrid = function (horizontalishGradient, horizontalishLineVSeparation)
    {
+      var f = 'SketcherGrid.drawSquareGrid()';
+      UTILS.checkArgs(f, arguments, ['float', 'float']);
+
       if (Math.abs(horizontalishGradient) > 1)
       {
          throw "Math.abs(horizontalishGradient) > 1.  Not very horizontalish.";

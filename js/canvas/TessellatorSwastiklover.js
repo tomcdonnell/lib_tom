@@ -15,51 +15,57 @@
 /*
  *
  */
-function TessellatorSwastiklover(o)
+function TessellatorSwastiklover(canvas)
 {
-   UTILS.validator.checkObject
-   (
-      o,
-      {
-         canvas            : HTMLCanvasElement,
-         swastikloverConfig: 'object'
-      }
-   );
+   var f = 'TessellatorSwastiklover()';
+   UTILS.checkArgs(f, arguments, [HTMLCanvasElement]);
 
    /*
     *
     */
-   this.sketch = function (tessellationNo)
+   this.reset = function ()
    {
+      var f = 'TessellatorSwastiklover.reset()';
+      UTILS.checkArgs(f, arguments, []);
+
+      _tessellator.reset();
+   };
+
+   /*
+    *
+    */
+   this.sketch = function (swastikloverConfig, tessellationNo)
+   {
+      var f = 'TessellatorSwastiklover.sketch()';
+      UTILS.checkArgs(f, arguments, [Object, 'positiveInt']);
+
       _ctx.translate(_midX, _midY);
       _ctx.scale(1, -1);
-
-      var sConfig = o.swastikloverConfig;
 
       switch (tessellationNo)
       {
        case 1 :
-         var spacingX = Math.ceil(sConfig.armSegmentLength * 1.62);
+         var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
          _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
-         _tessellator.drawSquareTessalationRecursively
+         _tessellator.drawSquareTessellationRecursively
          (
-            0, 0, spacingX, spacingX * 2, _sketcherSwastiklover.sketch, sConfig
+            0, 0, spacingX, spacingX * 2, _sketcherSwastiklover.sketch, swastikloverConfig
          );
          break;
 
        case 2 :
-         var spacingX = Math.ceil(sConfig.armSegmentLength * 3.62);
+         var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
          _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
-         _tessellator.drawSquareTessalationRecursively
+         _tessellator.drawSquareTessellationRecursively
          (
-            0, 0, spacingX, spacingX * 0.5, _sketcherSwastiklover.sketch, sConfig
+            0, 0, spacingX, spacingX * 0.5, _sketcherSwastiklover.sketch, swastikloverConfig
          );
-         sConfig.armSegmentLength = Math.floor(sConfig.armSegmentLength / 2);
-         _tessellator.drawSquareTessalationRecursively
+         swastikloverConfig.armSegmentLength = Math.floor(swastikloverConfig.armSegmentLength / 2);
+         _tessellator.drawSquareTessellationRecursively
          (
             spacingX * 0.25             , spacingX * 0.75,
             spacingX                    , spacingX * 0.5 ,
-            _sketcherSwastiklover.sketch, sConfig
+            _sketcherSwastiklover.sketch, swastikloverConfig
          );
          break;
 
@@ -73,12 +79,12 @@ function TessellatorSwastiklover(o)
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
-   var _ctx                  = o.canvas.getContext('2d');
-   var _midX                 = $(o.canvas).width()  / 2;
-   var _midY                 = $(o.canvas).height() / 2;
-   var _sketcherGrid         = new SketcherGrid(o.canvas);
-   var _sketcherSwastiklover = new SketcherSwastiklover(_ctx, o.swastikloverConfig);
-   var _tessellator          = new Tessellator(o.canvas);
+   var _ctx                  = canvas.getContext('2d');
+   var _midX                 = $(canvas).width()  / 2;
+   var _midY                 = $(canvas).height() / 2;
+   var _sketcherGrid         = new SketcherGrid(canvas);
+   var _sketcherSwastiklover = new SketcherSwastiklover(_ctx);
+   var _tessellator          = new Tessellator(canvas);
 }
 
 /*******************************************END*OF*FILE********************************************/

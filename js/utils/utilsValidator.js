@@ -127,8 +127,8 @@ UTILS.validator.checkType = function (v, type)
    // NOTE: Must not call UTILS.checkArgs from here as UTILS.checkArgs calls this function
    var f = 'UTILS.validator.checkType()';
    UTILS.assert(f, 0, arguments.length == 2);
-   UTILS.assert(f, 1, typeof v != 'undefined');
-   UTILS.assert(f, 2, type.constructor == Object || type.constructor == String);
+   UTILS.assert(f, 1, typeof v    != 'undefined');
+   UTILS.assert(f, 2, typeof type != 'undefined');
 
    if (v === null && !(type == 'Defined' || type.substr(0, 4) == 'null'))
    {
