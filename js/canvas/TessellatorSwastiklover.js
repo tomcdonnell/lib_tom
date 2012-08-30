@@ -23,58 +23,69 @@ function TessellatorSwastiklover(canvas)
    /*
     *
     */
-   this.reset = function ()
-   {
-      var f = 'TessellatorSwastiklover.reset()';
-      UTILS.checkArgs(f, arguments, []);
-
-      _tessellator.reset();
-   };
-
-   /*
-    *
-    */
-   this.sketch = function (swastikloverConfig, tessellationNo)
+   this.sketch = function (swastikloverConfig, tessellationNo, userOnCompleteFunction)
    {
       var f = 'TessellatorSwastiklover.sketch()';
-      UTILS.checkArgs(f, arguments, [Object, 'positiveInt']);
+      UTILS.checkArgs(f, arguments, [Object, 'positiveInt', 'nullOrFunction']);
+
+      _userOnCompleteFunction = userOnCompleteFunction;
 
       _ctx.translate(_midX, _midY);
       _ctx.scale(1, -1);
 
       switch (tessellationNo)
       {
-       case 1 :
+       case 1:
          var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
-         _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
-         _tessellator.drawSquareTessellationRecursively
+         //_sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
+         _tessellator.drawSquareTessellation
          (
-            0, 0, spacingX, spacingX * 2, _sketcherSwastiklover.sketch, swastikloverConfig
+            0, 0, spacingX, spacingX * 2,
+            _sketcherSwastiklover.sketch, swastikloverConfig, _onCompleteTessellation
          );
          break;
 
-       case 2 :
+       case 2:
          var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
-         _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
-         _tessellator.drawSquareTessellationRecursively
+         //_sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
+         _tessellator.drawSquareTessellation
          (
-            0, 0, spacingX, spacingX * 0.5, _sketcherSwastiklover.sketch, swastikloverConfig
+            0, 0, spacingX, spacingX * 0.5,
+            _sketcherSwastiklover.sketch, swastikloverConfig, _onCompleteTessellation
          );
          swastikloverConfig.armSegmentLength = Math.floor(swastikloverConfig.armSegmentLength / 2);
-         _tessellator.drawSquareTessellationRecursively
+         _tessellator.drawSquareTessellation
          (
-            spacingX * 0.25             , spacingX * 0.75,
-            spacingX                    , spacingX * 0.5 ,
-            _sketcherSwastiklover.sketch, swastikloverConfig
+            spacingX * 0.25, spacingX * 0.75, spacingX, spacingX * 0.5 ,
+            _sketcherSwastiklover.sketch, swastikloverConfig, _onCompleteTessellation
          );
          break;
 
        default:
          throw 'Invalid tessellation number "' + tessellationNo + '".';
       }
+   };
 
+   // Private functions. ////////////////////////////////////////////////////////////////////////
+
+   /*
+    *
+    */
+   function _onCompleteTessellation()
+   {
+      var f = 'TessellatorSwastiklover._onCompleteTessellation()';
+console.debug(f, 'e');
+      UTILS.checkArgs(f, arguments, []);
+
+      // Reverse transformations applied at beginning of this.sketch().
       _ctx.scale(1, -1);
       _ctx.translate(-_midX, -_midY);
+
+      if (_userOnCompleteFunction !== null)
+      {
+         _userOnCompleteFunction();
+      }
+console.debug(f, 'x');
    };
 
    // Private variables. ////////////////////////////////////////////////////////////////////////

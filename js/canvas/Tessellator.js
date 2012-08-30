@@ -21,17 +21,6 @@ function Tessellator(canvas)
    UTILS.checkArgs(f, arguments, [HTMLCanvasElement]);
 
    /*
-    *
-    */
-   this.reset = function ()
-   {
-      var f = 'Tessellator.reset()';
-      UTILS.checkArgs(f, arguments, []);
-console.debug('Resetting Tessellator.');
-      var _positionsDrawnAtByKey = {};
-   };
-
-   /*
     * @param sketchFunction
     *    Function expecting a single object as an argument.
     *    The x and y position of the object to be drawn must be specified
@@ -40,22 +29,45 @@ console.debug('Resetting Tessellator.');
     * @param sketchFunctionArgument
     *    An object matching the format expected by the sketcherFunction.
     */
-   this.drawSquareTessellationRecursively = function
+   this.drawSquareTessellation = function
    (
-      x, y, spacingX, spacingY, sketchFunction, sketchFunctionArgument
+      x, y, spacingX, spacingY, sketchFunction,
+      sketchFunctionArgument, onCompleteTessellationFunction
    )
    {
-      var f = 'Tessellator.drawSquareTessellationRecursively()';
-      UTILS.checkArgs(f, arguments, ['int', 'int', 'int', 'int', Function, Object]);
+      var f = 'Tessellator.drawSquareTessellation()';
+      UTILS.checkArgs
+      (f, arguments, ['int', 'int', 'int', 'int', Function, Object, 'nullOrFunction']);
+
+      _onCompleteTessellationFunction            = onCompleteTessellationFunction;
+      _positionsDrawnAtByKey                     = {};
+      _sketchFunction                            = sketchFunction;
+      _sketchFunctionArgument                    = sketchFunctionArgument;
+      _sketchFunctionArgument.onCompleteFunction = _onCompleteRecursiveSketch;
+      _spacingX                                  = spacingX;
+      _spacingY                                  = spacingY;
+
+      _drawSquareTessellationRecursively(x, y);
+   };
+
+   // Private functions. ////////////////////////////////////////////////////////////////////////
+
+   /*
+    *
+    */
+   function _drawSquareTessellationRecursively(x, y)
+   {
+      var f = 'Tessellator._drawSquareTessellationRecursively()';
+      UTILS.checkArgs(f, arguments, ['int', 'int']);
 
       var boolDrawnAny = false;
       var positions    =
       [
-         {x: x           , y: y           },
-         {x: x - spacingX, y: y - spacingY},
-         {x: x + spacingY, y: y - spacingX},
-         {x: x - spacingY, y: y + spacingX},
-         {x: x + spacingX, y: y + spacingY}
+         {x: x            , y: y            },
+         {x: x - _spacingX, y: y - _spacingY},
+         {x: x + _spacingY, y: y - _spacingX},
+         {x: x - _spacingY, y: y + _spacingX},
+         {x: x + _spacingX, y: y + _spacingY}
       ];
 
       for (var i = 0; i < positions.length; ++i)
@@ -65,16 +77,16 @@ console.debug('Resetting Tessellator.');
 
          if (_positionsDrawnAtByKey[key] === undefined)
          {
-            sketchFunctionArgument.x = position.x;
-            sketchFunctionArgument.y = position.y;
+            _sketchFunctionArgument.x = position.x;
+            _sketchFunctionArgument.y = position.y;
 
             if
             (
-               Math.abs(sketchFunctionArgument.x) < (_canvasWidth  / 2 + spacingX) &&
-               Math.abs(sketchFunctionArgument.y) < (_canvasHeight / 2 + spacingY)
+               Math.abs(_sketchFunctionArgument.x) < (_canvasWidth  / 2 + _spacingX) &&
+               Math.abs(_sketchFunctionArgument.y) < (_canvasHeight / 2 + _spacingY)
             )
             {
-               sketchFunction(sketchFunctionArgument);
+               _sketchFunction(_sketchFunctionArgument);
                _positionsDrawnAtByKey[key] = true;
                boolDrawnAny                = true;
             }
@@ -86,24 +98,36 @@ console.debug('Resetting Tessellator.');
          for (var i = 0; i < positions.length; ++i)
          {
             var position = positions[i];
-            this.drawSquareTessellationRecursively
-            (
-               position.x    , position.y,
-               spacingX      , spacingY  ,
-               sketchFunction, sketchFunctionArgument
-            );
+            _drawSquareTessellationRecursively(position.x, position.y);
          }
       }
    }
 
+   /*
+    *
+    */
+   function _onCompleteRecursiveSketch()
+   {
+      var f = 'Tessellator._onCompleteRecursiveSketch()';
+      UTILS.checkArgs(f, arguments, []);
+
+console.debug(f, 'finality');
+      _onCompleteTessellationFunction();
+   }
+
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
-   var _canvasHeight          = $(canvas).height();
-   var _canvasWidth           = $(canvas).width();
-   var _ctx                   = canvas.getContext('2d');
-   var _midX                  = Math.round(_canvasWidth  / 2);
-   var _midY                  = Math.round(_canvasHeight / 2);
-   var _positionsDrawnAtByKey = {};
+   var _canvasHeight                   = $(canvas).height();
+   var _canvasWidth                    = $(canvas).width();
+   var _ctx                            = canvas.getContext('2d');
+   var _midX                           = Math.round(_canvasWidth  / 2);
+   var _midY                           = Math.round(_canvasHeight / 2);
+   var _onCompleteTessellationFunction = null;
+   var _positionsDrawnAtByKey          = {};
+   var _sketchFunction                 = null;
+   var _sketchFunctionArgument         = null;
+   var _spacingX                       = null;
+   var _spacingY                       = null;
 }
 
 /*******************************************END*OF*FILE********************************************/
