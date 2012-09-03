@@ -30,6 +30,7 @@ function TessellatorSwastiklover(canvas)
 
       _userOnCompleteFunction = userOnCompleteFunction;
 
+      _ctx.save();
       _ctx.translate(_midX, _midY);
       _ctx.scale(1, -1);
 
@@ -37,7 +38,7 @@ function TessellatorSwastiklover(canvas)
       {
        case 1:
          var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
-         //_sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
+         _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
          _tessellator.drawSquareTessellation
          (
             0, 0, spacingX, spacingX * 2,
@@ -47,7 +48,7 @@ function TessellatorSwastiklover(canvas)
 
        case 2:
          var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
-         //_sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
+         _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
          _tessellator.drawSquareTessellation
          (
             0, 0, spacingX, spacingX * 0.5,
@@ -74,18 +75,14 @@ function TessellatorSwastiklover(canvas)
    function _onCompleteTessellation()
    {
       var f = 'TessellatorSwastiklover._onCompleteTessellation()';
-console.debug(f, 'e');
       UTILS.checkArgs(f, arguments, []);
 
-      // Reverse transformations applied at beginning of this.sketch().
-      _ctx.scale(1, -1);
-      _ctx.translate(-_midX, -_midY);
+      _ctx.restore();
 
       if (_userOnCompleteFunction !== null)
       {
          _userOnCompleteFunction();
       }
-console.debug(f, 'x');
    };
 
    // Private variables. ////////////////////////////////////////////////////////////////////////

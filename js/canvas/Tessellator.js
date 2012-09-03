@@ -39,15 +39,27 @@ function Tessellator(canvas)
       UTILS.checkArgs
       (f, arguments, ['int', 'int', 'int', 'int', Function, Object, 'nullOrFunction']);
 
+      _nSketchesFinished                         = 0;
       _onCompleteTessellationFunction            = onCompleteTessellationFunction;
-      _positionsDrawnAtByKey                     = {};
+      _sketchPositionByKey                       = {};
       _sketchFunction                            = sketchFunction;
       _sketchFunctionArgument                    = sketchFunctionArgument;
       _sketchFunctionArgument.onCompleteFunction = _onCompleteRecursiveSketch;
       _spacingX                                  = spacingX;
       _spacingY                                  = spacingY;
 
-      _drawSquareTessellationRecursively(x, y);
+      _buildSquareTessellationSketchPositionsListRecursively(x, y);
+
+      var _nSketchesToFinish = UTILS.object.length(_sketchPositionByKey);
+
+      for (var key in _sketchPositionByKey)
+      {
+         var position = _sketchPositionByKey[key];
+
+         _sketchFunctionArgument.x = position.x;
+         _sketchFunctionArgument.y = position.y;
+         _sketchFunction(_sketchFunctionArgument);
+      }
    };
 
    // Private functions. ////////////////////////////////////////////////////////////////////////
@@ -55,12 +67,12 @@ function Tessellator(canvas)
    /*
     *
     */
-   function _drawSquareTessellationRecursively(x, y)
+   function _buildSquareTessellationSketchPositionsListRecursively(x, y)
    {
-      var f = 'Tessellator._drawSquareTessellationRecursively()';
+      var f = 'Tessellator._buildSquareTessellationSketchPositionsListRecursively()';
       UTILS.checkArgs(f, arguments, ['int', 'int']);
 
-      var boolDrawnAny = false;
+      var boolWillDrawAny = false;
       var positions    =
       [
          {x: x            , y: y            },
@@ -75,30 +87,24 @@ function Tessellator(canvas)
          var position = positions[i];
          var key      = position.x + '-' + position.y;
 
-         if (_positionsDrawnAtByKey[key] === undefined)
+         if
+         (
+            _sketchPositionByKey[key] === undefined                &&
+            Math.abs(position.x) < (_canvasWidth  / 2 + _spacingX) &&
+            Math.abs(position.y) < (_canvasHeight / 2 + _spacingY)
+         )
          {
-            _sketchFunctionArgument.x = position.x;
-            _sketchFunctionArgument.y = position.y;
-
-            if
-            (
-               Math.abs(_sketchFunctionArgument.x) < (_canvasWidth  / 2 + _spacingX) &&
-               Math.abs(_sketchFunctionArgument.y) < (_canvasHeight / 2 + _spacingY)
-            )
-            {
-               _sketchFunction(_sketchFunctionArgument);
-               _positionsDrawnAtByKey[key] = true;
-               boolDrawnAny                = true;
-            }
+            _sketchPositionByKey[key] = position;
+            boolWillDrawAny           = true;
          }
       }
 
-      if (boolDrawnAny)
+      if (boolWillDrawAny)
       {
          for (var i = 0; i < positions.length; ++i)
          {
             var position = positions[i];
-            _drawSquareTessellationRecursively(position.x, position.y);
+            _buildSquareTessellationSketchPositionsListRecursively(position.x, position.y);
          }
       }
    }
@@ -111,8 +117,10 @@ function Tessellator(canvas)
       var f = 'Tessellator._onCompleteRecursiveSketch()';
       UTILS.checkArgs(f, arguments, []);
 
-console.debug(f, 'finality');
-      _onCompleteTessellationFunction();
+      if (++_nSketchesFinished == _nSketchesToFinish)
+      {
+         _onCompleteTessellationFunction();
+      }
    }
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
@@ -122,8 +130,10 @@ console.debug(f, 'finality');
    var _ctx                            = canvas.getContext('2d');
    var _midX                           = Math.round(_canvasWidth  / 2);
    var _midY                           = Math.round(_canvasHeight / 2);
+   var _nSketchesFinished              = null;
+   var _nSketchesToFinish              = null;
    var _onCompleteTessellationFunction = null;
-   var _positionsDrawnAtByKey          = {};
+   var _sketchPositionByKey            = null;
    var _sketchFunction                 = null;
    var _sketchFunctionArgument         = null;
    var _spacingX                       = null;

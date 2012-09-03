@@ -42,10 +42,11 @@ function SketcherSwastiklover(ctx)
          }
       );
 
-      _delayMs             = o.delayMs;
-      _armSegmentLengthMin = o.armSegmentLengthMin;
+      _delayMs                = o.delayMs;
+      _armSegmentLengthMin    = o.armSegmentLengthMin;
+      _nSketchCallsInProgress = 1;
 
-      _drawSwastikaFractal(o.x, o.y, o.armSegmentLength, true, null, o.onCompleteFunction);
+      _sketchSwastikaFractal(o.x, o.y, o.armSegmentLength, true, null, o.onCompleteFunction);
    };
 
    // Private functions. ////////////////////////////////////////////////////////////////////////
@@ -53,24 +54,24 @@ function SketcherSwastiklover(ctx)
    /*
     *
     */
-   function _drawSwastikaFractal
+   function _sketchSwastikaFractal
    (
       x, y, armSegmentLength, boolClockwise, positionName, onCompleteFunction
    )
    {
       try
       {
-         var f = 'SketcherSwastiklover._drawSwastikaFractal()';
+         var f = 'SketcherSwastiklover._sketchSwastikaFractal()';
          UTILS.checkArgs
          (f, arguments, ['int', 'int', 'nonNegativeInt', Boolean, 'nullOrString','nullOrFunction']);
 
          ctx.beginPath();
-         _drawSwastika(x, y, armSegmentLength, boolClockwise);
+         _sketchSwastika(x, y, armSegmentLength, boolClockwise);
          ctx.stroke();
 
          if (armSegmentLength / 2 < _armSegmentLengthMin)
          {
-            if (--_nRecursiveCallsInProgress == 0 && onCompleteFunction !== null)
+            if (--_nSketchCallsInProgress == 0 && onCompleteFunction !== null)
             {
                onCompleteFunction();
             }
@@ -103,19 +104,21 @@ function SketcherSwastiklover(ctx)
                continue;
             }
 
+            ++_nSketchCallsInProgress;
+
             if (_delayMs == 0)
             {
-               _drawSwastikaFractal
+               _sketchSwastikaFractal
                (
-                  details.x, details.y, armSegmentLength / 2, !boolClockwise, details.posName
+                  details.x, details.y, armSegmentLength / 2, !boolClockwise, details.posName,
+                  onCompleteFunction
                );
             }
             else
             {
-               ++_nRecursiveCallsInProgress;
                setTimeout
                (
-                  _drawSwastikaFractal, _delayMs,
+                  _sketchSwastikaFractal, _delayMs,
                   details.x, details.y, armSegmentLength / 2, !boolClockwise, details.posName,
                   onCompleteFunction
                );
@@ -124,7 +127,7 @@ function SketcherSwastiklover(ctx)
 
          ctx.stroke();
 
-         if (--_nRecursiveCallsInProgress == 0 && onCompleteFunction !== null)
+         if (--_nSketchCallsInProgress == 0 && onCompleteFunction !== null)
          {
             onCompleteFunction();
          }
@@ -138,9 +141,9 @@ function SketcherSwastiklover(ctx)
    /*
     *
     */
-   function _drawSwastika(x, y, l, boolClockwise)
+   function _sketchSwastika(x, y, l, boolClockwise)
    {
-      var f = 'SketcherSwastiklover._drawSwastika()';
+      var f = 'SketcherSwastiklover._sketchSwastika()';
       UTILS.checkArgs(f, arguments, ['int', 'int', 'nonNegativeInt', Boolean]);
 
       var sign = (boolClockwise)? 1: -1;
@@ -157,9 +160,9 @@ function SketcherSwastiklover(ctx)
 
    // Initialisation code. //////////////////////////////////////////////////////////////////////
 
-   var _delayMs                   = null;
-   var _armSegmentLengthMin       = null;
-   var _nRecursiveCallsInProgress = 0;
+   var _delayMs                = null;
+   var _armSegmentLengthMin    = null;
+   var _nSketchCallsInProgress = null;
 }
 
 /*******************************************END*OF*FILE********************************************/
