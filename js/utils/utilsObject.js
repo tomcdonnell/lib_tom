@@ -27,7 +27,7 @@ UTILS.object = {};
 UTILS.object.diff_key = function (a, b)
 {
    var f = 'UTILS.object.diff_key()';
-   UTILS.checkArgs(f, arguments, [Object, Object]);
+   UTILS.checkArgs(f, arguments, ['object', 'object']);
 
    var keys = [];
 
@@ -51,7 +51,7 @@ UTILS.object.diff_key = function (a, b)
 UTILS.object.equals = function (a, b)
 {
    var f = 'UTILS.object.equals()';
-   UTILS.checkArgs(f, arguments, [Object, Object]);
+   UTILS.checkArgs(f, arguments, ['object', 'object']);
 
    function membersOfFirstAreFoundInSecond(a, b)
    {
@@ -84,7 +84,7 @@ UTILS.object.equals = function (a, b)
 UTILS.object.keys = function (o)
 {
    var f = 'UTILS.object.keys()';
-   UTILS.checkArgs(f, arguments, [Object]);
+   UTILS.checkArgs(f, arguments, ['object']);
 
    var keys = [];
 
@@ -105,7 +105,7 @@ UTILS.object.keys = function (o)
 UTILS.object.values = function (o)
 {
    var f = 'UTILS.object.values()';
-   UTILS.checkArgs(f, arguments, [Object]);
+   UTILS.checkArgs(f, arguments, ['object']);
 
    var values = [];
 
@@ -123,7 +123,7 @@ UTILS.object.values = function (o)
 UTILS.object.printToConsole = function (o)
 {
    var f = 'UTILS.object.printToConsole()';
-   UTILS.checkArgs(f, arguments, [Object]);
+   UTILS.checkArgs(f, arguments, ['object']);
 
    console.group('object');
 
@@ -141,7 +141,7 @@ UTILS.object.printToConsole = function (o)
 UTILS.object.length = function (o)
 {
    var f = 'UTILS.object.length()';
-   UTILS.checkArgs(f, arguments, [Object]);
+   UTILS.checkArgs(f, arguments, ['object']);
 
    var n = 0;
 

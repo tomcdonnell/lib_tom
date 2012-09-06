@@ -18,7 +18,7 @@
 function SketcherGrid(canvas)
 {
    var f = 'SketcherGrid()';
-   UTILS.checkArgs(f, arguments, [HTMLCanvasElement]);
+   UTILS.checkArgs(f, arguments, ['HTMLCanvasElement']);
 
    /*
     * Draw a set of lines having the given gradient and vertical separation, and another

@@ -18,7 +18,7 @@
 function TessellatorSwastiklover(canvas)
 {
    var f = 'TessellatorSwastiklover()';
-   UTILS.checkArgs(f, arguments, [HTMLCanvasElement]);
+   UTILS.checkArgs(f, arguments, ['HTMLCanvasElement']);
 
    /*
     *
@@ -26,23 +26,32 @@ function TessellatorSwastiklover(canvas)
    this.sketch = function (swastikloverConfig, tessellationNo, userOnCompleteFunction)
    {
       var f = 'TessellatorSwastiklover.sketch()';
-      UTILS.checkArgs(f, arguments, [Object, 'positiveInt', 'nullOrFunction']);
+      UTILS.checkArgs(f, arguments, ['object', 'positiveInt', 'nullOrFunction']);
 
       _userOnCompleteFunction = userOnCompleteFunction;
-
-      _ctx.save();
-      _ctx.translate(_midX, _midY);
-      _ctx.scale(1, -1);
 
       switch (tessellationNo)
       {
        case 1:
          var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
-         _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
+         //_sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
          _tessellator.drawSquareTessellation
          (
-            0, 0, spacingX, spacingX * 2,
-            _sketcherSwastiklover.sketch, swastikloverConfig, _onCompleteTessellation
+            {
+               sketchFunction    : sketcherSwastiklover.sketch,
+               spacingX          : spacingX                   ,
+               spacingY          : spacingX * 2               ,
+               startX            : 0                          ,
+               startY            : 0                          ,
+               onCompleteFunction: _onCompleteTessellation    ,
+               sketchFunctionArgumentObjectsByRecursionDepth:
+               (
+                  sketcherSwastiklover.getSketchFunctionArgumentSetsByRecursionDepth
+                  (
+                     swastikloverConfig
+                  )
+               )
+            }
          );
          break;
 
@@ -51,14 +60,39 @@ function TessellatorSwastiklover(canvas)
          _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
          _tessellator.drawSquareTessellation
          (
-            0, 0, spacingX, spacingX * 0.5,
-            _sketcherSwastiklover.sketch, swastikloverConfig, _onCompleteTessellation
+            {
+               sketchFunction: sketcherSwastiklover.sketch,
+               spacingX      : spacingX                   ,
+               spacingY      : spacingX * 0.5             ,
+               startX        : 0                          ,
+               startY        : 0                          ,
+               sketchFunctionArgumentObjectsByRecursionDepth:
+               (
+                  sketcherSwastiklover.getSketchFunctionArgumentSetsByRecursionDepth
+                  (
+                     swastikloverConfig
+                  )
+               )
+            }
          );
          swastikloverConfig.armSegmentLength = Math.floor(swastikloverConfig.armSegmentLength / 2);
          _tessellator.drawSquareTessellation
          (
-            spacingX * 0.25, spacingX * 0.75, spacingX, spacingX * 0.5 ,
-            _sketcherSwastiklover.sketch, swastikloverConfig, _onCompleteTessellation
+            {
+               sketchFunction    : sketcherSwastiklover.sketch,
+               spacingX          : spacingX                   ,
+               spacingY          : spacingX * 0.5             ,
+               startX            : spacingX * 0.25            ,
+               startY            : spacingX * 0.75            ,
+               onCompleteFunction: _onCompleteTessellation    ,
+               sketchFunctionArgumentObjectsByRecursionDepth:
+               (
+                  sketcherSwastiklover.getSketchFunctionArgumentSetsByRecursionDepth
+                  (
+                     swastikloverConfig
+                  )
+               )
+            }
          );
          break;
 
@@ -76,8 +110,6 @@ function TessellatorSwastiklover(canvas)
    {
       var f = 'TessellatorSwastiklover._onCompleteTessellation()';
       UTILS.checkArgs(f, arguments, []);
-
-      _ctx.restore();
 
       if (_userOnCompleteFunction !== null)
       {

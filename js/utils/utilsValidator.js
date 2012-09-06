@@ -43,7 +43,7 @@ UTILS.validator.checkObject = function (o, typeByRequiredKey, typeByOptionalKey)
 
       if (typeof o[key] == 'undefined')
       {
-         throw new Exception(f, "Required key '" + key + "' does not exist in object.", '');
+         throw new Exception(f, "Required key '" + key + "' does not exist in object.");
       }
 
       try {UTILS.validator.checkType(o[key], type);}
@@ -62,7 +62,7 @@ UTILS.validator.checkObject = function (o, typeByRequiredKey, typeByOptionalKey)
 
       if (typeof typeByOptionalKey[key] == 'undefined')
       {
-         throw new Exception(f, "Unexpected key '" + key + "' found.", '');
+         throw new Exception(f, "Unexpected key '" + key + "' found.");
       }
 
       try {UTILS.validator.checkType(o[key], typeByOptionalKey[key]);}
@@ -127,21 +127,12 @@ UTILS.validator.checkType = function (v, type)
    // NOTE: Must not call UTILS.checkArgs from here as UTILS.checkArgs calls this function
    var f = 'UTILS.validator.checkType()';
    UTILS.assert(f, 0, arguments.length == 2);
-   UTILS.assert(f, 1, typeof v    != 'undefined');
-   UTILS.assert(f, 2, typeof type != 'undefined');
+   UTILS.assert(f, 1, typeof v != 'undefined');
+   UTILS.assert(f, 2, type.constructor === String);
 
    if (v === null && !(type == 'Defined' || type.substr(0, 4) == 'null'))
    {
-      throw new Exception(f, "Expected non-null type '" + type + "'.  Received null.", '');
-   }
-
-   if (type.constructor == Object)
-   {
-      switch (v.constructor == type)
-      {
-       case true : return;
-       case false: throw new Exception('Incorrect type.');
-      }
+      throw new Exception(f, "Expected non-null type '" + type + "'.  Received null.");
    }
 
    var b;
@@ -156,7 +147,8 @@ UTILS.validator.checkType = function (v, type)
 
     // Basic types.
     case 'array'   : b = (v.constructor == Array                  ); break;
-    case 'bool'    : b = (v.constructor == Boolean                ); break;
+    case 'bool'    :
+    case 'boolean' : b = (v.constructor == Boolean                ); break;
     case 'char'    : b = (v.constructor == String && v.length == 1); break;
     case 'float'   : b = (v.constructor == Number                 ); break;
     case 'function': b = (v.constructor == Function               ); break;
@@ -204,9 +196,9 @@ UTILS.validator.checkType = function (v, type)
     case 'nullOrNonPositiveFloat': b = (v === null || v.constructor == Number && v <= 0    ); break;
 
     // Miscellaneous.
-    case 'digitString':b = (v.constructor == String && /^\d+$/.test(v)); break;
+    case 'digitString': b = (v.constructor == String && /^\d+$/.test(v)); break;
 
-    default: throw new Exception(f, "Unknown type '" + type + "'.", '');
+    default: eval('b = (typeof ' + type + ' != undefined && v.constructor == ' + type + ');');
    }
 
    if (!b)
@@ -215,7 +207,7 @@ UTILS.validator.checkType = function (v, type)
       (
          f,
          "Variable type check failed.  Expected '" + type + "', received '" + v +
-         "' with constructor '" + v.constructor + "'.", ''
+         "' with constructor '" + v.constructor + "'."
       );
    }
 }
@@ -232,7 +224,7 @@ UTILS.validator.checkIntRangeInclusive = function (v, min, max)
    {
       throw new Exception
       (
-         f, 'Integer range check failed.', '(min: ' + min + ', value: ' + v + ', max: ' + max + ').'
+         f, 'Integer range check failed (min: ' + min + ', value: ' + v + ', max: ' + max + ').'
       );
    }
 }
@@ -246,7 +238,7 @@ UTILS.validator.checkExactMatch = function (v, expectedValue)
    {
       throw new Exception
       (
-         f, 'Values supplied are not identical.', '(values and types must be same).'
+         f, 'Values supplied are not identical (values and types must be same).'
       );
    }
 }

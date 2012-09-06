@@ -29,10 +29,10 @@ var UTILS = {};
  * That is why it is defined outside the 'UTILS' namespace.
  *
  * @param f       {String} The name of the function throwing the exception.
- * @param type    {String} A short description of what went wrong.
+ * @param desc    {String} A short description of what went wrong.
  * @param details {String} A longer description of what went wrong.
  */
-function Exception(f, type, details)
+function Exception(f, desc)
 {
    // NOTE
    // ----
@@ -41,24 +41,22 @@ function Exception(f, type, details)
 
    if
    (
-      arguments.length    == 3      &&
+      arguments.length    == 2      &&
       f.constructor       == String &&
-      type.constructor    == String &&
-      details.constructor == String
+      desc.constructor    == String
    )
    {
-      this.f       = f;
-      this.type    = type;
-      this.details = details;
+      this.f    = f;
+      this.desc = desc;
    }
    else
    {
       console.error
       (
-         'Error detected.' +
-         '\n  Function: Exception()' +
-         '\n  Type    : Incorrect arguments.' +
-         '\n  Details : Expected [String, String, String].' +
+         'Error detected.'                          +
+         '\n  Function: Exception()'                +
+         '\n  Type    : Incorrect arguments.'       +
+         '\n  Details : Expected [String, String].' +
          '\n            Received ', arguments, '.'
       );
    }
@@ -87,10 +85,9 @@ UTILS.printExceptionToConsole = function (f, e)
          console.error
          (
             'Exception caught in function ' + f + '.' +
-            '\n  Function: ' + e.f    +
-            '\n  Type    : ' + e.type +
-            '\n  Details : ' + e.details, '' // Without the empty string parameter, firebug will
-         );                                  // not interpret newline characters properly.
+            '\n  Function: ' + e.f          +
+            '\n  Desc    : ' + e.desc
+         );
          console.trace();
       }
       else
@@ -104,10 +101,10 @@ UTILS.printExceptionToConsole = function (f, e)
    {
       console.error
       (
-         'Error detected.' +
+         'Error detected.'                               +
          '\n  Function: UTILS.printExceptionToConsole()' +
-         '\n  Type    : Incorrect arguments.' +
-         "\n  Details : Expected [String, 'Defined']." +
+         '\n  Type    : Incorrect arguments.'            +
+         "\n  Details : Expected [String, 'Defined']."   +
          '\n            Received ', arguments, '.'
       );
       console.trace();
@@ -138,8 +135,9 @@ UTILS.checkArgs = function (f, args, types)
       {
          throw new Exception
          (
-            f, 'Incorrect number of arguments.',
-            'Expected ' + types.length + '.\n            Received ' + args.length + '.'
+            f, 'Incorrect number of arguments.\n'  +
+            '            Expected ' + types.length + '.\n' +
+            '            Received ' + args.length  + '.'
          );
       }
 
@@ -149,6 +147,11 @@ UTILS.checkArgs = function (f, args, types)
       {
          type = types[i];
          arg  = args[i];
+
+         if (type.constructor !== String)
+         {
+            throw new Exception('UTILS.checkArgs()', 'Non-string supplied as type.');
+         }
 
          if (type == 'Defined' && typeof arg != 'undefined')
          {
@@ -167,8 +170,9 @@ UTILS.checkArgs = function (f, args, types)
             {
                throw new Exception
                (
-                  f, 'Incorrect type for argument[' + i + '].',
-                  'Expected "' + type + '".\n            Received "' +
+                  f, 'Incorrect type for argument[' + i + '].\n' +
+                  '               Expected "' + type   +     '".\n' +
+                  '               Received "' +
                   ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
                );
             }
@@ -179,8 +183,9 @@ UTILS.checkArgs = function (f, args, types)
          {
             throw new Exception
             (
-               f, 'Incorrect type for argument[' + i + '].',
-               'Expected "' + type + '".\n            Received "' +
+               f, 'Incorrect type for argument[' + i    + '].\n' +
+               '               Expected "'          + type + '".\n' +
+               '               Received "'          +
                ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
             );
          }
@@ -190,7 +195,7 @@ UTILS.checkArgs = function (f, args, types)
    {
       throw new Exception
       (
-         'UTILS.checkArgs()', 'Incorrect arguments.', 'Expected [String, Object, Array].'
+         'UTILS.checkArgs()', 'Incorrect arguments.\nExpected [String, Object, Array].'
       );
    }
 };
@@ -205,14 +210,21 @@ UTILS.checkArgs = function (f, args, types)
 UTILS.assert = function (functionName, assertNo, expression)
 {
    var f = 'UTILS.assert()';
-   UTILS.checkArgs(f, arguments, [String, Number, Boolean]);
+   if
+   (
+      functionName.constructor != String ||
+      assertNo.constructor     != Number ||
+      expression.constructor   != Boolean
+   )
+   {
+      throw new Exception(f, 'Incorrect types supplied.  Expected [String, Number, Boolean].');
+   }
 
    if (!expression)
    {
       throw new Exception
       (
-         f, 'Assertion failed.',
-         'Assertion ' + assertNo + ' failed in function "' + functionName + '".'
+         f, 'Assertion ' + assertNo + ' failed in function "' + functionName + '".'
       );
    }
 };

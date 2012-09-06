@@ -18,35 +18,43 @@
 function SketcherSwastiklover(ctx)
 {
    var f = 'SketcherSwastiklover()';
-   UTILS.checkArgs(f, arguments, [CanvasRenderingContext2D]);
+   UTILS.checkArgs(f, arguments, ['CanvasRenderingContext2D']);
 
    // Privileged functions. /////////////////////////////////////////////////////////////////////
 
    /*
-    *
+    * @param sketchDetailsByRecursionDepth
+    *    As returned by this.getSketchDetailsByRecursionDepth().
     */
    this.sketch = function (o)
    {
       var f = 'SketcherSwastiklover.sketch()';
-      UTILS.checkArgs(f, arguments, [Object]);
+      UTILS.checkArgs(f, arguments, ['object']);
+      _sketchSwastika(o.x, o.y, o.armSegmentLength, o.boolClockwise);
+   };
+
+   /*
+    *
+    */
+   this.getSketchFunctionArgumentSetsByRecursionDepth = function (o)
+   {
+      var f = 'SketcherSwastiklover.getSketchFunctionArgumentSetsByRecursionDepth()';
+      UTILS.checkArgs(f, arguments, ['object']);
       UTILS.validator.checkObject
       (
          o,
          {
-            armSegmentLength   : 'positiveInt'   ,
-            armSegmentLengthMin: 'positiveInt'   ,
-            delayMs            : 'nonNegativeInt',
-            onCompleteFunction : 'nullOrFunction',
-            x                  : 'float'         ,
-            y                  : 'float'
+            armSegmentLength   : 'positiveInt',
+            armSegmentLengthMin: 'positiveInt'
          }
       );
 
-      _delayMs                = o.delayMs;
-      _armSegmentLengthMin    = o.armSegmentLengthMin;
-      _nSketchCallsInProgress = 1;
+      _armSegmentLengthMin                  = o.armSegmentLengthMin;
+      _sketchElementDetailsByRecursionDepth = [];
 
-      _sketchSwastikaFractal(o.x, o.y, o.armSegmentLength, true, null, o.onCompleteFunction);
+      _fillSketchElementDetailsByRecursionDepthRecursively(0, 0, o.armSegmentLength, true, null, 0);
+
+      return _sketchElementDetailsByRecursionDepth;
    };
 
    // Private functions. ////////////////////////////////////////////////////////////////////////
@@ -54,27 +62,39 @@ function SketcherSwastiklover(ctx)
    /*
     *
     */
-   function _sketchSwastikaFractal
+   function _fillSketchElementDetailsByRecursionDepthRecursively
    (
-      x, y, armSegmentLength, boolClockwise, positionName, onCompleteFunction
+      x, y, armSegmentLength, boolClockwise, positionName, recursionDepth
    )
    {
       try
       {
-         var f = 'SketcherSwastiklover._sketchSwastikaFractal()';
+         var f = 'SketcherSwastiklover._fillSketchElementDetailsByRecursionDepthRecursively()';
          UTILS.checkArgs
-         (f, arguments, ['int', 'int', 'nonNegativeInt', Boolean, 'nullOrString','nullOrFunction']);
+         (
+            f, arguments,
+            ['int', 'int', 'nonNegativeInt', 'boolean', 'nullOrString', 'nonNegativeInt']
+         );
 
-         ctx.beginPath();
-         _sketchSwastika(x, y, armSegmentLength, boolClockwise);
-         ctx.stroke();
+         if (typeof _sketchElementDetailsByRecursionDepth[recursionDepth] == 'undefined')
+         {
+            _sketchElementDetailsByRecursionDepth[recursionDepth] = [];
+         }
+
+         _sketchElementDetailsByRecursionDepth[recursionDepth].push
+         (
+            {
+               armSegmentLength: armSegmentLength,
+               boolClockwise   : boolClockwise   ,
+               positionName    : positionName    ,
+               recursionDepth  : recursionDepth  ,
+               x               : x               ,
+               y               : y
+            }
+         );
 
          if (armSegmentLength / 2 < _armSegmentLengthMin)
          {
-            if (--_nSketchCallsInProgress == 0 && onCompleteFunction !== null)
-            {
-               onCompleteFunction();
-            }
             return;
          }
 
@@ -93,8 +113,6 @@ function SketcherSwastiklover(ctx)
             {posName: 'tr', oppPosName: 'bl', x: x + l2, y: y - l1}
          ];
 
-         ctx.beginPath();
-
          for (var i = 0, len = swastikaDetails.length; i < len; ++i)
          {
             var details = swastikaDetails[i];
@@ -104,32 +122,11 @@ function SketcherSwastiklover(ctx)
                continue;
             }
 
-            ++_nSketchCallsInProgress;
-
-            if (_delayMs == 0)
-            {
-               _sketchSwastikaFractal
-               (
-                  details.x, details.y, armSegmentLength / 2, !boolClockwise, details.posName,
-                  onCompleteFunction
-               );
-            }
-            else
-            {
-               setTimeout
-               (
-                  _sketchSwastikaFractal, _delayMs,
-                  details.x, details.y, armSegmentLength / 2, !boolClockwise, details.posName,
-                  onCompleteFunction
-               );
-            }
-         }
-
-         ctx.stroke();
-
-         if (--_nSketchCallsInProgress == 0 && onCompleteFunction !== null)
-         {
-            onCompleteFunction();
+            _fillSketchElementDetailsByRecursionDepthRecursively
+            (
+               details.x, details.y, armSegmentLength / 2,
+               !boolClockwise, details.posName, recursionDepth + 1
+            );
          }
       }
       catch (e)
@@ -144,7 +141,7 @@ function SketcherSwastiklover(ctx)
    function _sketchSwastika(x, y, l, boolClockwise)
    {
       var f = 'SketcherSwastiklover._sketchSwastika()';
-      UTILS.checkArgs(f, arguments, ['int', 'int', 'nonNegativeInt', Boolean]);
+      UTILS.checkArgs(f, arguments, ['int', 'int', 'nonNegativeInt', 'boolean']);
 
       var sign = (boolClockwise)? 1: -1;
 
@@ -160,9 +157,8 @@ function SketcherSwastiklover(ctx)
 
    // Initialisation code. //////////////////////////////////////////////////////////////////////
 
-   var _delayMs                = null;
-   var _armSegmentLengthMin    = null;
-   var _nSketchCallsInProgress = null;
+   var _armSegmentLengthMin                  = null;
+   var _sketchElementDetailsByRecursionDepth = null;
 }
 
 /*******************************************END*OF*FILE********************************************/
