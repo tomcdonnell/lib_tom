@@ -53,7 +53,6 @@ function Tessellator(canvas)
       _spacingY                = o.spacingY;
       _sketchFunction          = o.sketchFunction;
       _maxRecursionDepth       = o.sketchFunctionArgumentObjectsByRecursionDepth.length;
-console.debug(f, '_maxRecursionDepth: ', _maxRecursionDepth);
 
       _sketchFunctionArgumentObjectsByRecursionDepth =
       (
@@ -80,7 +79,6 @@ console.debug(f, '_maxRecursionDepth: ', _maxRecursionDepth);
          var f = 'Tessellator.onTimeout()';
          UTILS.checkArgs(f, arguments, []);
 
-console.debug(f, '_nOnTimeoutFunctionCalls: ', _nOnTimeoutFunctionCalls);
          _sketchElements
          (
             _sketchFunction,

@@ -6,7 +6,7 @@
 *
 * Project: Canvas sketchers.
 *
-* Purpose: Draw a fractal mosaic based on a swastika.
+* Purpose: Draw a square grid on the canvas.
 *
 * Author: Tom McDonnell 2012-04-03.
 *
@@ -35,6 +35,8 @@ function SketcherGrid(canvas)
          throw "Math.abs(horizontalishGradient) > 1.  Not very horizontalish.";
       }
 
+      _ctx.save();
+      _ctx.translate(_midX, _midY);
       _ctx.beginPath();
 
       var i = 0;
@@ -111,7 +113,7 @@ function SketcherGrid(canvas)
       var oldStrokeStyle = _ctx.strokeStyle;
       _ctx.strokeStyle   = '#ccc';
       _ctx.stroke();
-      _ctx.strokeStyle = oldStrokeStyle;
+      _ctx.restore();
    }
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
