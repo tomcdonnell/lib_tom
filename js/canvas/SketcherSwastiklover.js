@@ -24,21 +24,89 @@ function SketcherSwastiklover(ctx)
 
    /*
     * @param sketchDetailsByRecursionDepth
-    *    As returned by this.getSketchDetailsByRecursionDepth().
+    *    As returned by this.getSketchFunctionArgumentObjectsByRecursionDepth().
     */
-   this.sketch = function (o)
+   this.sketchSwastika = function (o)
    {
-      var f = 'SketcherSwastiklover.sketch()';
+      var f = 'SketcherSwastiklover.sketchSwastika()';
       UTILS.checkArgs(f, arguments, ['object']);
-      _sketchSwastika(o.x, o.y, o.armSegmentLength, o.boolClockwise);
+      UTILS.validator.checkObject
+      (
+         o,
+         {
+            armSegmentLength: 'positiveInt',
+            boolClockwise   : 'boolean'    ,
+            x               : 'float'      ,
+            y               : 'float'
+         }
+      );
+
+      var sign = (o.boolClockwise)? 1: -1;
+      var l    = o.armSegmentLength;
+      var x    = o.x;
+      var y    = o.y;
+
+      ctx.moveTo(x + l, y - sign * l);
+      ctx.lineTo(x    , y - sign * l);
+      ctx.lineTo(x    , y + sign * l);
+      ctx.lineTo(x - l, y + sign * l);
+      ctx.moveTo(x - l, y - sign * l);
+      ctx.lineTo(x - l, y           );
+      ctx.lineTo(x + l, y           );
+      ctx.lineTo(x + l, y + sign * l);
    };
 
    /*
     *
     */
-   this.getSketchFunctionArgumentSetsByRecursionDepth = function (o)
+   this.sketchSwastiklover = function (o)
    {
-      var f = 'SketcherSwastiklover.getSketchFunctionArgumentSetsByRecursionDepth()';
+      var f = 'SketcherSwastiklover.sketchSwastiklover()';
+      UTILS.checkArgs(f, arguments, ['object']);
+      UTILS.validator.checkObjectAndSetDefaults
+      (
+         o,
+         {
+            armSegmentLength   : 'positiveInt'   ,
+            armSegmentLengthMin: 'positiveInt'   ,
+            delayMs            : 'nonNegativeInt',
+            onCompleteFunction : 'nullOrFunction',
+            x                  : 'int'           ,
+            y                  : 'int'
+         }
+      );
+
+      _armSegmentLengthMin                           = o.armSegmentLengthMin;
+      _onCompleteFunction                            = o.onCompleteFunction;
+      _sketchFunctionArgumentObjectsByRecursionDepth = [];
+
+      _fillSketchArgumentObjectsByRecursionDepthRecursively
+      (
+         o.x, o.y, o.armSegmentLength, true, null, 0
+      );
+
+      _maxRecursionDepth       = _sketchFunctionArgumentObjectsByRecursionDepth.length;
+      _nOnTimeoutFunctionCalls = 0;
+
+      for (var d = 0; d < _maxRecursionDepth; ++d)
+      {
+         if (o.delayMs == 0)
+         {
+            _onTimeout();
+         }
+         else
+         {
+            setTimeout(_onTimeout, d * o.delayMs);
+         }
+      }
+   };
+
+   /*
+    * Return a data structure containing arguments to be passed to this.sketchSwastika().
+    */
+   this.getSketchFunctionArgumentObjectsByRecursionDepth = function (o)
+   {
+      var f = 'SketcherSwastiklover.getSketchFunctionArgumentObjectsByRecursionDepth()';
       UTILS.checkArgs(f, arguments, ['object']);
       UTILS.validator.checkObject
       (
@@ -49,12 +117,11 @@ function SketcherSwastiklover(ctx)
          }
       );
 
-      _armSegmentLengthMin                  = o.armSegmentLengthMin;
-      _sketchElementDetailsByRecursionDepth = [];
+      _armSegmentLengthMin                           = o.armSegmentLengthMin;
+      _sketchFunctionArgumentObjectsByRecursionDepth = [];
+      _fillSketchArgumentObjectsByRecursionDepthRecursively(0, 0, o.armSegmentLength, true, null,0);
 
-      _fillSketchElementDetailsByRecursionDepthRecursively(0, 0, o.armSegmentLength, true, null, 0);
-
-      return _sketchElementDetailsByRecursionDepth;
+      return _sketchFunctionArgumentObjectsByRecursionDepth;
    };
 
    // Private functions. ////////////////////////////////////////////////////////////////////////
@@ -62,32 +129,60 @@ function SketcherSwastiklover(ctx)
    /*
     *
     */
-   function _fillSketchElementDetailsByRecursionDepthRecursively
+   function _onTimeout()
+   {
+      var f = 'Tessellator._onTimeout()';
+      UTILS.checkArgs(f, arguments, []);
+
+      var sketchFunctionArgumentObjects =
+      (
+         _sketchFunctionArgumentObjectsByRecursionDepth[_nOnTimeoutFunctionCalls]
+      );
+
+      ctx.beginPath();
+
+      for (var i = 0; i < sketchFunctionArgumentObjects.length; ++i)
+      {
+         var o = sketchFunctionArgumentObjects[i];
+
+         _self.sketchSwastika(sketchFunctionArgumentObjects[i]);
+      }
+
+      ctx.stroke();
+
+      if (++_nOnTimeoutFunctionCalls == _maxRecursionDepth && _onCompleteFunction != null)
+      {
+         _onCompleteFunction();
+      }
+   };
+
+   /*
+    *
+    */
+   function _fillSketchArgumentObjectsByRecursionDepthRecursively
    (
       x, y, armSegmentLength, boolClockwise, positionName, recursionDepth
    )
    {
       try
       {
-         var f = 'SketcherSwastiklover._fillSketchElementDetailsByRecursionDepthRecursively()';
+         var f = 'SketcherSwastiklover._fillSketchArgumentObjectsByRecursionDepthRecursively()';
          UTILS.checkArgs
          (
             f, arguments,
             ['int', 'int', 'nonNegativeInt', 'boolean', 'nullOrString', 'nonNegativeInt']
          );
 
-         if (typeof _sketchElementDetailsByRecursionDepth[recursionDepth] == 'undefined')
+         if (typeof _sketchFunctionArgumentObjectsByRecursionDepth[recursionDepth] == 'undefined')
          {
-            _sketchElementDetailsByRecursionDepth[recursionDepth] = [];
+            _sketchFunctionArgumentObjectsByRecursionDepth[recursionDepth] = [];
          }
 
-         _sketchElementDetailsByRecursionDepth[recursionDepth].push
+         _sketchFunctionArgumentObjectsByRecursionDepth[recursionDepth].push
          (
             {
                armSegmentLength: armSegmentLength,
                boolClockwise   : boolClockwise   ,
-               positionName    : positionName    ,
-               recursionDepth  : recursionDepth  ,
                x               : x               ,
                y               : y
             }
@@ -122,7 +217,7 @@ function SketcherSwastiklover(ctx)
                continue;
             }
 
-            _fillSketchElementDetailsByRecursionDepthRecursively
+            _fillSketchArgumentObjectsByRecursionDepthRecursively
             (
                details.x, details.y, armSegmentLength / 2,
                !boolClockwise, details.posName, recursionDepth + 1
@@ -135,30 +230,14 @@ function SketcherSwastiklover(ctx)
       }
    }
 
-   /*
-    *
-    */
-   function _sketchSwastika(x, y, l, boolClockwise)
-   {
-      var f = 'SketcherSwastiklover._sketchSwastika()';
-      UTILS.checkArgs(f, arguments, ['int', 'int', 'nonNegativeInt', 'boolean']);
-
-      var sign = (boolClockwise)? 1: -1;
-
-      ctx.moveTo(x + l, y - sign * l);
-      ctx.lineTo(x    , y - sign * l);
-      ctx.lineTo(x    , y + sign * l);
-      ctx.lineTo(x - l, y + sign * l);
-      ctx.moveTo(x - l, y - sign * l);
-      ctx.lineTo(x - l, y           );
-      ctx.lineTo(x + l, y           );
-      ctx.lineTo(x + l, y + sign * l);
-   }
-
    // Initialisation code. //////////////////////////////////////////////////////////////////////
 
-   var _armSegmentLengthMin                  = null;
-   var _sketchElementDetailsByRecursionDepth = null;
+   var _self                                          = this;
+   var _armSegmentLengthMin                           = null;
+   var _maxRecursionDepth                             = null
+   var _nOnTimeoutFunctionCalls                       = null;
+   var _onCompleteFunction                            = null;
+   var _sketchFunctionArgumentObjectsByRecursionDepth = null;
 }
 
 /*******************************************END*OF*FILE********************************************/

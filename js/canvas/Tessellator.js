@@ -30,7 +30,7 @@ function Tessellator(canvas)
    {
       var f = 'Tessellator.drawSquareTessellation()';
       UTILS.checkArgs(f, arguments, ['object']);
-      UTILS.validator.checkObject
+      UTILS.validator.checkObjectAndSetDefaults
       (
          o,
          {
@@ -41,8 +41,9 @@ function Tessellator(canvas)
             startY        : 'int'
          },
          {
-            sketchFunctionArgumentObjectsByRecursionDepth: 'array',
-            onCompleteFunction                           : 'function'
+            sketchFunctionArgumentObjectsByRecursionDepth: ['array'         , []  ],
+            onCompleteFunction                           : ['function'      , null],
+            delayMs                                      : ['nonNegativeInt', 0   ]
          }
       );
 
@@ -63,7 +64,14 @@ function Tessellator(canvas)
 
       for (var d = 0; d < _maxRecursionDepth; ++d)
       {
-         setTimeout(_onTimeout, d * 500);
+         if (o.delayMs == 0)
+         {
+            _onTimeout();
+         }
+         else
+         {
+            setTimeout(_onTimeout, d * o.delayMs);
+         }
       }
    };
 
@@ -76,7 +84,7 @@ function Tessellator(canvas)
    {
       try
       {
-         var f = 'Tessellator.onTimeout()';
+         var f = 'Tessellator._onTimeout()';
          UTILS.checkArgs(f, arguments, []);
 
          _sketchElements
@@ -114,7 +122,6 @@ function Tessellator(canvas)
 
       for (var key in _sketchPositionsAsKeys)
       {
-         // TODO: Translate to sketch position.
          var indexOfPipe = key.indexOf('|');
          var x           = key.substr(0, indexOfPipe);
          var y           = key.substr(indexOfPipe + 1);
@@ -184,6 +191,7 @@ function Tessellator(canvas)
    var _canvasHeight                                  = $(canvas).height();
    var _canvasWidth                                   = $(canvas).width();
    var _ctx                                           = canvas.getContext('2d');
+   var _maxRecursionDepth                             = null
    var _nOnTimeoutFunctionCalls                       = null;
    var _onCompleteFunction                            = null;
    var _sketchFunction                                = null;

@@ -56,15 +56,16 @@ function TessellatorSwastiklover(canvas)
       tessellator.drawSquareTessellation
       (
          {
-            sketchFunction    : _sketcherSwastiklover.sketch,
-            spacingX          : spacingX                    ,
-            spacingY          : spacingX * 2                ,
-            startX            : 0                           ,
-            startY            : 0                           ,
-            onCompleteFunction: _onCompleteTessellation     ,
+            delayMs           : 500                                 ,
+            sketchFunction    : _sketcherSwastiklover.sketchSwastika,
+            spacingX          : spacingX                            ,
+            spacingY          : spacingX * 2                        ,
+            startX            : 0                                   ,
+            startY            : 0                                   ,
+            onCompleteFunction: _onCompleteTessellation             ,
             sketchFunctionArgumentObjectsByRecursionDepth:
             (
-               _sketcherSwastiklover.getSketchFunctionArgumentSetsByRecursionDepth
+               _sketcherSwastiklover.getSketchFunctionArgumentObjectsByRecursionDepth
                (
                   swastikloverConfig
                )
@@ -92,14 +93,15 @@ function TessellatorSwastiklover(canvas)
       tessellator1.drawSquareTessellation
       (
          {
-            sketchFunction: _sketcherSwastiklover.sketch,
-            spacingX      : spacingX                    ,
-            spacingY      : spacingX * 0.5              ,
-            startX        : 0                           ,
-            startY        : 0                           ,
+            delayMs       : 500                                 ,
+            sketchFunction: _sketcherSwastiklover.sketchSwastika,
+            spacingX      : spacingX                            ,
+            spacingY      : spacingX * 0.5                      ,
+            startX        : 0                                   ,
+            startY        : 0                                   ,
             sketchFunctionArgumentObjectsByRecursionDepth:
             (
-               _sketcherSwastiklover.getSketchFunctionArgumentSetsByRecursionDepth
+               _sketcherSwastiklover.getSketchFunctionArgumentObjectsByRecursionDepth
                (
                   swastikloverConfig
                )
@@ -112,15 +114,16 @@ function TessellatorSwastiklover(canvas)
       tessellator2.drawSquareTessellation
       (
          {
-            sketchFunction    : _sketcherSwastiklover.sketch,
-            spacingX          : spacingX                    ,
-            spacingY          : spacingX * 0.5              ,
-            startX            : spacingX * 0.25             ,
-            startY            : spacingX * 0.75             ,
-            onCompleteFunction: _onCompleteTessellation     ,
+            delayMs           : 500                                 ,
+            sketchFunction    : _sketcherSwastiklover.sketchSwastika,
+            spacingX          : spacingX                            ,
+            spacingY          : spacingX * 0.5                      ,
+            startX            : spacingX * 0.25                     ,
+            startY            : spacingX * 0.75                     ,
+            onCompleteFunction: _onCompleteTessellation             ,
             sketchFunctionArgumentObjectsByRecursionDepth:
             (
-               _sketcherSwastiklover.getSketchFunctionArgumentSetsByRecursionDepth
+               _sketcherSwastiklover.getSketchFunctionArgumentObjectsByRecursionDepth
                (
                   swastikloverConfig
                )
