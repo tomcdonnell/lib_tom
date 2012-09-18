@@ -82,6 +82,57 @@ class UtilsHtml
    /*
     *
     */
+   public static function getHtmlForElement($params)
+   {
+      UtilsValidator::checkArray
+      (
+         $params, array
+         (
+            'attributeValueByKey' => 'array' ,
+            'indent'              => 'string',
+            'tagName'             => 'string',
+            'value'               => 'string'
+         )
+      );
+      extract($params);
+
+      $html             = "$indent<$tagName";
+      $attributeStrings = array();
+
+      foreach ($attributeValueByKey as $attrKey => $attrValue)
+      {
+         if ($attrValue !== null)
+         {
+            $attributeStrings[] = "$attrKey='" . self::escapeSingleQuotes($attrValue) . "'";
+         }
+      }
+
+      if (count($attributeValueByKey) > 0)
+      {
+         $html .= ' ' . implode(' ', $attributeStrings);
+      }
+
+      $html .= '>' . htmlentities($value) . "</$tagName>";
+
+      if ($indent != '')
+      {
+         $html .= "\n";
+      }
+
+      return $html;
+   }
+
+   /*
+    *
+    */
+   public static function echoHtmlForElement($params)
+   {
+      echo self::getHtmlForElement($params);
+   }
+
+   /*
+    *
+    */
    public static function echoHtmlScriptAndLinkTagsForJsAndCssFiles
    (
       $cssFilenamesWithFullPath, $jsFilenamesWithFullPath, $indent = '  '

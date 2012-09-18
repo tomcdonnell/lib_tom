@@ -35,6 +35,11 @@ function SketcherGrid(canvas)
          throw "Math.abs(horizontalishGradient) > 1.  Not very horizontalish.";
       }
 
+      var _canvasHeight = $(canvas).height();
+      var _canvasWidth  = $(canvas).width();
+      var _midX         = Math.round(_canvasWidth  / 2);
+      var _midY         = Math.round(_canvasHeight / 2);
+
       _ctx.save();
       _ctx.translate(_midX, _midY);
       _ctx.beginPath();
@@ -118,11 +123,7 @@ function SketcherGrid(canvas)
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
-   var _canvasHeight          = $(canvas).height();
-   var _canvasWidth           = $(canvas).width();
    var _ctx                   = canvas.getContext('2d');
-   var _midX                  = Math.round(_canvasWidth  / 2);
-   var _midY                  = Math.round(_canvasHeight / 2);
    var _positionsDrawnAtByKey = {};
 }
 

@@ -23,17 +23,17 @@ function TessellatorSwastiklover(canvas)
    /*
     *
     */
-   this.sketch = function (swastikloverConfig, tessellationNo, userOnCompleteFunction)
+   this.sketch = function (swastikloverConfig, tessellationNo, userOnCompleteFunction, delayMs)
    {
       var f = 'TessellatorSwastiklover.sketch()';
-      UTILS.checkArgs(f, arguments, ['object', 'positiveInt', 'nullOrFunction']);
+      UTILS.checkArgs(f, arguments, ['object', 'positiveInt', 'nullOrFunction', 'nonNegativeInt']);
 
       _userOnCompleteFunction = userOnCompleteFunction;
 
       switch (tessellationNo)
       {
-       case 1: _sketchTessellationNumberOne(swastikloverConfig); break;
-       case 2: _sketchTessellationNumberTwo(swastikloverConfig); break;
+       case 1: _sketchTessellationNumberOne(swastikloverConfig, delayMs); break;
+       case 2: _sketchTessellationNumberTwo(swastikloverConfig, delayMs); break;
        default: throw 'Invalid tessellation number "' + tessellationNo + '".';
       }
    };
@@ -43,10 +43,10 @@ function TessellatorSwastiklover(canvas)
    /*
     *
     */
-   function _sketchTessellationNumberOne(swastikloverConfig)
+   function _sketchTessellationNumberOne(swastikloverConfig, delayMs)
    {
       var f = 'TessellatorSwastiklover._sketchTessellationNumberOne()';
-      UTILS.checkArgs(f, arguments, ['object']);
+      UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
       var tessellator = new Tessellator(canvas);
       var spacingX    = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
@@ -56,7 +56,7 @@ function TessellatorSwastiklover(canvas)
       tessellator.drawSquareTessellation
       (
          {
-            delayMs           : 500                                 ,
+            delayMs           : delayMs                             ,
             sketchFunction    : _sketcherSwastiklover.sketchSwastika,
             spacingX          : spacingX                            ,
             spacingY          : spacingX * 2                        ,
@@ -79,10 +79,10 @@ function TessellatorSwastiklover(canvas)
    /*
     *
     */
-   function _sketchTessellationNumberTwo(swastikloverConfig)
+   function _sketchTessellationNumberTwo(swastikloverConfig, delayMs)
    {
       var f = 'TessellatorSwastiklover._sketchTessellationNumberTwo()';
-      UTILS.checkArgs(f, arguments, ['object']);
+      UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
       var tessellator1 = new Tessellator(canvas);
       var tessellator2 = new Tessellator(canvas);
@@ -93,7 +93,7 @@ function TessellatorSwastiklover(canvas)
       tessellator1.drawSquareTessellation
       (
          {
-            delayMs       : 500                                 ,
+            delayMs       : delayMs                             ,
             sketchFunction: _sketcherSwastiklover.sketchSwastika,
             spacingX      : spacingX                            ,
             spacingY      : spacingX * 0.5                      ,
@@ -114,7 +114,7 @@ function TessellatorSwastiklover(canvas)
       tessellator2.drawSquareTessellation
       (
          {
-            delayMs           : 500                                 ,
+            delayMs           : delayMs                             ,
             sketchFunction    : _sketcherSwastiklover.sketchSwastika,
             spacingX          : spacingX                            ,
             spacingY          : spacingX * 0.5                      ,

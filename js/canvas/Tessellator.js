@@ -47,6 +47,11 @@ function Tessellator(canvas)
          }
       );
 
+      _canvasHeight = $(canvas).height();
+      _canvasWidth  = $(canvas).width();
+      _midX         = Math.round(_canvasWidth  / 2);
+      _midY         = Math.round(_canvasHeight / 2);
+
       _nOnTimeoutFunctionCalls = 0;
       _onCompleteFunction      = o.onCompleteFunction;
       _sketchPositionsAsKeys   = {};
@@ -111,9 +116,6 @@ function Tessellator(canvas)
    {
       var f = 'Tessellator._sketchElements()';
       UTILS.checkArgs(f, arguments, ['function', 'array']);
-
-      var _midX = Math.round(_canvasWidth  / 2);
-      var _midY = Math.round(_canvasHeight / 2);
 
       _ctx.save();
       _ctx.translate(_midX, _midY);
@@ -188,10 +190,12 @@ function Tessellator(canvas)
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
-   var _canvasHeight                                  = $(canvas).height();
-   var _canvasWidth                                   = $(canvas).width();
    var _ctx                                           = canvas.getContext('2d');
+   var _canvasHeight                                  = null;
+   var _canvasWidth                                   = null;
    var _maxRecursionDepth                             = null
+   var _midX                                          = null;
+   var _midY                                          = null;
    var _nOnTimeoutFunctionCalls                       = null;
    var _onCompleteFunction                            = null;
    var _sketchFunction                                = null;

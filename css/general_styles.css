@@ -12,14 +12,14 @@
 *
 \**************************************************************************************************/
 
-*.clearFloats {clear: both;}
+*.clear-floats {clear: both;}
 
-*.alignL {text-align: left  ;}
-*.alignC {text-align: center;}
-*.alignR {text-align: right ;}
+*.align-l {text-align: left  ;}
+*.align-c {text-align: center;}
+*.align-r {text-align: right ;}
 
-*.valignT {vertical-align: top   ;}
-*.valignM {vertical-align: middle;}
-*.valignB {vertical-align: bottom;}
+*.valign-t {vertical-align: top   ;}
+*.valign-m {vertical-align: middle;}
+*.valign-b {vertical-align: bottom;}
 
 /*******************************************END*OF*FILE********************************************/
