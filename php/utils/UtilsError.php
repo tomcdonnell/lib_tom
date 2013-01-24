@@ -76,6 +76,7 @@ class UtilsError
    public static function logMessage($message)
    {
       $file = fopen(self::$_logFileName, 'a');
+      $message = date('Y-m-d H:i:s') . " $message";
       fwrite($file, str_replace("\n", '__|__', $message));
    }
 
@@ -83,10 +84,6 @@ class UtilsError
     * Convert all errors into Exceptions.
     *
     * See http://au2.php.net/manual/en/function.set-error-handler.php
-    *
-    * Note that CodeIgniter by default uses its own custom error handler, set in CodeIgniter.php
-    * (Iine 61).  This function is intended to replace the function set as the error_handler there,
-    * and so that line has been commented out.
     *
     * Note Regarding Privacy
     * ----------------------
@@ -148,7 +145,7 @@ class UtilsError
       {
          try
          {
-            header("Location: $_genericErrorPageUrl");
+            header("Location: " . self::$_genericErrorPageUrl);
             die();
          }
          catch (Exception $e)
