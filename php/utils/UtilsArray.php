@@ -64,6 +64,19 @@ class UtilsArray
    /*
     *
     */
+   public static function assertArraysAreEqual($a, $b)
+   {
+      if (!self::arraysAreEqual($a, $b))
+      {
+var_dump($a, $b);
+die;
+         throw new Exception('Arrays are not equal.');
+      }
+   }
+
+   /*
+    *
+    */
    public static function arraysAreEqualWhenSorted($a, $b)
    {
       sort($a);
