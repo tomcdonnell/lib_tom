@@ -24,9 +24,9 @@ UTILS.object = {};
 /*
  * Return an array containing the keys that are present in 'a' but not present in 'b'.
  */
-UTILS.object.diff_key = function (a, b)
+UTILS.object.diffKey = function (a, b)
 {
-   var f = 'UTILS.object.diff_key()';
+   var f = 'UTILS.object.diffKey()';
    UTILS.checkArgs(f, arguments, ['object', 'object']);
 
    var keys = [];
