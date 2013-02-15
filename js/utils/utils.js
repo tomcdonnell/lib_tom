@@ -71,7 +71,6 @@ function Exception(f, desc)
  */
 UTILS.printExceptionToConsole = function (f, e)
 {
-console.debug('UTILS.printExceptionToConsole()', 'e');
    // NOTE
    // ----
    // Must not call functions that throw exceptions from here.
@@ -110,7 +109,6 @@ console.debug('UTILS.printExceptionToConsole()', 'e');
       );
       console.trace();
    }
-console.debug('UTILS.printExceptionToConsole()', 'x');
 };
 
 /**
