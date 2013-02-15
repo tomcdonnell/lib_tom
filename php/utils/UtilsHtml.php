@@ -41,17 +41,77 @@ class UtilsHtml
    /*
     *
     */
-   public static function echoHtmlScriptTagsForJsFiles($jsFilenamesWithFullPath, $indent = '  ')
+   public static function getHtmlScriptTagsForJsFiles
+   (
+      Array $jsFilenamesWithFullPath, $indent = '  '
+   )
    {
       // A unix timestamp to append as an unused $_GET variable to the
       // end of every JS filename so that cached files are not used.
       $timeUnix = time();
+      $html     = '';
 
       foreach ($jsFilenamesWithFullPath as $filename)
       {
-         echo "$indent<script type='text/javascript'";
-         echo " src='", self::escapeSingleQuotes($filename), "?$timeUnix'></script>\n";
+         $html .= "$indent<script type='text/javascript'";
+         $html .= " src='" . self::escapeSingleQuotes($filename) . "?$timeUnix'></script>\n";
       }
+
+      return $html;
+   }
+
+   /*
+    *
+    */
+   public static function getHtmlLinkTagsForCssFiles
+   (
+      Array $cssFilenamesWithFullPath, $indent = '  ', Array $extraAttributeValueByName = array()
+   )
+   {
+      // A unix timestamp to append as an unused $_GET variable to the
+      // end of every JS filename so that cached files are not used.
+      $timeUnix = time();
+      $html     = '';
+
+      foreach ($cssFilenamesWithFullPath as $filename)
+      {
+         $html .= "$indent<link rel='stylesheet' type='text/css'";
+
+         foreach ($extraAttributeValueByName as $name => $value)
+         {
+            $html .= " $name='" . self::escapeSingleQuotes($value) . "'";
+         }
+
+         $html .= " href='" . self::escapeSingleQuotes($filename) . "?$timeUnix'/>\n";
+      }
+
+      return $html;
+   }
+
+   /*
+    *
+    */
+   public static function getHtmlScriptAndLinkTagsForJsAndCssFiles
+   (
+      Array $cssFilenamesWithFullPath, Array $jsFilenamesWithFullPath, $indent = '  '
+   )
+   {
+      $html  = self::getHtmlScriptTagsForJsFiles($jsFilenamesWithFullPath, $indent);
+      $html .= self::getHtmlLinkTagsForCssFiles($cssFilenamesWithFullPath, $indent);
+
+      return $html;
+   }
+
+
+   /*
+    *
+    */
+   public static function echoHtmlScriptTagsForJsFiles
+   (
+      Array $jsFilenamesWithFullPath, $indent = '  '
+   )
+   {
+      echo self::getHtmlScriptTagsForJsFiles($jsFilenamesWithFullPath, $indent);
    }
 
    /*
@@ -59,30 +119,33 @@ class UtilsHtml
     */
    public static function echoHtmlLinkTagsForCssFiles
    (
-      $cssFilenamesWithFullPath, $indent = '  ', $extraAttributeValueByName = array()
+      Array $cssFilenamesWithFullPath, $indent = '  ', Array $extraAttributeValueByName = array()
    )
    {
-      // A unix timestamp to append as an unused $_GET variable to the
-      // end of every JS filename so that cached files are not used.
-      $timeUnix = time();
-
-      foreach ($cssFilenamesWithFullPath as $filename)
-      {
-         echo "$indent<link rel='stylesheet' type='text/css'";
-
-         foreach ($extraAttributeValueByName as $name => $value)
-         {
-            echo " $name='", self::escapeSingleQuotes($value), "'";
-         }
-
-         echo " href='", self::escapeSingleQuotes($filename), "?$timeUnix'/>\n";
-      }
+      echo self::getHtmlLinkTagsForCssFiles
+      (
+         $cssFilenamesWithFullPath, $indent, $extraAttributeValueByName
+      );
    }
 
    /*
     *
     */
-   public static function getHtmlForElement($params)
+   public static function echoHtmlScriptAndLinkTagsForJsAndCssFiles
+   (
+      Array $cssFilenamesWithFullPath, Array $jsFilenamesWithFullPath, $indent = '  '
+   )
+   {
+      echo self::getHtmlScriptAndLinkTagsForJsAndCssFiles
+      (
+         $cssFilenamesWithFullPath, $jsFilenamesWithFullPath, $indent
+      );
+   }
+
+   /*
+    *
+    */
+   public static function getHtmlForElement(Array $params)
    {
       UtilsValidator::checkArray
       (
@@ -125,21 +188,9 @@ class UtilsHtml
    /*
     *
     */
-   public static function echoHtmlForElement($params)
+   public static function echoHtmlForElement(Array $params)
    {
       echo self::getHtmlForElement($params);
-   }
-
-   /*
-    *
-    */
-   public static function echoHtmlScriptAndLinkTagsForJsAndCssFiles
-   (
-      $cssFilenamesWithFullPath, $jsFilenamesWithFullPath, $indent = '  '
-   )
-   {
-      self::echoHtmlScriptTagsForJsFiles($jsFilenamesWithFullPath, $indent);
-      self::echoHtmlLinkTagsForCssFiles($cssFilenamesWithFullPath, $indent);
    }
 }
 
