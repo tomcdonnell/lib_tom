@@ -170,8 +170,8 @@ UTILS.checkArgs = function (f, args, types)
             {
                throw new Exception
                (
-                  f, 'Incorrect type for argument[' + i + '].\n' +
-                  '               Expected "' + type   +     '".\n' +
+                  f, 'Incorrect type for argument['  + i + '].\n' +
+                  '               Expected "' + type +     '".\n' +
                   '               Received "' +
                   ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
                );
@@ -184,8 +184,8 @@ UTILS.checkArgs = function (f, args, types)
             throw new Exception
             (
                f, 'Incorrect type for argument[' + i    + '].\n' +
-               '               Expected "'          + type + '".\n' +
-               '               Received "'          +
+               '               Expected "'       + type + '".\n' +
+               '               Received "'       +
                ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
             );
          }
@@ -242,19 +242,12 @@ UTILS.assertEqualsOneOf = function (functionName, assertNo, variable, options)
    var f = 'UTILS.assertEqualsOneOf()';
    UTILS.checkArgs(f, arguments, [String, Number, 'Defined', Array]);
 
-   // Search options until a match is found.
-   // When a match is found, return.
    for (var i = 0; i < options.length; ++i)
    {
       if (variable == options[i]) return;
    }
 
-   // No match was found.
-   throw new Exception
-   (
-      f, 'Assertion failed.',
-      'Assertion ' + assertNo + ' failed in function "' + functionName + '".'
-   );
+   throw new Exception(f, 'Assertion ' + assertNo + ' failed in function "' + functionName + '".');
 };
 
 /*
@@ -302,7 +295,6 @@ UTILS.switchAssign = function (inputValue, outputValueByInputValue, defaultOutpu
       f, 'Case "' + inputValue + '" not handled in switchAssign and no default supplied.', ''
    );
 };
-
 
 /*
  *
