@@ -95,7 +95,7 @@ UTILS.validator.checkObjectAndSetDefaults = function
       {
          throw new Exception
          (
-            'Type and default value for optional parameter must be two-element array.'
+            f, 'Type and default value for optional parameter must be two-element array.'
          );
       }
 
