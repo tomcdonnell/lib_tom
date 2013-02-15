@@ -41,9 +41,9 @@ function Exception(f, desc)
 
    if
    (
-      arguments.length    == 2      &&
-      f.constructor       == String &&
-      desc.constructor    == String
+      arguments.length == 2      &&
+      f.constructor    == String &&
+      desc.constructor == String
    )
    {
       this.f    = f;
