@@ -71,6 +71,7 @@ function Exception(f, desc)
  */
 UTILS.printExceptionToConsole = function (f, e)
 {
+console.debug('UTILS.printExceptionToConsole()', 'e');
    // NOTE
    // ----
    // Must not call functions that throw exceptions from here.
@@ -109,6 +110,7 @@ UTILS.printExceptionToConsole = function (f, e)
       );
       console.trace();
    }
+console.debug('UTILS.printExceptionToConsole()', 'x');
 };
 
 /**
@@ -240,7 +242,7 @@ UTILS.assert = function (functionName, assertNo, expression)
 UTILS.assertEqualsOneOf = function (functionName, assertNo, variable, options)
 {
    var f = 'UTILS.assertEqualsOneOf()';
-   UTILS.checkArgs(f, arguments, [String, Number, 'Defined', Array]);
+   UTILS.checkArgs(f, arguments, ['string', 'number', 'Defined', 'array']);
 
    for (var i = 0; i < options.length; ++i)
    {
@@ -302,7 +304,7 @@ UTILS.switchAssign = function (inputValue, outputValueByInputValue, defaultOutpu
 UTILS.getKeyCodeForEvent = function (ev)
 {
    var f = 'UTILS.getKeyCodeForEvent()';
-   UTILS.checkArgs(f, arguments, [Object]);
+   UTILS.checkArgs(f, arguments, ['object']);
 
    // Note Regarding Browser Compatibility
    // ------------------------------------
