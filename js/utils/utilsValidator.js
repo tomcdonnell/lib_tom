@@ -49,13 +49,12 @@ UTILS.validator.checkObject = function (o, typeByRequiredKey, typeByOptionalKey)
       try {UTILS.validator.checkType(o[key], type);}
       catch (e)
       {
-         console.error(f, "Unexpected type for key '" + key + "'.", '');
          UTILS.printExceptionToConsole(f, e);
       }
    }
 
    // Check optional keys and types.
-   var keysExtra = UTILS.object.diff_key(o, typeByRequiredKey);
+   var keysExtra = UTILS.object.diffKey(o, typeByRequiredKey);
    for (var i = 0, len = keysExtra.length; i < len; ++i)
    {
       var key = keysExtra[i];
@@ -68,7 +67,6 @@ UTILS.validator.checkObject = function (o, typeByRequiredKey, typeByOptionalKey)
       try {UTILS.validator.checkType(o[key], typeByOptionalKey[key]);}
       catch (e)
       {
-         console.error(f, "Unexpected type for key '" + key + "'.", '');
          UTILS.printExceptionToConsole(f, e);
       }
    }
@@ -132,7 +130,7 @@ UTILS.validator.checkType = function (v, type)
 
    if (v === null && !(type == 'Defined' || type.substr(0, 4) == 'null'))
    {
-      throw new Exception(f, "Expected non-null type '" + type + "'.  Received null.");
+      throw new Exception(f, "Expected non-null type '" + type + "'. Received null.");
    }
 
    var b;
@@ -152,7 +150,7 @@ UTILS.validator.checkType = function (v, type)
     case 'char'    : b = (v.constructor == String && v.length == 1); break;
     case 'float'   : b = (v.constructor == Number                 ); break;
     case 'function': b = (v.constructor == Function               ); break;
-    case 'int'     : b = (v.constructor == Number && v %    1 == 0); break;
+    case 'int'     : b = (v.constructor == Number && v % 1 == 0   ); break;
     case 'object'  : b = (v.constructor == Object                 ); break;
     case 'string'  : b = (v.constructor == String                 ); break;
 
@@ -206,7 +204,7 @@ UTILS.validator.checkType = function (v, type)
       throw new Exception
       (
          f,
-         "Variable type check failed.  Expected '" + type + "', received '" + v +
+         "Variable type check failed. Expected '" + type + "', received '" + v +
          "' with constructor '" + v.constructor + "'."
       );
    }
@@ -249,7 +247,7 @@ UTILS.validator.checkExactMatch = function (v, expectedValue)
 UTILS.validator.validateInteger = function (str)
 {
    var f = 'UTILS.validator.validateInteger()';
-   UTILS.checkArgs(f, arguments, [String]);
+   UTILS.checkArgs(f, arguments, ['string']);
 
    var strOrFalse =
    (
@@ -265,7 +263,7 @@ UTILS.validator.validateInteger = function (str)
 UTILS.validator.validatePositiveInteger = function (str)
 {
    var f = 'UTILS.validator.validatePositiveInteger()';
-   UTILS.checkArgs(f, arguments, [String]);
+   UTILS.checkArgs(f, arguments, ['string']);
 
    var vstr = UTILS.validator.validateInteger(str);
 
@@ -278,7 +276,7 @@ UTILS.validator.validatePositiveInteger = function (str)
 UTILS.validator.checkMinLengthAndTextCharSet = function (str, minLength)
 {
    var f = 'UTILS.validator.checkMinLengthAndTextCharSet()';
-   UTILS.checkArgs(f, arguments, [String, Number]);
+   UTILS.checkArgs(f, arguments, ['string', 'number']);
    UTILS.assert(f, 0, minLength >= 0);
 
    var tstr = UTILS.string.trim(str);
@@ -301,7 +299,7 @@ UTILS.validator.checkMinLengthAndTextCharSet = function (str, minLength)
 UTILS.validator.checkMinLengthAndExtendedTextCharSet = function (str, minLength)
 {
    var f = 'UTILS.validator.checkMinLengthAndExtendedTextCharSet()';
-   UTILS.checkArgs(f, arguments, [String, Number]);
+   UTILS.checkArgs(f, arguments, ['string', 'number']);
    UTILS.assert(f, 0, minLength >= 0);
 
    var tstr = UTILS.string.trim(str);
@@ -324,7 +322,7 @@ UTILS.validator.checkMinLengthAndExtendedTextCharSet = function (str, minLength)
 UTILS.validator.checkEmailAddress = function (str)
 {
    var f = 'UTILS.validator.checkEmailAddress()';
-   UTILS.checkArgs(f, arguments, [String]);
+   UTILS.checkArgs(f, arguments, ['string']);
 
    var regEx = new RegExp
    (
