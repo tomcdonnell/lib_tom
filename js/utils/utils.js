@@ -130,6 +130,15 @@ UTILS.checkArgs = function (f, args, types)
       types.constructor == Array
    )
    {
+      if (UTILS.validator === undefined)
+      {
+         throw new Exception
+         (
+            'UTILS.checkArgs()',
+            'UTILS.validator is undefined.  Check that /tom/js/utils/utilsValidtor.js is included.'
+         );
+      }
+
       // Check that the number of arguments supplied to 'f' is correct.
       if (args.length != types.length)
       {
@@ -158,34 +167,17 @@ UTILS.checkArgs = function (f, args, types)
             continue;
          }
 
-         // If UTILS.validator is included in the project,
-         // use the extra type checking capabilities of UTILS.validator.
-         if (typeof UTILS.validator == 'object' && type.constructor == String)
+         try
          {
-            try
-            {
-               UTILS.validator.checkType(arg, type);
-            }
-            catch (e)
-            {
-               throw new Exception
-               (
-                  f, 'Incorrect type for argument['  + i + '].\n' +
-                  '               Expected "' + type +     '".\n' +
-                  '               Received "' +
-                  ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
-               );
-            }
-            continue;
+            UTILS.validator.checkType(arg, type);
          }
-
-         if (typeof arg == 'undefined' || arg === null || arg.constructor != type)
+         catch (e)
          {
             throw new Exception
             (
-               f, 'Incorrect type for argument[' + i    + '].\n' +
-               '               Expected "'       + type + '".\n' +
-               '               Received "'       +
+               f, 'Incorrect type for argument['  + i + '].\n' +
+               '               Expected "' + type +     '".\n' +
+               '               Received "' +
                ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
             );
          }
@@ -313,6 +305,6 @@ UTILS.getKeyCodeForEvent = function (ev)
    // http://stackoverflow.com/questions/4084715/
    //    javascript-e-keycode-doesnt-catch-backspace-del-in-ie
    return (window.event == undefined)? ev.which: ev.keyCode;
-}
+};
 
 /*******************************************END*OF*FILE********************************************/
