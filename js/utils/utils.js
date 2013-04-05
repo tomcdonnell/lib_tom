@@ -303,6 +303,6 @@ UTILS.getKeyCodeForEvent = function (ev)
    // http://stackoverflow.com/questions/4084715/
    //    javascript-e-keycode-doesnt-catch-backspace-del-in-ie
    return (window.event == undefined)? ev.which: ev.keyCode;
-}
+};
 
 /*******************************************END*OF*FILE********************************************/
