@@ -148,6 +148,7 @@ UTILS.validator.checkType = function (v, type)
     case 'bool'    :
     case 'boolean' : b = (v.constructor == Boolean                ); break;
     case 'char'    : b = (v.constructor == String && v.length == 1); break;
+    case 'number'  :
     case 'float'   : b = (v.constructor == Number                 ); break;
     case 'function': b = (v.constructor == Function               ); break;
     case 'int'     : b = (v.constructor == Number && v % 1 == 0   ); break;
@@ -196,7 +197,11 @@ UTILS.validator.checkType = function (v, type)
     // Miscellaneous.
     case 'digitString': b = (v.constructor == String && /^\d+$/.test(v)); break;
 
-    default: eval('b = (typeof ' + type + ' != undefined && v.constructor == ' + type + ');');
+    default:
+      // If the browser is IE<8 assume all is well.
+      // IE7 died on the eval below for some reason when type was HTMLDivElement.
+      if ($.browser.msie && $.browser.version < 8) {return;}
+      eval('b = (typeof ' + type + ' != undefined && v.constructor == ' + type + ');');
    }
 
    if (!b)

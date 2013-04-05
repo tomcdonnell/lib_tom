@@ -118,85 +118,75 @@ UTILS.printExceptionToConsole = function (f, e)
  *
  * @param f     {String} The name of the calling function.
  * @param args  {Object} Array of arguments supplied to the function.
- * @param types {Array}  Array of expected types for the arguments.
+ * @param types {Array } Array of expected types for the arguments.
  */
 UTILS.checkArgs = function (f, args, types)
 {
    if
    (
-      arguments.length  == 3      &&
-      f.constructor     == String &&
-      args.constructor  == Object && // NOTE: Special variable 'arguments' is Object, not Array.
-      types.constructor == Array
+      arguments.length  != 3      ||
+      f.constructor     != String ||
+      args.constructor  != Object || // NOTE: Special variable 'arguments' is Object, not Array.
+      types.constructor != Array
    )
-   {
-      // Check that the number of arguments supplied to 'f' is correct.
-      if (args.length != types.length)
-      {
-         throw new Exception
-         (
-            f, 'Incorrect number of arguments.\n'  +
-            '            Expected ' + types.length + '.\n' +
-            '            Received ' + args.length  + '.'
-         );
-      }
-
-      // Check that the types of arguments supplied to 'f' are correct.
-      var type, arg;
-      for (var i = 0; i < args.length; ++i)
-      {
-         type = types[i];
-         arg  = args[i];
-
-         if (type.constructor !== String)
-         {
-            throw new Exception('UTILS.checkArgs()', 'Non-string supplied as type.');
-         }
-
-         if (type == 'Defined' && typeof arg != 'undefined')
-         {
-            continue;
-         }
-
-         // If UTILS.validator is included in the project,
-         // use the extra type checking capabilities of UTILS.validator.
-         if (typeof UTILS.validator == 'object' && type.constructor == String)
-         {
-            try
-            {
-               UTILS.validator.checkType(arg, type);
-            }
-            catch (e)
-            {
-               throw new Exception
-               (
-                  f, 'Incorrect type for argument['  + i + '].\n' +
-                  '               Expected "' + type +     '".\n' +
-                  '               Received "' +
-                  ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
-               );
-            }
-            continue;
-         }
-
-         if (typeof arg == 'undefined' || arg === null || arg.constructor != type)
-         {
-            throw new Exception
-            (
-               f, 'Incorrect type for argument[' + i    + '].\n' +
-               '               Expected "'       + type + '".\n' +
-               '               Received "'       +
-               ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
-            );
-         }
-      }
-   }
-   else
    {
       throw new Exception
       (
          'UTILS.checkArgs()', 'Incorrect arguments.\nExpected [String, Object, Array].'
       );
+   }
+
+   if (UTILS.validator === undefined)
+   {
+      throw new Exception
+      (
+         'UTILS.checkArgs()',
+         'UTILS.validator is undefined.  Check that /tom/js/utils/utilsValidtor.js is included.'
+      );
+   }
+
+   // Check that the number of arguments supplied to 'f' is correct.
+   if (args.length != types.length)
+   {
+      throw new Exception
+      (
+         f, 'Incorrect number of arguments.\n'  +
+         '            Expected ' + types.length + '.\n' +
+         '            Received ' + args.length  + '.'
+      );
+   }
+
+   // Check that the types of arguments supplied to 'f' are correct.
+   var type, arg;
+   for (var i = 0; i < args.length; ++i)
+   {
+      type = types[i];
+      arg  = args[i];
+
+      if (type.constructor !== String)
+      {
+         throw new Exception('UTILS.checkArgs()', 'Non-string supplied as type.');
+      }
+
+      if (type == 'Defined' && typeof arg != 'undefined')
+      {
+         continue;
+      }
+
+      try
+      {
+         UTILS.validator.checkType(arg, type);
+      }
+      catch (e)
+      {
+         throw new Exception
+         (
+            f, 'Incorrect type for argument['  + i + '].\n' +
+            '               Expected "' + type +     '".\n' +
+            '               Received "' +
+            ((typeof arg == 'undefined' || arg === null)? arg: arg.constructor) + '".'
+         );
+      }
    }
 };
 
