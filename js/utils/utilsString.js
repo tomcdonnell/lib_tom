@@ -21,7 +21,36 @@ UTILS.string = {};
 
 // Namespace 'UTILS.string' functions. /////////////////////////////////////////////////////////////
 
+// Constants. ------------------------------------------------------------------------------------//
+
+UTILS.string.CHAR_CODE_ALPHA_LOW  = String('A').charCodeAt(0);
+UTILS.string.CHAR_CODE_ALPHA_HIGH = String('z').charCodeAt(0);
+
 // General purpose functions. --------------------------------------------------------------------//
+
+/*
+ *
+ */
+UTILS.string.isAlpha = function (str)
+{
+   var f = 'UTILS.string.isAlpha()';
+   UTILS.checkArgs(f, arguments, ['string']);
+
+   var ccLow  = this.CHAR_CODE_ALPHA_LOW ;
+   var ccHigh = this.CHAR_CODE_ALPHA_HIGH;
+
+   for (var i = 0, len = str.length; i < len; ++i)
+   {
+      var charCode = str.charCodeAt(i);
+
+      if (charCode < ccLow | charCode > ccHigh)
+      {
+         return false;
+      }
+   }
+
+   return true;
+};
 
 /*
  *
