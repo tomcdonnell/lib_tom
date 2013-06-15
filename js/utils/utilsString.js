@@ -21,9 +21,36 @@ UTILS.string = {};
 
 // Namespace 'UTILS.string' functions. /////////////////////////////////////////////////////////////
 
+// Constants. ------------------------------------------------------------------------------------//
+
+UTILS.string.CHAR_CODE_ALPHA_LOW  = String('A').charCodeAt(0);
+UTILS.string.CHAR_CODE_ALPHA_HIGH = String('z').charCodeAt(0);
+
 // General purpose functions. --------------------------------------------------------------------//
 
-// TODO: These functions should be re-written to use regular expressions.
+/*
+ *
+ */
+UTILS.string.isAlpha = function (str)
+{
+   var f = 'UTILS.string.isAlpha()';
+   UTILS.checkArgs(f, arguments, ['string']);
+
+   var ccLow  = this.CHAR_CODE_ALPHA_LOW ;
+   var ccHigh = this.CHAR_CODE_ALPHA_HIGH;
+
+   for (var i = 0, len = str.length; i < len; ++i)
+   {
+      var charCode = str.charCodeAt(i);
+
+      if (charCode < ccLow | charCode > ccHigh)
+      {
+         return false;
+      }
+   }
+
+   return true;
+};
 
 /*
  *
@@ -31,7 +58,7 @@ UTILS.string = {};
 UTILS.string.ltrim = function (str)
 {
    var f = 'UTILS.string.ltrim()';
-   UTILS.checkArgs(f, arguments, [String]);
+   UTILS.checkArgs(f, arguments, ['string']);
 
    // Find index of leftmost non-whitespace character.
    var l = 0;
@@ -47,7 +74,7 @@ UTILS.string.ltrim = function (str)
 UTILS.string.trim = function (str)
 {
    var f = 'UTILS.string.trim()';
-   UTILS.checkArgs(f, arguments, [String]);
+   UTILS.checkArgs(f, arguments, ['string']);
 
    // Find index of leftmost non-whitespace character.
    var l = 0;
@@ -68,7 +95,7 @@ UTILS.string.trim = function (str)
 UTILS.string.removeLeadingZeros = function (str)
 {
    var f = 'UTILS.string.removeLeadingZeros()';
-   UTILS.checkArgs(f, arguments, [String]);
+   UTILS.checkArgs(f, arguments, ['string']);
 
    var i = 0;
    var c = str.charAt(i);
@@ -87,7 +114,7 @@ UTILS.string.removeLeadingZeros = function (str)
 UTILS.string.removeWhitespace = function (strIn)
 {
    var f = 'UTILS.string.removeWhiteSpace()';
-   UTILS.checkArgs(f, arguments, [String]);
+   UTILS.checkArgs(f, arguments, ['string']);
 
    return strIn.replace(/\s/g, '');
 };
@@ -98,7 +125,7 @@ UTILS.string.removeWhitespace = function (strIn)
 UTILS.string.replaceAllWhitespaceCharsWithSpaces = function (strIn)
 {
    var f = 'UTILS.string.replaceAllWhitespaceCharsWithSpaces()';
-   UTILS.checkArgs(f, arguments, [String]);
+   UTILS.checkArgs(f, arguments, ['string']);
 
    return strIn.replace(/\s/g, ' ');
 };
@@ -109,7 +136,7 @@ UTILS.string.replaceAllWhitespaceCharsWithSpaces = function (strIn)
 UTILS.string.removeMultipleSpaces = function (strIn)
 {
    var f = 'BracketedTextFormatter.removeMultipleSpaces()';
-   UTILS.checkArgs(f, arguments, [String]);
+   UTILS.checkArgs(f, arguments, ['string']);
 
    // Replace multiple spaces with single spaces.
    return strIn.replace(/[ ]+/g, ' ');
@@ -121,7 +148,7 @@ UTILS.string.removeMultipleSpaces = function (strIn)
 UTILS.string.implode = function (joinStr, strs)
 {
    var f = 'UTILS.string.implode()';
-   UTILS.checkArgs(f, arguments, [String, Array]);
+   UTILS.checkArgs(f, arguments, ['string', 'array']);
 
    if (strs.length == 0)
    {
@@ -144,7 +171,7 @@ UTILS.string.implode = function (joinStr, strs)
 UTILS.string.countOccurrencesOfCharacter = function (string, c)
 {
    var f = 'UTILS.string.countOccurrencesOfCharacter()';
-   UTILS.checkArgs(f, arguments, [String, String]);
+   UTILS.checkArgs(f, arguments, ['string', 'string']);
 
    console.assert(c.length == 1);
 
@@ -167,7 +194,7 @@ UTILS.string.countOccurrencesOfCharacter = function (string, c)
 UTILS.string.countOccurrencesOfSubstring = function (string, substring)
 {
    var f = 'UTILS.string.countOccurrencesOfSubstring()';
-   UTILS.checkArgs(f, arguments, [String, String]);
+   UTILS.checkArgs(f, arguments, ['string', 'string']);
 
    var nSubstrings     = 0;
    var inSubstring     = false;
@@ -211,6 +238,31 @@ UTILS.string.countOccurrencesOfSubstring = function (string, substring)
 };
 
 /*
+ *
+ */
+UTILS.string.convertCamelCaseToHyphenated = function (camelCasedString)
+{
+   var f = 'UTILS.string.convertCamelCaseToHyphenated()';
+   UTILS.checkArgs(f, arguments, ['string']);
+
+   var hyphenatedString = '';
+
+   for (var i = 0, len = camelCasedString.length; i < len; ++i)
+   {
+      var c = camelCasedString[i];
+
+      if (c == c.toUpperCase())
+      {
+         hyphenatedString += '-';
+      }
+
+      hyphenatedString += c.toLowerCase();
+   }
+
+   return hyphenatedString;
+};
+
+/*
  * Build an HTML element containing text nodes separated by BR elements.
  * The BR elements are spliced into the string wherever '\n' characters are found.
  *
@@ -232,7 +284,7 @@ UTILS.string.countOccurrencesOfSubstring = function (string, substring)
 UTILS.string.buildDomElementWithBrs = function (tagName, nullOrStr, attributes)
 {
    var f = 'UTILS.string.buildDomElementWithBrs()';
-   UTILS.checkArgs(f, arguments, [String, 'nullOrString', Object]);
+   UTILS.checkArgs(f, arguments, ['string', 'nullOrString', 'object']);
 
    eval('var elem = ' + tagName.toUpperCase() + '();');
 
@@ -254,6 +306,6 @@ UTILS.string.buildDomElementWithBrs = function (tagName, nullOrStr, attributes)
    }
 
    return elem;
-}
+};
 
 /*******************************************END*OF*FILE********************************************/
