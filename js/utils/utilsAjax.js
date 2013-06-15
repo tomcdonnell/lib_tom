@@ -6,7 +6,7 @@
 *
 * Project: Utilities.
 *
-* Purpose: Utilities concerning the Document Object Model (DOM).
+* Purpose: Utilities pertaining to AJAX.
 *
 * Dependencies: jQuery.
 *

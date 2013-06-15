@@ -22,15 +22,10 @@ var UTILS = {};
 // Global objects. -------------------------------------------------------------------------------//
 
 /**
- * Exception object definition.
+ * Exception class definition.
  *
- * If this object was defined in the style of: "UTILS.Exception = function (...) {...}", its type
- * would be "function()", and it would be indistinguishable from any other anonymous function.
- * That is why it is defined outside the 'UTILS' namespace.
- *
- * @param f       {String} The name of the function throwing the exception.
- * @param desc    {String} A short description of what went wrong.
- * @param details {String} A longer description of what went wrong.
+ * @param f    {String} The name of the function throwing the exception.
+ * @param desc {String} A short description of what went wrong.
  */
 function Exception(f, desc)
 {
