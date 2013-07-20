@@ -18,10 +18,14 @@
  */
 class PdoExtended extends PDO
 {
-   // Public functions. ////////////////////////////////////////////////////////////////////////
+   // Public functions. /////////////////////////////////////////////////////////////////////////
 
    /*
-    *
+    * Usage:
+    *    $pdoEx = new PdoExtended
+    *    (
+    *        'mysql:host=localhost;dbname=databasename', 'username', 'password'
+    *    );
     */
    public function __construct($dsn, $username, $password, $driverOptions = null)
    {
@@ -36,45 +40,119 @@ class PdoExtended extends PDO
          );
       }
 
-      parent::__construct($dsn, $username, $password, $driverOptions);
+      // Note Regarding Error Suppression
+      // --------------------------------
+      // The purpose of the error suppression '@' is to avoid a warning when the 'database server
+      // has gone away'.  A new connection is reestablished in that case, and there is no need to
+      // display the warning.
+      @parent::__construct($dsn, $username, $password, $driverOptions);
 
       $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    }
 
    /*
-    * Usage:
     *
-    * $pdoEx = new PdoExtended($dsn, $username, $password);
-    * $rows  = $pdo->queryRows('SELECT id, name_first FROM user');
-    * foreach ($rows as $row)
-    * {
-    *    echo $row['id'        ];
-    *    echo $row['name_first'];
-    * }
     */
-   public function selectRows($sql, $params = array())
+   public function quoteIdentifier($identifier)
    {
-      $pdoStatement = $this->_prepareAndExecuteSqlQuery($sql, $params);
+      $regex             = '/^[A-Za-z0-9_ ]*$/';
+      $quotedIdentifiers = array();
+      $identifiers       =
+      (
+         // Deal with possibility of identifier being of form "$dbName.$tableName".
+         (strpos($identifier, '.') === false)? array($identifier): explode('.', $identifier)
+      );
 
-      return $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($identifiers as $identifier)
+      {
+         if (preg_match($regex, $identifier) == 0)
+         {
+            throw new Exception
+            (
+               // http://stackoverflow.com/questions/1542627/escaping-field-names-in-pdo-statements.
+               "Identifier '$identifier' to be used in SQL query does not match regex '$regex'."
+            );
+         }
+
+         $quotedIdentifiers[] = "`$identifier`";
+      }
+
+      return implode('.', $quotedIdentifiers);
+   }
+
+   /*
+    *
+    */
+   public function rowExistsInTable($tableName, Array $whereValueByColumnName)
+   {
+      $whereConditions = array();
+
+      foreach ($whereValueByColumnName as $columnName => $value)
+      {
+         $whereConditions[] = $this->quoteIdentifier($columnName) .
+         (
+             ($value === null)? ' IS NULL': '=' . $this->quote($value)
+         );
+      }
+
+      $pdoStatement = $this->_prepareAndExecuteSqlQuery
+      (
+         'SELECT EXISTS
+          (
+             SELECT *
+             FROM ' . $this->quoteIdentifier($tableName) . '
+             WHERE ' . implode(' AND ', $whereConditions) . '
+          ) AS `exists`',
+         array()
+      );
+
+      $rows  = $pdoStatement->fetchAll();
+      $nRows = count($rows);
+
+      if (count($rows) != 1)
+      {
+         $this->_throwSqlQueryException
+         (
+            $sql, array(), "Unexpected number of rows ($nRows) returned by SQL query."
+         );
+      }
+
+      return ($rows[0]['exists'] == '1');
    }
 
    /*
     * Usage:
     *
     * $pdoEx = new PdoExtended($dsn, $username, $password);
-    * $rows  = $pdo->queryRows('SELECT id, name_first FROM user');
+    * $rows  = $pdo->selectRows('SELECT id, name_first FROM user');
     * foreach ($rows as $row)
     * {
     *    echo $row['id'        ];
     *    echo $row['name_first'];
     * }
     */
-   public function selectRow($sql, $params = array())
+   public function selectRows($sql, Array $params = array(), $pdoFetchConst = PDO::FETCH_ASSOC)
    {
+      if (!in_array($pdoFetchConst, array(PDO::FETCH_ASSOC, PDO::FETCH_NUM, PDO::FETCH_OBJ)))
+      {
+         throw new Exception('Unexpected value for PDO::FETCH_... constant.');
+      }
+
       $pdoStatement = $this->_prepareAndExecuteSqlQuery($sql, $params);
 
-      $rows = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
+      return $pdoStatement->fetchAll($pdoFetchConst);
+   }
+
+   /*
+    * Usage:
+    *
+    * $pdoEx = new PdoExtended($dsn, $username, $password);
+    * $row   = $pdo->selectRow('SELECT * FROM user WHERE id=4');
+    */
+   public function selectRow($sql, Array $params = array())
+   {
+      $pdoStatement = $this->_prepareAndExecuteSqlQuery($sql, $params);
+      $rows         = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
 
       if (count($rows) != 1)
       {
@@ -85,8 +163,13 @@ class PdoExtended extends PDO
          // zero or multiple rows are returned, then something serious has gone wrong and an
          // exception is appropriate.  In the less common case where the caller expects either
          // zero or one row to be returned, the caller would have to check the result anyway
-         // to see whether zero or one row was returned.  Use $this->queryRows() in that case.
-         throw new Exception('Expected one row from SQL query, zero or multiple rows returned.');
+         // to see whether zero or one row was returned.  Use $this->fetchAll() or
+         // $this->selectRowOrNull() for the case where the row may not exist.
+         $this->_throwSqlQueryException
+         (
+            $sql, $params,
+            'Expected one row from SQL query, ' . count($rows) . ' rows returned.'
+         );
       }
 
       return $rows[0];
@@ -96,13 +179,43 @@ class PdoExtended extends PDO
     * Usage:
     *
     * $pdoEx = new PdoExtended($dsn, $username, $password);
-    * $ids   = $pdo->queryColumn('SELECT id FROM user');
+    * $row   = $pdo->selectRowOrNull('SELECT * FROM user WHERE id=4');
+    *
+    * if ($row === null)
+    * {
+    *    // Act.
+    * }
+    */
+   public function selectRowOrNull($sql, Array $params = array())
+   {
+      $pdoStatement = $this->_prepareAndExecuteSqlQuery($sql, $params);
+      $rows         = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
+
+      switch (count($rows))
+      {
+       case 0:
+         return null;
+       case 1:
+         return $rows[0];
+       default:
+         $this->_throwSqlQueryException
+         (
+            $sql, $params, 'Expected one or zero rows from SQL query, multiple rows returned.'
+         );
+      }
+   }
+
+   /*
+    * Usage:
+    *
+    * $pdoEx = new PdoExtended($dsn, $username, $password);
+    * $ids   = $pdo->selectColumn('SELECT id FROM user');
     * foreach ($ids as $id)
     * {
     *    echo $id;
     * }
     */
-   public function selectColumn($sql, $params = array(), $boolConvertToInt = false)
+   public function selectColumn($sql, Array $params = array(), $boolConvertToInt = false)
    {
       $pdoStatement = $this->_prepareAndExecuteSqlQuery($sql, $params);
       $column       = array();
@@ -119,14 +232,14 @@ class PdoExtended extends PDO
     * Usage:
     *
     * $pdoEx         = new PdoExtended($dsn, $username, $password);
-    * $nameFirstById = $pdo->queryIndexedColumn('SELECT id, name_first FROM user');
+    * $nameFirstById = $pdo->selectIndexedColumn('SELECT id, name_first FROM user');
     * foreach ($nameFirstById as as $id => $nameFirst)
     * {
     *    echo $id;
     *    echo $nameFirst;
     * }
     */
-   public function selectIndexedColumn($sql, $params = array(), $boolConvertToInt = false)
+   public function selectIndexedColumn($sql, Array $params = array(), $boolConvertToInt = false)
    {
       $pdoStatement = $this->_prepareAndExecuteSqlQuery($sql, $params);
       $valueByKey   = array();
@@ -135,7 +248,10 @@ class PdoExtended extends PDO
       {
          if (count($row) != 2)
          {
-            throw new Exception("Each row is expected to contain exactly two elements.");
+            $this->_throwSqlQueryException
+            (
+               $sql, $params, "Each row is expected to contain exactly two elements."
+            );
          }
 
          $valueByKey[$row[0]] = ($boolConvertToInt)? (int)$row[1]: $row[1];
@@ -148,24 +264,55 @@ class PdoExtended extends PDO
     * Usage:
     *
     * $pdoEx     = new PdoExtended($dsn, $username, $password);
-    * $nameFirst = $pdo->queryField('SELECT nameFirst FROM user WHERE id=4');
+    * $nameFirst = $pdo->selectField('SELECT nameFirst FROM user WHERE id=4');
     */
-   public function selectField($sql, $params = array(), $boolConvertToInt = false)
+   public function selectField($sql, Array $params = array(), $boolConvertToInt = false)
    {
       $pdoStatement = $this->_prepareAndExecuteSqlQuery($sql, $params);
       $field        = $pdoStatement->fetchColumn();
 
       if ($field === false)
       {
-         throw new Exception('Expected one row from SQL query, zero rows returned.');
+         $this->_throwSqlQueryException
+         (
+            $sql, $params, 'Expected one row from SQL query, zero rows returned.'
+         );
       }
 
       if ($pdoStatement->fetchColumn())
       {
-         throw new Exception('Expected one row from SQL query, multiple rows returned.');
+         $this->_throwSqlQueryException
+         (
+            $sql, $params, 'Expected one row from SQL query, multiple rows returned.'
+         );
       }
 
-      return $field;
+      return ($boolConvertToInt)? (int)$field: $field;
+   }
+
+   /*
+    * Usage:
+    *
+    * $pdoEx     = new PdoExtended($dsn, $username, $password);
+    * $nameFirst = $pdo->selectFieldOrNull('SELECT nameFirst FROM user WHERE id=4');
+    */
+   public function selectFieldOrNull($sql, Array $params = array(), $boolConvertToInt = false)
+   {
+      $row = $this->selectRowOrNull($sql, $params);
+
+      if ($row === null)
+      {
+         return null;
+      }
+
+      if (count($row) != 1)
+      {
+         throw new Exception('Expected one field in row, found ' . count($row) . ' fields.');
+      }
+
+      $field = array_pop($row);
+
+      return ($boolConvertToInt)? (int)$field: $field;
    }
 
    /*
@@ -176,7 +323,7 @@ class PdoExtended extends PDO
     *
     * To perform more complex inserts use $pdoEx->prepare() and $pdoEx->execute() manually.
     */
-   public function insert($tableName, $valueByKey)
+   public function insert($tableName, Array $valueByKey)
    {
       if (count($valueByKey) == 0)
       {
@@ -199,19 +346,15 @@ class PdoExtended extends PDO
       }
       catch (Exception $e)
       {
-         // Catch 'number of bound variables does not match' error and add more info to exception.
-         // Note that this error will only be caught if errors are converted to exceptions.
-         // See UtilsError::initErrorAndExceptionHandler().
-         throw new Exception($e->getMessage() . self::_getSqlAndParamsAsString($sql, $valueByKey));
+         // Catch eg. 'number of bound variables does not match' error and add more info to
+         // exception.  Note that this error will only be caught if errors are converted to
+         // exceptions.  See Utils_error::initErrorAndExceptionHandler().
+         $this->_throwSqlQueryException($sql, $valueByKey, $e->getMessage());
       }
 
       if (!$success)
       {
-         throw new Exception
-         (
-            "Insert query failed.\nsql:\n" .
-            var_export($sql, true) . "\nparams:" . var_export($valueByKey, true)
-         );
+         $this->_throwSqlQueryException($sql, $valueByKey, 'Insert query failed.');
       }
 
       return $this->lastInsertId();
@@ -230,7 +373,7 @@ class PdoExtended extends PDO
     *
     * To perform more complex updates use $pdoEx->prepare() and $pdoEx->execute() manually.
     */
-   public function update($tableName, $updateValueByKey, $whereValueByKey = array())
+   public function update($tableName, Array $updateValueByKey, Array $whereValueByKey = array())
    {
       if (count($updateValueByKey) == 0)
       {
@@ -240,8 +383,20 @@ class PdoExtended extends PDO
       $strings    = array();
       $conditions = array();
 
-      foreach ($updateValueByKey as $k => $v) {$strings[]    = "`$k`=" . $this->quote($v);}
-      foreach ($whereValueByKey  as $k => $v) {$conditions[] = "`$k`=" . $this->quote($v);}
+      foreach ($updateValueByKey as $k => $v)
+      {
+         $strings[] = "`$k`=" . (($v === null)? 'NULL': $this->quote($v));
+      }
+
+      foreach ($whereValueByKey  as $k => $v)
+      {
+         // Note Regarding Integer Keys
+         // ---------------------------
+         // If integer-keyed values are encountered in the $whereValueByKey array, those values
+         // are assumed to be strings specifying entire conditions.  This is to allow arbitrary
+         // conditions not of the form 'key=value' to be used.  Eg 'id IN (13, 12341, 1234, 1234)'.
+         $conditions[] = (is_int($k))? $v: "`$k`=" . $this->quote($v);
+      }
 
       $sql =
       (
@@ -249,30 +404,38 @@ class PdoExtended extends PDO
          "\nWHERE " . implode(' AND ', $conditions)
       );
 
-      // Function exec() is used here instead of execute because exec() returns the number
-      // of rows affected while execute returns a boolean indicating success or failure.
-      $nRowsAffected = $this->exec($sql);
+      try
+      {
+         // Function exec() is used here instead of execute because exec() returns the number
+         // of rows affected while execute returns a boolean indicating success or failure.
+         $nRowsAffected = $this->exec($sql);
+      }
+      catch (Exception $e)
+      {
+         // Catch syntax errors in the SQL query.
+         $this->_throwSqlQueryException($sql, array(), 'Update query failed.');
+      }
 
       if ($nRowsAffected === false)
       {
-         throw new Exception("Update query failed.\nsql:\n" . var_export($sql, true));
+         $this->_throwSqlQueryException($sql, array(), 'Update query failed.');
       }
 
       return $nRowsAffected;
    }
 
-   // Private functions. ///////////////////////////////////////////////////////////////////////
+   // Private functions. ////////////////////////////////////////////////////////////////////////
 
    /*
     *
     */
-   private function _prepareAndExecuteSqlQuery($sql, $params)
+   private function _prepareAndExecuteSqlQuery($sql, Array $params)
    {
       $pdoStatement = $this->prepare($sql);
 
       if ($pdoStatement === false)
       {
-         $this->_throwExceptionWithErrorInfo('PDO->prepare() returned false.');
+         $this->_throwSqlQueryException($sql, $params, 'PDO->prepare() returned false.');
       }
 
       try
@@ -283,10 +446,9 @@ class PdoExtended extends PDO
       {
          // Catch 'number of bound variables does not match' error and add more info to exception.
          // Note that this error will only be caught if errors are converted to exceptions.
-         // See UtilsError::initErrorAndExceptionHandler().
-         throw new Exception($e->getMessage() . self::_getSqlAndParamsAsString($sql, $params));
+         // See Utils_error::initErrorAndExceptionHandler().
+         $this->_throwSqlQueryException($sql, $params, $e->getMessage());
       }
-
 
       return $pdoStatement;
    }
@@ -294,24 +456,11 @@ class PdoExtended extends PDO
    /*
     *
     */
-   public function _getSqlAndParamsAsString($sql, $params)
+   public function _throwSqlQueryException($sql, Array $params, $message)
    {
-      return "\nsql:\n" . var_export($sql, true) . "\nparams:\n" . var_export($params, true);
-   }
-
-   /*
-    *
-    */
-   public function _throwExceptionWithErrorInfo($errorDescription)
-   {
-      $errorInfo = $this->errorInfo();
-
       throw new Exception
       (
-         "$errorDescription\n"                         .
-         "\nSQLSTATE: {$errorInfo[0]}"                 .
-         "Driver-specific error code: {$errorInfo[1]}" .
-         "Driver-specific error message: {$errorInfo[2]}"
+         "$message\nsql:\n" . var_export($sql, true) . "\nparams:\n" . var_export($params, true)
       );
    }
 }

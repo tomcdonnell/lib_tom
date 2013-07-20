@@ -33,14 +33,14 @@ UTILS.ajax.createReceiveAjaxMessageFunction = function
 )
 {
    var f = 'UTILS.ajax.createReceiveAjaxMessageFunction()';
-   UTILS.checkArgs(f, arguments, [String, Function, Object]);
+   UTILS.checkArgs(f, arguments, ['string', 'function', 'object']);
 
    return function (msg, textStatus, jqXHR)
    {
       try
       {
          var f = objectName + '._receiveAjaxMessage()';
-         UTILS.checkArgs(f, arguments, [Object, String, Object]);
+         UTILS.checkArgs(f, arguments, ['object', 'string', 'object']);
          UTILS.validator.checkObject(msg, {action: 'string', success: 'bool', reply: 'Defined'});
 
          var action  = msg.action;
@@ -55,10 +55,7 @@ UTILS.ajax.createReceiveAjaxMessageFunction = function
 
          if (typeof responseFunctionByAction[action] == 'undefined')
          {
-            throw new Exception
-            (
-               f, 'No response function defined for action "' + action + '".', ''
-            );
+            throw new Exception(f, 'No response function defined for action "' + action + '".');
          }
 
          if (!success)
@@ -67,7 +64,7 @@ UTILS.ajax.createReceiveAjaxMessageFunction = function
             {
                throw new Exception
                (
-                  f, 'The type of msg.reply should be a string if msg.success is false.', ''
+                  f, 'The type of msg.reply should be a string if msg.success is false.'
                );
             }
 
