@@ -30,7 +30,7 @@ function BracketedTextParser()
    this.parse = function (str)
    {
       var f = 'BracketedTextParser.parse()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var parseTree = [];
 
@@ -52,7 +52,7 @@ function BracketedTextParser()
    function getToken(str)
    {
       var f = 'BracketedTextParser.getToken()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       if (parseIndex >= str.length)
       {
@@ -124,8 +124,7 @@ function BracketedTextParser()
          (
             f,
             'No closing quote found for opening quote at position ' + openingQuoteIndex +
-            " of string.",
-            str.substr(0, openingQuoteIndex + 1)
+            " of string. '" + str.substr(0, openingQuoteIndex + 1) + "'"
          );
       }
 
@@ -247,8 +246,7 @@ function BracketedTextParser()
       (
          f,
          'No closing bracket found for opening bracket at position ' + openingBracketIndex +
-         " of string.",
-         str.substr(0, openingBracketIndex + 1)
+         " of string. '" + str.substr(0, openingBracketIndex + 1) + "'"
       );
    }
 
@@ -266,10 +264,7 @@ function BracketedTextParser()
        case '{': return '}';
        case '[': return ']';
        default :
-         throw new Exception
-         (
-            f, "Character '" + openingBracket + "' is not an opening bracket.", ''
-         );
+         throw new Exception(f, "Character '" + openingBracket + "' is not an opening bracket.");
       }
    }
 

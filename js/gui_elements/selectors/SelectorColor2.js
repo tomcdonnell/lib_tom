@@ -19,7 +19,7 @@
 function SelectorColor2(tableWidth, n_cols)
 {
    var f = 'SelectorColor()';
-   UTILS.checkArgs(f, arguments, [Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number']);
    UTILS.assert(f, 0, tableWidth > 0 && tableWidth % 1 == 0);
    UTILS.assert(f, 1, n_cols     > 0 && n_cols     % 1 == 0);
    UTILS.assert(f, 2, tableWidth % n_cols == 0);
@@ -57,7 +57,7 @@ function SelectorColor2(tableWidth, n_cols)
       try
       {
          var f = 'SelectorColor.onClickColorGrid()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var x = $(e.target).index();
          var y = n_rows - $(e.target.parentNode).index();
@@ -85,16 +85,11 @@ function SelectorColor2(tableWidth, n_cols)
       try
       {
          var f = 'SelectorColor.onBlurSelectedColorTextBox()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
-         colorStr = tdSelectedColorTextBox.value;
-
-         // TODO: Check validity of colorStr using regular expression.
-
-         // Extract color components from colorStr.
+         var colorStr        = tdSelectedColorTextBox.value;
          var colorComponents = convertCssStrToColorComponents(colorStr);
 
-         // Set selected color components.
          selectedR = colorComponents.r;
          selectedG = colorComponents.g;
          selectedB = colorComponents.b;
@@ -115,7 +110,7 @@ function SelectorColor2(tableWidth, n_cols)
    function updateSelectedColorStr(colorStr)
    {
       var f = 'SelectorColor.updateSelectedColorStr()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var compColStrR = getComplementaryColorStr(colorStr, 'r');
       var compColStrG = getComplementaryColorStr(colorStr, 'g');
@@ -139,11 +134,7 @@ function SelectorColor2(tableWidth, n_cols)
     */
    function convertColorComponentsToCssStr(r, g, b)
    {
-      // var f = 'SelectorColor.convertColorComponentsToCssStr()';
-      // UTILS.checkArgs(f, arguments, [Number, Number, Number]);
-      // UTILS.assert(f, 0, 0 <= r && r <= 1);
-      // UTILS.assert(f, 1, 0 <= g && g <= 1);
-      // UTILS.assert(f, 2, 0 <= b && b <= 1);
+      // NOTE: No argument checking is done here for performance reasons.
 
       // Scale from range [0, 1] to range [0, 255].
       var r256 = r * 255;
@@ -167,7 +158,7 @@ function SelectorColor2(tableWidth, n_cols)
    function convertCssStrToColorComponents(colorStr)
    {
       var f = 'SelectorColor.convertCssStrToColorComponents()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var s = colorStr; // Abbreviation.
 
@@ -183,8 +174,7 @@ function SelectorColor2(tableWidth, n_cols)
     */
    function convertNumberToHexChar(d)
    {
-      // var f = 'SelectorColor.convertToHexChar()';
-      // UTILS.checkArgs(f, arguments, [Number]);
+      // NOTE: No argument checking is done here for performance reasons.
 
       d = Math.floor(d);
 
@@ -211,7 +201,7 @@ function SelectorColor2(tableWidth, n_cols)
    function convertHexCharToNumber(c)
    {
       var f = 'SelectorColor.convertToHexChar()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       switch (c)
       {
@@ -244,9 +234,7 @@ function SelectorColor2(tableWidth, n_cols)
     */
    function setSelectedColorComponents(x, y)
    {
-      // var f = 'SelectorColor.setSelectedColorComponents()';
-      // UTILS.checkArgs(f, arguments, [Number, Number]);
-      // UTILS.assert(f, 0, squareIsInsideTriangle(x, y));
+      // NOTE: No argument checking is done here for performance reasons.
 
       with (Math)
       {
@@ -255,13 +243,9 @@ function SelectorColor2(tableWidth, n_cols)
          var distToR = sqrt(pow(x - rCoords.x, 2) + pow(y - rCoords.y, 2));
          var distToG = sqrt(pow(x - gCoords.x, 2) + pow(y - gCoords.y, 2));
          var distToB = sqrt(pow(x - bCoords.x, 2) + pow(y - bCoords.y, 2));
-//console.debug(f, 'dist r, g, b: ', distToR, distToG, distToB);
-//console.debug(f, 'radius: ', radius);
          selectedR = (0 <= distToR && distToR <= radius)? -distToR / radius + 1: 0;
          selectedG = (0 <= distToG && distToG <= radius)? -distToG / radius + 1: 0;
          selectedB = (0 <= distToB && distToB <= radius)? -distToB / radius + 1: 0;
-
-//console.debug(f, 'r, g, b: ', selectedR, selectedG, selectedB);
       }
    }
 
@@ -270,9 +254,7 @@ function SelectorColor2(tableWidth, n_cols)
     */
    function setSelectedIntensity(x, y)
    {
-      // var f = 'SelectorColor.setSelectedIntensity()';
-      // UTILS.checkArgs(f, arguments, [Number, Number]);
-      // UTILS.assert(f, 0, !squareIsInsideTriangle(x, y));
+      // NOTE: No argument checking is done here for performance reasons.
 
       selectedIntensity = y / n_rows;
    }
@@ -282,8 +264,7 @@ function SelectorColor2(tableWidth, n_cols)
     */
    function getComplementaryColorStr(colorStr, rORgORb)
    {
-      // var f = 'SelectorColor.getComplementaryColorStr()';
-      // UTILS.checkArgs(f, arguments, [String, String]);
+      // NOTE: No argument checking is done here for performance reasons.
 
       var rStr = colorStr.substr(1, 2);
       var gStr = colorStr.substr(3, 2);

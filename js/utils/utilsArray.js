@@ -27,7 +27,7 @@ UTILS.array = {};
 UTILS.array.compare = function (a, b)
 {
    var f = 'UTILS.array.compare ()';
-   UTILS.checkArgs(f, arguments, [Array, Array]);
+   UTILS.checkArgs(f, arguments, ['array', 'array']);
 
    var len = a.length;
    if (b.length != len)
@@ -70,7 +70,7 @@ UTILS.array.compare = function (a, b)
 UTILS.array.print2dArrayToConsole = function (a)
 {
    var f = 'UTILS.array.print2dArrayToConsole()';
-   UTILS.checkArgs(f, arguments, [Array]);
+   UTILS.checkArgs(f, arguments, ['array']);
 
    console.info('+ 2d Array:');
 
@@ -95,7 +95,7 @@ UTILS.array.print2dArrayToConsole = function (a)
 UTILS.array.findIndexOfElement = function (a, e)
 {
    var f = 'UTILS.array.hasElement()';
-   UTILS.checkArgs(f, arguments, [Array, 'Defined']);
+   UTILS.checkArgs(f, arguments, ['array', 'Defined']);
 
    for (var i = 0, len = a.length; i < len; ++i)
    {

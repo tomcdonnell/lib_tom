@@ -27,7 +27,7 @@ UTILS.date = {};
 UTILS.date.getMonthName = function (m)
 {
    var f = 'UTILS.date.getMonthName()';
-   UTILS.checkArgs(f, arguments, [Number]);
+   UTILS.checkArgs(f, arguments, ['number']);
 
    switch (m)
    {
@@ -53,7 +53,7 @@ UTILS.date.getMonthName = function (m)
 UTILS.date.getMonthAbbrev = function (m)
 {
    var f = 'UTILS.date.getMonthAbbrev()';
-   UTILS.checkArgs(f, arguments, [Number]);
+   UTILS.checkArgs(f, arguments, ['number']);
 
    switch (m)
    {
@@ -79,7 +79,7 @@ UTILS.date.getMonthAbbrev = function (m)
 UTILS.date.dateExists = function (y, m, d)
 {
    var f = 'UTILS.date.dateExists()';
-   UTILS.checkArgs(f, arguments, [Number, Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number', 'number']);
 
    if (m < 1 || m > 12)
    {
@@ -97,7 +97,7 @@ UTILS.date.dateExists = function (y, m, d)
 UTILS.date.isLeapYear = function (y)
 {
    var f = 'UTILS.date.isLeapYear()';
-   UTILS.checkArgs(f, arguments, [Number]);
+   UTILS.checkArgs(f, arguments, ['number']);
 
    return (y % 4 == 0 && !((y % 100 == 0) && (y % 400 != 0)));
 };
@@ -108,7 +108,7 @@ UTILS.date.isLeapYear = function (y)
 UTILS.date.getNDaysInMonth = function (y, m)
 {
    var f = 'UTILS.date.getNDaysInMonth()';
-   UTILS.checkArgs(f, arguments, [Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number']);
 
    switch (m)
    {
@@ -140,7 +140,7 @@ UTILS.date.getNDaysInMonth = function (y, m)
 UTILS.date.compare = function (yA, mA, dA, yB, mB, dB)
 {
    var f = 'UTILS.date.compare()';
-   UTILS.checkArgs(f, arguments, [Number, Number, Number, Number, Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number', 'number', 'number', 'number', 'number']);
 
    return c =
    (
@@ -150,11 +150,11 @@ UTILS.date.compare = function (yA, mA, dA, yB, mB, dB)
          (
             (dA == dB)?
             0:
-            ((Number(dA) > Number(dB))? 1: -1)
+            (('number'(dA) > 'number'(dB))? 1: -1)
          ):
-         ((Number(mA) > Number(mB))? 1: -1)
+         (('number'(mA) > 'number'(mB))? 1: -1)
       ):
-      ((Number(yA) > Number(yB))? 1: -1)
+      (('number'(yA) > 'number'(yB))? 1: -1)
    );
 };
 
@@ -177,7 +177,7 @@ UTILS.date.compareObjects = function (dA, dB)
 UTILS.date.getFirstDayOfMonth = function (year, month)
 {
    var f = 'UTILS.date.getFirstDayOfMonth()';
-   UTILS.checkArgs(f, arguments, [Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number']);
    UTILS.assert(f, 0, 0 < year);
    UTILS.assert(f, 1, 0 < month && month <= 12);
 
@@ -196,7 +196,7 @@ UTILS.date.getFirstDayOfMonth = function (year, month)
 UTILS.date.getFirstWeekOfMonth = function (year, month)
 {
    var f = 'UTILS.date.getFirstWeekOfMonth()';
-   UTILS.checkArgs(f, arguments, [Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number']);
    UTILS.assert(f, 0, 0 < year);
    UTILS.assert(f, 1, 0 < month && month <= 12);
 

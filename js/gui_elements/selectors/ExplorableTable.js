@@ -22,7 +22,7 @@
 function ExplorableTable(table, ajaxUrl, rowLinkUrl)
 {
    var f = 'ExplorableTable()';
-   UTILS.checkArgs(f, arguments, [HTMLTableElement, String, String]);
+   UTILS.checkArgs(f, arguments, ['HTMLTableElement', 'string', 'string']);
 
    // Privileged functions. /////////////////////////////////////////////////////////////////////
 
@@ -36,7 +36,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    this.initRootCategoryRows = function (idCategoryRoot)
    {
       var f = 'ExplorableTable.initRootCategoryRows()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       _state.idCategoryRoot = idCategoryRoot;
       $(_domElements.tbody).html('');
@@ -57,7 +57,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
       try
       {
          var f = 'ExplorableTable._receiveAjaxMessage()';
-         UTILS.checkArgs(f, arguments, [Object, String, Object]);
+         UTILS.checkArgs(f, arguments, ['object', 'string', 'object']);
 
          UTILS.validator.checkObject(msg, {action: 'string', reply: 'Defined'});
 
@@ -97,7 +97,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
       try
       {
          var f = 'ExplorableTable._onClickExpandContractButton()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var buttonClicked = e.target;
          var buttonTrs     = $(buttonClicked).parent().parent();
@@ -157,7 +157,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
       try
       {
          var f = 'ExplorableTable._onClickDataRow()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          // Redirect
       }
@@ -175,7 +175,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _getButtonsForRow(tr)
    {
       var f = 'ExplorableTable.getButtonsForRow()';
-      UTILS.checkArgs(f, arguments, [HTMLTableRowElement]);
+      UTILS.checkArgs(f, arguments, ['HTMLTableRowElement']);
 
       var tds      = $(tr).children();
       var firstTd  = tds[0];
@@ -197,7 +197,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _getIdCategoryFromCategoryTrId(idAttribute)
    {
       var f = 'ExplorableTable._getIdCategoryFromCategoryTrId()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var lastUnderscorePos = idAttribute.lastIndexOf('_');
       var idCategoryString  = idAttribute.substring(11, lastUnderscorePos);
@@ -216,7 +216,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _getIdCategoryParentFromCategoryTrId(idAttribute)
    {
       var f = 'ExplorableTable._getIdCategoryParentFromCategoryTrId()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var lastUnderscorePos      = idAttribute.indexOf('_', true);
       var idCategoryParentString = idAttribute.substr(lastUnderscorePos);
@@ -232,7 +232,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _getIndentLevelOfRow(tr)
    {
       var f = 'ExplorableTable._getIndentLevelOfRow()';
-      UTILS.checkArgs(f, arguments, [HTMLTableRowElement]);
+      UTILS.checkArgs(f, arguments, ['HTMLTableRowElement']);
 
       var tds         = $(tr).children();
       console.assert(tds.length == 1);
@@ -256,7 +256,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _setButtonAttributes(button, newState)
    {
       var f = 'ExplorableTable._setButtonAttributes()';
-      UTILS.checkArgs(f, arguments, [HTMLInputElement, String]);
+      UTILS.checkArgs(f, arguments, ['HTMLInputElement', 'string']);
 
       if ($(button).attr('disabled'))
       {
@@ -351,7 +351,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _createCategoryRowsFromCategoriesInfo(categoriesInfo)
    {
       var f = 'ExplorableTable._createCategoryRowsFromCategoriesInfo()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       var trs                    = [];
       var categoryParentTr       = _state.trToAppendCategoryRowsAfter;
@@ -419,7 +419,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _appendCategoryRowsAfterSavedRow(trs)
    {
       var f = 'ExplorableTable._appendCategoryRowsAfterSavedRow()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       var trToAppendCategoryRowsAfter = _state.trToAppendCategoryRowsAfter;
 
@@ -473,7 +473,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _appendDataRowsAfterSavedRow(trs)
    {
       var f = 'ExplorableTable._appendDataRowsAfterSavedRow()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       var trToAppendDataRowsAfter = _state.trToAppendDataRowsAfter;
 
@@ -510,7 +510,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _convertArraysOfStringsToTrsWithSeparators(arraysOfStrings)
    {
       var f = 'ExplorableTable._convertArraysOfStringsToTrsWithSeparators()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       var trs             = [];
       var nColumnHeadings = _state.columnHeadings.length;
@@ -545,7 +545,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _removeChildDataAndCategoryRows(idCategoryParent)
    {
       var f = 'ExplorableTable._removeChildDataAndCategoryRows()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       var childCategoryTrs = $('[id^=categoryTr_][id$=_' + idCategoryParent + ']');
 
@@ -570,7 +570,7 @@ function ExplorableTable(table, ajaxUrl, rowLinkUrl)
    function _appendIndentElementsToRow(td, indentLevel)
    {
       var f = 'ExplorableTable._appendIndentElementsToRow()';
-      UTILS.checkArgs(f, arguments, [HTMLTableCellElement, Number]);
+      UTILS.checkArgs(f, arguments, ['HTMLTableCellElement', 'number']);
 
       var indentElement = INPUT({
          'class' : 'categoryIndentElement',

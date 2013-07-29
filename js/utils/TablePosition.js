@@ -15,7 +15,7 @@
 function TablePosition(r, c)
 {
    var f = 'TablePosition()';
-   UTILS.checkArgs(f, arguments, [Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number']);
    UTILS.assert(f, 0, r >= 0 && c >= 0);
 
    // Public functions. /////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ function TablePosition(r, c)
    this.setRow = function (r)
    {
       var f = 'Particle.setRow()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       if (r >= 0)
       {
@@ -44,7 +44,7 @@ function TablePosition(r, c)
    this.setCol = function (c)
    {
       var f = 'TablePosition.setCol()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       if (c >= 0)
       {

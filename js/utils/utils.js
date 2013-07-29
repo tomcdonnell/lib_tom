@@ -132,7 +132,7 @@ UTILS.checkArgs = function (f, args, types)
    {
       throw new Exception
       (
-         'UTILS.checkArgs()', 'Incorrect arguments.\nExpected [String, Object, Array].'
+         'UTILS.checkArgs()', "Incorrect arguments.\nExpected ['string', 'object', 'array']."
       );
    }
 
@@ -141,7 +141,7 @@ UTILS.checkArgs = function (f, args, types)
       throw new Exception
       (
          'UTILS.checkArgs()',
-         'UTILS.validator is undefined.  Check that /tom/js/utils/utilsValidtor.js is included.'
+         'UTILS.validator is undefined.  Check that /tom/js/utils/utilsValidator.js is included.'
       );
    }
 

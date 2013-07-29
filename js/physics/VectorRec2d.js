@@ -21,7 +21,7 @@
 function VectorRec2d(x, y)
 {
    var f = 'VectorRec2d()';
-   UTILS.checkArgs(f, arguments, [Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number']);
 
    // Getters. --------------------------------------------------------------------------------//
 
@@ -35,7 +35,7 @@ function VectorRec2d(x, y)
    this.setX = function (x1)
    {
       var f = 'VectorRec2d.setX()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       x = x1;
    };
@@ -43,7 +43,7 @@ function VectorRec2d(x, y)
    this.setY = function (y1)
    {
       var f = 'VectorRec2d.setY()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       y = y1;
    };
@@ -53,7 +53,7 @@ function VectorRec2d(x, y)
    this.add = function (a)
    {
       var f = 'VectorRec2d.add()';
-      UTILS.checkArgs(f, arguments, [VectorRec2d]);
+      UTILS.checkArgs(f, arguments, ['VectorRec2d']);
 
       return new VectorRec2d(x + a.getX(), y + a.getY());
    };
@@ -61,7 +61,7 @@ function VectorRec2d(x, y)
    this.subtract = function (a)
    {
       var f = 'VectorRec2d.subtract()';
-      UTILS.checkArgs(f, arguments, [VectorRec2d]);
+      UTILS.checkArgs(f, arguments, ['VectorRec2d']);
 
       return new VectorRec2d(x - a.getX(), y - a.getY());
    };
@@ -69,7 +69,7 @@ function VectorRec2d(x, y)
    this.multiply = function (a)
    {
       var f = 'VectorRec2d.multiply()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       return new VectorRec2d(x * a, y * a);
    };
@@ -77,7 +77,7 @@ function VectorRec2d(x, y)
    this.divide = function (a)
    {
       var f = 'VectorRec2d.divide()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       return new VectorRec2d(x / a, y / a);
    };

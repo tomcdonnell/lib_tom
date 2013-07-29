@@ -20,7 +20,7 @@
 UTILS.selectionSortNodeList = function (childNodes, ascORdsc, startIndex, finishIndex, compare)
 {
    var f = 'UTILS.selectionSortNodeList()';
-   UTILS.checkArgs(f, arguments, [Object, String, Number, Number, Function]);
+   UTILS.checkArgs(f, arguments, ['object', 'string', 'number', 'number', 'function']);
    UTILS.assert(f, 0, ascORdsc == 'asc' || ascORdsc == 'dsc');
    UTILS.assert(f, 1, startIndex >= 0);
    UTILS.assert(f, 2, finishIndex <= childNodes.length);

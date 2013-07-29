@@ -43,7 +43,7 @@ UTILS.table = {};
 UTILS.table.buildTCellWithBRs = function (hORd, nullOrStr, attributes)
 {
    var f = 'UTILS.table.buildTCellWithBRs()';
-   UTILS.checkArgs(f, arguments, [String, 'nullOrString', Object]);
+   UTILS.checkArgs(f, arguments, ['string', 'nullOrString', 'object']);
 
    var cell;
 

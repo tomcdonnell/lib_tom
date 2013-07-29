@@ -32,7 +32,7 @@ function Particle(p, v, m, r)
    this.setMass = function (m)
    {
       var f = 'Particle.setMass()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       if (m >= 0)
       {
@@ -50,7 +50,7 @@ function Particle(p, v, m, r)
    this.setRadius = function (r)
    {
       var f = 'Particle.setRadius()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       if (r >= 0)
       {
@@ -100,7 +100,7 @@ function Particle(p, v, m, r)
       r = 0;
       break;
     case 4:
-      UTILS.checkArgs(f, arguments, [VectorRec2d, VectorRec2d, Number, Number]);
+      UTILS.checkArgs(f, arguments, ['VectorRec2d', 'VectorRec2d', 'number', 'number']);
       this.p = p;
       this.v = v;
       this.setMass(m);

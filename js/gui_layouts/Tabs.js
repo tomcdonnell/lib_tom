@@ -27,7 +27,7 @@
 function Tabs(divPairs)
 {
    var f = 'Tabs()';
-   UTILS.checkArgs(f, arguments, [Array]);
+   UTILS.checkArgs(f, arguments, ['array']);
 
    // Priviliged functions. /////////////////////////////////////////////////////////////////////
 
@@ -44,7 +44,7 @@ function Tabs(divPairs)
    this.getTabDiv = function (tabNo)
    {
       var f = 'UTILS.getTabDiv()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
       UTILS.assert(f, 0, 0 <= tabNo && tabNo < contentsDiv.childNodes.length);
 
       return contentsDiv.childNodes[tabNo];
@@ -61,7 +61,7 @@ function Tabs(divPairs)
    this.setOnChangeFunction = function (funct)
    {
       var f = 'Tabs.setOnChangeFunction()';
-      UTILS.checkArgs(f, arguments, [Function]);
+      UTILS.checkArgs(f, arguments, ['function']);
 
       onChangeFunction = funct;
    };
@@ -72,7 +72,7 @@ function Tabs(divPairs)
    this.add = function (headingDiv, contentDiv)
    {
       var f = 'Tabs.add()';
-      UTILS.checkArgs(f, arguments, [HTMLDivElement, HTMLDivElement]);
+      UTILS.checkArgs(f, arguments, ['HTMLDivElement', 'HTMLDivElement']);
 
       headingDiv.style.display = 'inline-block';
       contentDiv.style.display = 'none';
@@ -97,7 +97,7 @@ function Tabs(divPairs)
       try
       {
          var f = 'Tabs.onClickHeading()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          if (e.currentTarget != selectedHeadingDiv)
          {
@@ -125,7 +125,7 @@ function Tabs(divPairs)
    function setSelected(headingDiv, bool)
    {
       var f = 'Tabs.setSelected()';
-      UTILS.checkArgs(f, arguments, [HTMLDivElement, Boolean]);
+      UTILS.checkArgs(f, arguments, ['HTMLDivElement', 'boolean']);
       UTILS.assert(f, 0, headingDiv.parentNode == headingsDiv);
 
       var tabNo      = $(headingDiv).index();

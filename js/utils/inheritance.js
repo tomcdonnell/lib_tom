@@ -39,7 +39,7 @@
 Function.prototype.inherits = function (Parent)
 {
    var f = 'Object.prototype.inherits()';
-   UTILS.checkArgs(f, arguments, [Function]);
+   UTILS.checkArgs(f, arguments, ['function']);
 
    this.prototype = new Parent();
    this.prototype.constructor = this;

@@ -63,7 +63,7 @@ function SelectorDate()
    this.setSelectedDate = function (y, m, d)
    {
       var f = 'SelectorDate.setSelectedDate()';
-      UTILS.checkArgs(f, arguments, [Number, Number, Number]);
+      UTILS.checkArgs(f, arguments, ['number', 'number', 'number']);
 
       if (UTILS.date.dateExists(y, m, d))
       {
@@ -131,7 +131,7 @@ function SelectorDate()
    this.setDisabled = function (bool)
    {
       var f = 'SelectorDate.setDisabled()';
-      UTILS.checkArgs(f, arguments, [Boolean]);
+      UTILS.checkArgs(f, arguments, ['boolean']);
 
       ySelector.disabled = bool;
       mSelector.disabled = bool;
@@ -169,7 +169,7 @@ function SelectorDate()
       try
       {
          var f = 'SelectorDate.onChangeYear()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          if (mSelector.selectedIndex == 1)
          {
@@ -193,7 +193,7 @@ function SelectorDate()
       try
       {
          var f = 'SelectorDate.onChangeMonth()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var n = UTILS.date.getNDaysInMonth
          (

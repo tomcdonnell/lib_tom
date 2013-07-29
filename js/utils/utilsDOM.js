@@ -33,7 +33,7 @@ UTILS.DOM = {};
 UTILS.DOM.implode = function (separator, elements, container, boolWithDataAndEvents)
 {
    var f = 'UTILS.DOM.implode()';
-   UTILS.checkArgs(f, arguments, ['Defined', Array, 'Defined', Boolean]);
+   UTILS.checkArgs(f, arguments, ['Defined', 'array', 'Defined', 'boolean']);
 
    for (var i = 0; i < elements.length - 1; ++i)
    {
@@ -52,7 +52,7 @@ UTILS.DOM.implode = function (separator, elements, container, boolWithDataAndEve
 UTILS.DOM.selectOptionWithValue = function (selector, value)
 {
    var f = 'UTILS.DOM.selectOptionWithValue()';
-   UTILS.checkArgs(f, arguments, [HTMLSelectElement, String]);
+   UTILS.checkArgs(f, arguments, ['HTMLSelectElement', 'string']);
 
    var options = selector.options;
 
@@ -74,7 +74,7 @@ UTILS.DOM.selectOptionWithValue = function (selector, value)
 UTILS.DOM.fillSelector = function (selector, options, instructionText)
 {
    var f = 'UTILS.DOM.fillSelector()';
-   UTILS.checkArgs(f, arguments, [HTMLSelectElement, Array, 'nullOrString']);
+   UTILS.checkArgs(f, arguments, ['HTMLSelectElement', 'array', 'nullOrString']);
 
    var selectorJq = $(selector);
    selectorJq.html('');

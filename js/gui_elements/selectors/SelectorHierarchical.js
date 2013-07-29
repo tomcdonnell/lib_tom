@@ -28,7 +28,7 @@
 function SelectorHierarchical(params)
 {
    var f = 'SelectorHierarchical()';
-   UTILS.checkArgs(f, arguments, [Object]);
+   UTILS.checkArgs(f, arguments, ['object']);
 
    // Public functions. /////////////////////////////////////////////////////////////////////////
 
@@ -168,7 +168,7 @@ function SelectorHierarchical(params)
    this.selectOptionsFromValues = function (valueBySelectorIndex)
    {
       var f = 'SelectorHierarchical.selectOptionsFromValues()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       if (valueBySelectorIndex.length < _selectors.length)
       {
@@ -219,7 +219,7 @@ function SelectorHierarchical(params)
       try
       {
          var f = 'SelectorHierarchical._onChangeSelector()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var nSelectors          = _selectors.length;
          var selector            = e.currentTarget;
@@ -313,7 +313,7 @@ function SelectorHierarchical(params)
    function _replaceOptionsSetForSelector(options, selectorIndex)
    {
       var f = 'SelectorHierarchical._replaceOptionsSetForSelector()';
-      UTILS.checkArgs(f, arguments, [Object, 'nonNegativeInt']);
+      UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
       var nSelectors            = _selectors.length;
       var selector              = _selectors[selectorIndex];
@@ -432,7 +432,7 @@ function SelectorHierarchical(params)
    function _getSelectorIndexFromSelector(selector)
    {
       var f = 'SelectorHierarchical._getSelectorIndexFromSelector()';
-      UTILS.checkArgs(f, arguments, [HTMLSelectElement]);
+      UTILS.checkArgs(f, arguments, ['HTMLSelectElement']);
 
       var name            = $(selector).attr('name');
       var underscoreIndex = name.indexOf('_');
@@ -447,7 +447,7 @@ function SelectorHierarchical(params)
    function _selectorHasOptionWithValue(selector, value)
    {
       var f = 'SelectorHierarchical._selectorHasOptionWithValue()';
-      UTILS.checkArgs(f, arguments, [HTMLSelectElement, String]);
+      UTILS.checkArgs(f, arguments, ['HTMLSelectElement', 'string']);
 
       var options = selector.options;
 

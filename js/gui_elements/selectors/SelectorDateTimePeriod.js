@@ -96,8 +96,8 @@ function SelectorDateTimePeriod()
       (
          f, arguments,
          [
-            Number, Number, Number, Number, Number, Number,
-            Number, Number, Number, Number, Number, Number
+            'number', 'number', 'number', 'number', 'number', 'number',
+            'number', 'number', 'number', 'number', 'number', 'number'
          ]
       );
 
@@ -139,7 +139,7 @@ function SelectorDateTimePeriod()
    this.setDisabled = function (bool)
    {
       var f = 'SelectorDateTimePeriod.setDisabled()';
-      UTILS.checkArgs(f, arguments, [Boolean]);
+      UTILS.checkArgs(f, arguments, ['boolean']);
 
       sDateSelector.setDisabled(bool);
       sTimeSelector.setDisabled(bool);
@@ -172,8 +172,8 @@ function SelectorDateTimePeriod()
       (
          f, arguments,
          [
-            Number, Number, Number, Number, Number, Number,
-            Number, Number, Number, Number, Number, Number
+            'number', 'number', 'number', 'number', 'number', 'number',
+            'number', 'number', 'number', 'number', 'number', 'number'
          ]
       );
 
@@ -196,7 +196,7 @@ function SelectorDateTimePeriod()
       try
       {
          var f = 'SelectorDateTimePeriod.onChangeSdate()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var sDate = sDateSelector.getSelectedDate();
          var fDate = fDateSelector.getSelectedDate();
@@ -226,7 +226,7 @@ function SelectorDateTimePeriod()
       try
       {
          var f = 'SelectorDateTimePeriod.onChangeFdate()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var sDate = sDateSelector.getSelectedDate();
          var fDate = fDateSelector.getSelectedDate();
@@ -256,7 +256,7 @@ function SelectorDateTimePeriod()
       try
       {
          var f = 'SelectorDateTimePeriod.onChangeStime()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var sDate = sDateSelector.getSelectedDate();
          var fDate = fDateSelector.getSelectedDate();
@@ -298,7 +298,7 @@ function SelectorDateTimePeriod()
       try
       {
          var f = 'SelectorDateTimePeriod.onChangeFtime()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var sDate = sDateSelector.getSelectedDate();
          var fDate = fDateSelector.getSelectedDate();

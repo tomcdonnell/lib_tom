@@ -20,7 +20,7 @@
 function BracketedTextFormatterGui(bracketedTextFormatter)
 {
    var f = 'BracketedTextFormatter()';
-   UTILS.checkArgs(f, arguments, [BracketedTextFormatter]);
+   UTILS.checkArgs(f, arguments, ['BracketedTextFormatter']);
 
    // Public functions. /////////////////////////////////////////////////////////////////////////
 
@@ -44,7 +44,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickToggleFormat()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var inputTextarea      = inputs.textareas.input;
          var outputPre          = domElements.pres.output;
@@ -60,7 +60,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
             }
             catch (e)
             {
-               $(errorPre).html('ERROR: ' + e.type + '\n\n' + e.details);
+               $(errorPre).html('ERROR: ' + e.desc);
                errorPre.style.display      = 'block';
                inputTextarea.style.display = 'none';
                toggleFormatButton.value    = 'Unformat Text';
@@ -91,7 +91,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickToggleFormat()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          inputs.textareas.input.value = '';
 
@@ -114,7 +114,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onBlurMaxCharsPerLineTextbox()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var mcplTextbox = inputs.textboxes.maxCharsPerLine;
 
@@ -141,7 +141,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickIgnoreMaxCharsPerLineCheckbox()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var settings = bracketedTextFormatter.getSettings();
          settings.ignoreMaxCharsPerLineForUnbreakableStrings = e.target.checked;
@@ -161,7 +161,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickRemoveAllNewLineCharactersFromStrings()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var settings = bracketedTextFormatter.getSettings();
          settings.removeAllNewLineCharactersFromStrings = e.target.checked;
@@ -181,7 +181,7 @@ function BracketedTextFormatterGui(bracketedTextFormatter)
       try
       {
          var f = 'BracketedTextFormatterGui.onClickInsertExampleText()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          inputs.textareas.input.value =
          (
