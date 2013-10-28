@@ -76,8 +76,19 @@ class UtilsError
    public static function logMessage($message)
    {
       $file = fopen(self::$_logFileName, 'a');
+
+      if ($file === false)
+      {
+         throw new Exception('Could not open log file "' . self::$_logFileName . '" for writing.');
+      }
+
       $message = date('Y-m-d H:i:s') . " $message";
-      fwrite($file, str_replace("\n", '__|__', $message));
+      $result  = fwrite($file, str_replace("\n", '__|__', $message));
+
+      if ($file === false)
+      {
+         throw new Exception('Could not write to file "' . self::$_logFileName . '".');
+      }
    }
 
    /*
