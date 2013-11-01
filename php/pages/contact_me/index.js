@@ -14,7 +14,7 @@
 
 // Globally executed code. /////////////////////////////////////////////////////////////////////////
 
-$(window).load(onLoadWindow);
+$(document).ready(onLoadWindow);
 
 // Functions. //////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +26,7 @@ function onLoadWindow(e)
    try
    {
       var f = 'onLoadWindow()';
-      UTILS.checkArgs(f, arguments, [Object]);
+      UTILS.checkArgs(f, arguments, ['function']);
 
       $('#submitButton').click(onClickSubmit);
    }
@@ -44,7 +44,7 @@ function onClickSubmit(e)
    try
    {
       var f = 'onClickSubmit()';
-      UTILS.checkArgs(f, arguments, [Object]);
+      UTILS.checkArgs(f, arguments, ['object']);
 
       var inputs =
       {

@@ -128,6 +128,7 @@ try
 catch (Exception $e)
 {
    echo $e->getMessage();
+   die;
 }
 
 // Functions. //////////////////////////////////////////////////////////////////////////////////////
@@ -139,9 +140,9 @@ function getEmailAddressFromName($name)
 {
    $emailAddressesByName = array
    (
-      'tom'   => 'tomcdonnell@gmail.com',
-      'luke'  => 'luketylim@hotmail.com',
-      'shawn' => 'tomcdonnell@gmail.com' // Change when get Shawn's email address.
+      'georgia' => 'tomcdonnell@gmail.com',//'georgianow@hotmail.com',
+      'luke'    => 'luketylim@hotmail.com' ,
+      'tom'     => 'tomcdonnell@gmail.com'
    );
 
    if (!array_key_exists($name, $emailAddressesByName))
