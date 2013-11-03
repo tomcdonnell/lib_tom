@@ -102,7 +102,6 @@ class UtilsHtml
       return $html;
    }
 
-
    /*
     *
     */
