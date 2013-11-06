@@ -88,13 +88,14 @@ UTILS.printExceptionToConsole = function (f, e)
             '\n  Function: ' + e.f          +
             '\n  Desc    : ' + e.desc
          );
-         console.trace();
+
+         if (console.trace !== undefined) {console.trace();} // Console.trace is undefined in IE8.
       }
       else
       {
          console.error('Exception of unknown type caught in function ' + f + '.');
          console.error(e);
-         console.trace();
+         if (console.trace !== undefined) {console.trace();} // Console.trace is undefined in IE8.
       }
    }
    else
@@ -132,7 +133,7 @@ UTILS.checkArgs = function (f, args, types)
    {
       throw new Exception
       (
-         'UTILS.checkArgs()', "Incorrect arguments.\nExpected ['string', 'object', 'array']."
+         'UTILS.checkArgs()', 'Incorrect arguments.\nExpected [String, Object, Array].'
       );
    }
 
@@ -141,7 +142,7 @@ UTILS.checkArgs = function (f, args, types)
       throw new Exception
       (
          'UTILS.checkArgs()',
-         'UTILS.validator is undefined.  Check that /tom/js/utils/utilsValidator.js is included.'
+         'UTILS.validator is undefined.  Check that /tom/js/utils/utilsValidtor.js is included.'
       );
    }
 
@@ -230,7 +231,7 @@ UTILS.assert = function (functionName, assertNo, expression)
 UTILS.assertEqualsOneOf = function (functionName, assertNo, variable, options)
 {
    var f = 'UTILS.assertEqualsOneOf()';
-   UTILS.checkArgs(f, arguments, ['string', 'number', 'Defined', 'array']);
+   UTILS.checkArgs(f, arguments, ['string', 'int', 'Defined', 'array']);
 
    for (var i = 0; i < options.length; ++i)
    {
@@ -260,7 +261,7 @@ UTILS.assertEqualsOneOf = function (functionName, assertNo, variable, options)
  *    }
  *
  * @param defaultOutputValue {any type}
- *     This parameter is optional.  If it is not supplied, then there will be no output value
+ *     This parameter is optional.  If it is not supplied, there will be no output value
  *     for the default case specified and so an exception will be thrown in the default case.
  */
 UTILS.switchAssign = function (inputValue, outputValueByInputValue, defaultOutputValue)
@@ -282,7 +283,7 @@ UTILS.switchAssign = function (inputValue, outputValueByInputValue, defaultOutpu
 
    throw new Exception
    (
-      f, 'Case "' + inputValue + '" not handled in switchAssign and no default supplied.', ''
+      f, 'Case "' + inputValue + '" not handled in switchAssign and no default supplied.'
    );
 };
 
