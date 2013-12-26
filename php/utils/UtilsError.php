@@ -29,9 +29,9 @@ class UtilsError
    /*
     *
     */
-   public static function initErrorAndExceptionHandler($logFileName, $genericErrorPageUrl = null)
+   public static function initErrorAndExceptionHandler($logFilename, $genericErrorPageUrl = null)
    {
-      if (!is_string($logFileName))
+      if (!is_string($logFilename))
       {
          echo 'Supplied log file name is not a string.';
          die();
@@ -43,7 +43,7 @@ class UtilsError
          die();
       }
 
-      self::$_logFileName         = $logFileName;
+      self::$_logFilename         = $logFilename;
       self::$_genericErrorPageUrl = $genericErrorPageUrl;
 
       set_error_handler(array(__CLASS__, 'errorHandlerConvertErrorToExceptions'));
@@ -55,7 +55,7 @@ class UtilsError
     */
    public static function logExceptionDetails($e, $messageToPrecedeErrorDetails = null)
    {
-      if (self::$_logFileName === null)
+      if (self::$_logFilename === null)
       {
          echo "Attempted to log exception details when no log file name specified.\n";
          echo ' To specify a log file name call ';
@@ -75,19 +75,19 @@ class UtilsError
     */
    public static function logMessage($message)
    {
-      $file = fopen(self::$_logFileName, 'a');
+      $file = fopen(self::$_logFilename, 'a');
 
       if ($file === false)
       {
-         throw new Exception('Could not open log file "' . self::$_logFileName . '" for writing.');
+         throw new Exception('Could not open log file "' . self::$_logFilename . '" for writing.');
       }
 
       $message = date('Y-m-d H:i:s') . " $message";
-      $result  = fwrite($file, str_replace("\n", '__|__', $message));
+      $result  = fwrite($file, str_replace("\n", '__|__', $message) . "\n");
 
       if ($file === false)
       {
-         throw new Exception('Could not write to file "' . self::$_logFileName . '".');
+         throw new Exception('Could not write to file "' . self::$_logFilename . '".');
       }
    }
 
@@ -166,14 +166,14 @@ class UtilsError
          }
       }
 
-      echo "A fatal error has occurred.  Check '", self::$_logFileName, "' for details.\n";
+      echo "A fatal error has occurred.  Check '", self::$_logFilename, "' for details.\n";
       die();
    }
 
    // Private variables. //////////////////////////////////////////////////////////////////////
 
    private static $_exceptionAlreadyThrownAndCaught = false;
-   private static $_logFileName                     = null;
+   private static $_logFilename                     = null;
    private static $_genericErrorPageUrl             = null;
 }
 
