@@ -234,6 +234,23 @@ class UtilsValidator
    /*
     *
     */
+   public static function checkTypeReturnBool($v, $type)
+   {
+      try
+      {
+         self::checkType($v, $type);
+      }
+      catch (Exception $e)
+      {
+         return false;
+      }
+
+      return true;
+   }
+
+   /*
+    *
+    */
    public static function checkDateString($dateStr, $format = 'yyyy-mm-dd')
    {
       switch ($format)
