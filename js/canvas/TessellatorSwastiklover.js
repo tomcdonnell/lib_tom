@@ -85,7 +85,6 @@ function TessellatorSwastiklover(canvas)
       UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
       var tessellator1 = new Tessellator(canvas);
-      var tessellator2 = new Tessellator(canvas);
       var spacingX     = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
 
       _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
@@ -109,30 +108,45 @@ function TessellatorSwastiklover(canvas)
          }
       );
 
-      swastikloverConfig.armSegmentLength = Math.floor(swastikloverConfig.armSegmentLength / 2);
-
-      tessellator2.drawSquareTessellation
-      (
-         {
-            delayMs           : delayMs                             ,
-            sketchFunction    : _sketcherSwastiklover.sketchSwastika,
-            spacingX          : spacingX                            ,
-            spacingY          : spacingX * 0.5                      ,
-            startX            : spacingX * 0.25                     ,
-            startY            : spacingX * 0.75                     ,
-            onCompleteFunction: _onCompleteTessellation             ,
-            sketchFunctionArgumentObjectsByRecursionDepth:
-            (
-               _sketcherSwastiklover.getSketchFunctionArgumentObjectsByRecursionDepth
-               (
-                  swastikloverConfig
-               )
-            )
-         }
-      );
-
       delete(tessellator1);
-      delete(tessellator2);
+
+      // Begin sketching the smaller swastiklover when the
+      // larger swastiklover has sketched one iteration.
+      setTimeout
+      (
+         function ()
+         {
+            swastikloverConfig.armSegmentLength = Math.floor
+            (
+               swastikloverConfig.armSegmentLength / 2
+            );
+
+            var tessellator2 = new Tessellator(canvas);
+
+            tessellator2.drawSquareTessellation
+            (
+               {
+                  delayMs           : delayMs                             ,
+                  sketchFunction    : _sketcherSwastiklover.sketchSwastika,
+                  spacingX          : spacingX                            ,
+                  spacingY          : spacingX * 0.5                      ,
+                  startX            : spacingX * 0.25                     ,
+                  startY            : spacingX * 0.75                     ,
+                  onCompleteFunction: _onCompleteTessellation             ,
+                  sketchFunctionArgumentObjectsByRecursionDepth:
+                  (
+                     _sketcherSwastiklover.getSketchFunctionArgumentObjectsByRecursionDepth
+                     (
+                        swastikloverConfig
+                     )
+                  )
+               }
+            );
+
+            delete(tessellator2);
+         },
+         delayMs
+      );
    }
 
    /*

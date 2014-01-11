@@ -168,7 +168,7 @@ function Tessellator(canvas)
 
          if
          (
-            _sketchPositionsAsKeys[key] === undefined                &&
+            _sketchPositionsAsKeys[key] === undefined              &&
             Math.abs(position.x) < (_canvasWidth  / 2 + _spacingX) &&
             Math.abs(position.y) < (_canvasHeight / 2 + _spacingY)
          )
@@ -193,7 +193,7 @@ function Tessellator(canvas)
    var _ctx                                           = canvas.getContext('2d');
    var _canvasHeight                                  = null;
    var _canvasWidth                                   = null;
-   var _maxRecursionDepth                             = null
+   var _maxRecursionDepth                             = null;
    var _midX                                          = null;
    var _midY                                          = null;
    var _nOnTimeoutFunctionCalls                       = null;
