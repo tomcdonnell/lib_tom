@@ -38,6 +38,22 @@ function TessellatorSwastiklover(canvas)
       }
    };
 
+   /*
+    *
+    */
+   this.stopAnimation = function ()
+   {
+      var f = 'TessellatorSwastiklover.sketch()';
+      UTILS.checkArgs(f, arguments, []);
+
+      _tessellator.stopAnimation();
+
+      if (_tessellatorSpare !== null)
+      {
+         _tessellatorSpare.stopAnimation();
+      }
+   };
+
    // Private functions. ////////////////////////////////////////////////////////////////////////
 
    /*
@@ -48,12 +64,11 @@ function TessellatorSwastiklover(canvas)
       var f = 'TessellatorSwastiklover._sketchTessellationNumberOne()';
       UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
-      var tessellator = new Tessellator(canvas);
-      var spacingX    = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
+      var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
 
       _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
 
-      tessellator.drawSquareTessellation
+      _tessellator.drawSquareTessellation
       (
          {
             delayMs           : delayMs                             ,
@@ -72,8 +87,6 @@ function TessellatorSwastiklover(canvas)
             )
          }
       );
-
-      delete(tessellator);
    }
 
    /*
@@ -84,12 +97,11 @@ function TessellatorSwastiklover(canvas)
       var f = 'TessellatorSwastiklover._sketchTessellationNumberTwo()';
       UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
-      var tessellator1 = new Tessellator(canvas);
-      var spacingX     = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
+      var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
 
       _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
 
-      tessellator1.drawSquareTessellation
+      _tessellator.drawSquareTessellation
       (
          {
             delayMs       : delayMs                             ,
@@ -108,8 +120,6 @@ function TessellatorSwastiklover(canvas)
          }
       );
 
-      delete(tessellator1);
-
       // Begin sketching the smaller swastiklover when the
       // larger swastiklover has sketched one iteration.
       setTimeout
@@ -121,9 +131,12 @@ function TessellatorSwastiklover(canvas)
                swastikloverConfig.armSegmentLength / 2
             );
 
-            var tessellator2 = new Tessellator(canvas);
+            if (_tessellatorSpare === null)
+            {
+               _tessellatorSpare = new Tessellator(canvas);
+            }
 
-            tessellator2.drawSquareTessellation
+            _tessellatorSpare.drawSquareTessellation
             (
                {
                   delayMs           : delayMs                             ,
@@ -142,8 +155,6 @@ function TessellatorSwastiklover(canvas)
                   )
                }
             );
-
-            delete(tessellator2);
          },
          delayMs
       );
@@ -167,6 +178,8 @@ function TessellatorSwastiklover(canvas)
 
    var _sketcherGrid         = new SketcherGrid(canvas);
    var _sketcherSwastiklover = new SketcherSwastiklover(canvas.getContext('2d'));
+   var _tessellator          = new Tessellator(canvas);
+   var _tessellatorSpare     = null;
 }
 
 /*******************************************END*OF*FILE********************************************/

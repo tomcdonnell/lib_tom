@@ -66,6 +66,7 @@ function Tessellator(canvas)
       );
 
       _buildSquareTessellationSketchPositionsListRecursively(o.startX, o.startY);
+      _timeoutIds = [];
 
       for (var d = 0; d < _maxRecursionDepth; ++d)
       {
@@ -75,9 +76,28 @@ function Tessellator(canvas)
          }
          else
          {
-            setTimeout(_onTimeout, d * o.delayMs);
+            _timeoutIds[d] = setTimeout(_onTimeout, d * o.delayMs);
          }
       }
+   };
+
+   /*
+    *
+    */
+   this.stopAnimation = function ()
+   {
+      var f = 'Tessellator.stopAnimation()';
+      UTILS.checkArgs(f, arguments, []);
+
+      if (_timeoutIds !== null)
+      {
+         for (var i = 0, len = _timeoutIds.length; i < len; ++i)
+         {
+            window.clearTimeout(_timeoutIds[i]);
+         }
+      }
+
+      _initState();
    };
 
    // Private functions. ////////////////////////////////////////////////////////////////////////
@@ -188,6 +208,30 @@ function Tessellator(canvas)
       }
    }
 
+   /*
+    *
+    */
+   function _initState()
+   {
+      var f = 'Tessellator._initState()';
+      UTILS.checkArgs(f, arguments, []);
+
+      // All the private variables should be set to thier initial values here.
+      _canvasHeight                                  = null;
+      _canvasWidth                                   = null;
+      _maxRecursionDepth                             = null;
+      _midX                                          = null;
+      _midY                                          = null;
+      _nOnTimeoutFunctionCalls                       = null;
+      _onCompleteFunction                            = null;
+      _sketchFunction                                = null;
+      _sketchFunctionArgumentObjectsByRecursionDepth = null;
+      _sketchPositionsAsKeys                         = null;
+      _spacingX                                      = null;
+      _spacingY                                      = null;
+      _timeoutIds                                    = null;
+   }
+
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
    var _ctx                                           = canvas.getContext('2d');
@@ -203,6 +247,7 @@ function Tessellator(canvas)
    var _sketchPositionsAsKeys                         = null;
    var _spacingX                                      = null;
    var _spacingY                                      = null;
+   var _timeoutIds                                    = null;
 }
 
 /*******************************************END*OF*FILE********************************************/
