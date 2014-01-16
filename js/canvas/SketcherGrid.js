@@ -29,8 +29,6 @@ function SketcherGrid(canvas)
    this.drawSquareGrid = function (nPixelsSeparation, angleInRadians, cssColor)
    {
       var f = 'SketcherGrid.drawSquareGrid()';
-console.log(f, 'nPixelsSeparation: ', nPixelsSeparation);
-console.log(f, 'angleInRadians   : ', angleInRadians   );
       UTILS.checkArgs(f, arguments, ['float', 'float', 'string']);
 
       var _canvasHeight = $(canvas).height();
