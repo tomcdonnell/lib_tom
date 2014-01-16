@@ -46,6 +46,8 @@ function TessellatorSwastiklover(canvas)
       var f = 'TessellatorSwastiklover.sketch()';
       UTILS.checkArgs(f, arguments, []);
 
+      window.clearTimeout(_timeoutId);
+
       _tessellator.stopAnimation();
 
       if (_tessellatorSpare !== null)
@@ -122,7 +124,7 @@ function TessellatorSwastiklover(canvas)
 
       // Begin sketching the smaller swastiklover when the
       // larger swastiklover has sketched one iteration.
-      setTimeout
+      _timeoutId = setTimeout
       (
          function ()
          {
@@ -180,6 +182,7 @@ function TessellatorSwastiklover(canvas)
    var _sketcherSwastiklover = new SketcherSwastiklover(canvas.getContext('2d'));
    var _tessellator          = new Tessellator(canvas);
    var _tessellatorSpare     = null;
+   var _timeoutId            = null;
 }
 
 /*******************************************END*OF*FILE********************************************/
