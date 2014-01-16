@@ -66,9 +66,11 @@ function TessellatorSwastiklover(canvas)
       var f = 'TessellatorSwastiklover._sketchTessellationNumberOne()';
       UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
-      var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
+      var spacingX       = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
+      var gridAngle      = Math.atan(0.5);
+      var gridSeparation = 0.5 * Math.sqrt(Math.pow(spacingX, 2) + Math.pow(spacingX / 2, 2));
 
-      _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
+      _sketcherGrid.drawSquareGrid(gridSeparation, gridAngle, _gridColourCss);
 
       _tessellator.drawSquareTessellation
       (
@@ -99,9 +101,11 @@ function TessellatorSwastiklover(canvas)
       var f = 'TessellatorSwastiklover._sketchTessellationNumberTwo()';
       UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
-      var spacingX = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
+      var spacingX       = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
+      var gridAngle      = -Math.atan(0.5);
+      var gridSeparation = 0.25 * Math.sqrt(Math.pow(spacingX, 2) + Math.pow(spacingX / 2, 2));
 
-      _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
+      _sketcherGrid.drawSquareGrid(gridSeparation, gridAngle, _gridColourCss);
 
       _tessellator.drawSquareTessellation
       (
@@ -178,6 +182,7 @@ function TessellatorSwastiklover(canvas)
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
+   var _gridColourCss        = '#ccc';
    var _sketcherGrid         = new SketcherGrid(canvas);
    var _sketcherSwastiklover = new SketcherSwastiklover(canvas.getContext('2d'));
    var _tessellator          = new Tessellator(canvas);
