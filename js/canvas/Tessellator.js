@@ -193,7 +193,7 @@ function Tessellator(canvas)
             // --------------------------------------------
             // The sqrtTwo factor is to ensure that the tessellation on a square canvas will
             // cover the entire canvas even when it is rotated 45 degrees or any other angle.
-            _sketchPositionsAsKeys[key] === undefined                    &&
+            _sketchPositionsAsKeys[key] === undefined                        &&
             Math.abs(position.x) < sqrtTwo * (_canvasWidth  / 2 + _spacingX) &&
             Math.abs(position.y) < sqrtTwo * (_canvasHeight / 2 + _spacingY)
          )
