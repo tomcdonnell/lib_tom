@@ -22,7 +22,7 @@ function SketcherGrid(canvas)
 
    /*
     * Draw a square grid of lines nPixelsSeparation apart, rotated angleInRadians radians clockwise.
-    * Draw the grid so as to cover a square shaped area, with side length equal to 1.5 * the
+    * Draw the grid so as to cover a square shaped area, with side length equal to sqrtTwo * the
     * longest side length of the canvas.  That way, the grid can be rotated to any angle while
     * still covering the canvas.
     */
@@ -41,7 +41,7 @@ function SketcherGrid(canvas)
       _ctx.rotate(angleInRadians);
       _ctx.beginPath();
 
-      var gridSideLength = Math.max(_canvasHeight, _canvasWidth) * 1.5;
+      var gridSideLength = Math.max(_canvasHeight, _canvasWidth) * Math.sqrt(2);
       var nGridLines     = gridSideLength / nPixelsSeparation;
       var halfNGridLines = Math.ceil(nGridLines / 2);
 
