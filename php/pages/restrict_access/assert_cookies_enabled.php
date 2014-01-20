@@ -98,6 +98,7 @@ function displayEnableCookiesMessagePageAndExit($redirectUrl)
 {
    global $COOKIES_EXPLANATION_URL;
 
+   $href    = $COOKIES_EXPLANATION_URL;
    $postUrl = $redirectUrl . UtilsHtmlForm::createGetStringFromArray($_GET, '?');
 ?>
 <!DOCTYPE html>
@@ -108,13 +109,13 @@ function displayEnableCookiesMessagePageAndExit($redirectUrl)
   <p>The requested page requires that cookies be enabled in your web browser.</p>
   <p>
    Instructions on how to enable cookies in your web browser may be found
-   <a href='<?php echo UtilsHtml::escapeSingleQuotes($COOKIES_EXPLANATION_URL); ?>'>here</a>.
+   <a href='<?php echo UtilsHtml::escapeSingleQuotedAttribute($href); ?>'>here</a>.
   </p>
   <p>Enable cookies in your web browser then click 'Proceed' below.</p>
   <p>
    Note that refreshing this page even after enabling cookies will not have the desired effect.
   </p>
-  <form action='<?php echo UtilsHtml::escapeSingleQuotes($postUrl); ?>' method='POST'>
+  <form action='<?php echo UtilsHtml::escapeSingleQuotedAttribute($postUrl); ?>' method='POST'>
 <?php
    UtilsHtmlForm::echoArrayAsHiddenInputs($_POST, '   ');
 ?>
