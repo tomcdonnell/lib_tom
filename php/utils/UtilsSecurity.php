@@ -7,7 +7,7 @@
 *
 * Project: Utilities.
 *
-* Purpose: Utilities pertaining to database schema.
+* Purpose: Utilities pertaining to website security.
 *
 * Author: Tom McDonnell 2010-06-17.
 *
