@@ -7,7 +7,7 @@
 *
 * Project: Utilities.
 *
-* Purpose: Miscellaneous utilities.
+* Purpose: Utilities pertaining to generation of HTML.
 *
 * Author: Tom McDonnell 2011-06-07.
 *
