@@ -7,7 +7,7 @@
 *
 * Project: Utilities.
 *
-* Purpose: Utilities pertaining to arrays.
+* Purpose: Utilities pertaining to errors.
 *
 * Author: Tom McDonnell 2010-06-18.
 *
