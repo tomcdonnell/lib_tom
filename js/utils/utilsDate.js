@@ -150,11 +150,11 @@ UTILS.date.compare = function (yA, mA, dA, yB, mB, dB)
          (
             (dA == dB)?
             0:
-            (('number'(dA) > 'number'(dB))? 1: -1)
+            ((dA > dB)? 1: -1)
          ):
-         (('number'(mA) > 'number'(mB))? 1: -1)
+         ((mA > mB)? 1: -1)
       ):
-      (('number'(yA) > 'number'(yB))? 1: -1)
+      ((yA > yB)? 1: -1)
    );
 };
 
