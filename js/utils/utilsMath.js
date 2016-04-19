@@ -2,7 +2,7 @@
 *
 * vim: ts=3 sw=3 et wrap go-=b
 *
-* Filename: "utils_math.js"
+* Filename: "utilsMath.js"
 *
 * Project: Utilities.
 *
@@ -29,7 +29,7 @@ UTILS.math = {};
 UTILS.math.isInt = function (x)
 {
    var f = 'UTILS.math.isInt()';
-   UTILS.checkArgs(f, arguments, [Number]);
+   UTILS.checkArgs(f, arguments, ['number']);
 
    return x % 1 == 0;
 };
@@ -42,7 +42,7 @@ UTILS.math.isInt = function (x)
 UTILS.math.isEven = function (x)
 {
    var f = 'UTILS.math.isEven()';
-   UTILS.checkArgs(f, arguments, [Number]);
+   UTILS.checkArgs(f, arguments, ['number']);
 
    return x % 2 == 0;
 };
@@ -55,10 +55,9 @@ UTILS.math.isEven = function (x)
 UTILS.math.isOdd = function (x)
 {
    var f = 'UTILS.math.isOdd()';
-   UTILS.checkArgs(f, arguments, [Number]);
+   UTILS.checkArgs(f, arguments, ['number']);
 
    return x % 1 == 0 && x % 2 != 0
 };
 
 /*******************************************END*OF*FILE********************************************/
-

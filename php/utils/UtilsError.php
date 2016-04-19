@@ -75,9 +75,9 @@ class UtilsError
     */
    public static function logMessage($message)
    {
-      $file = fopen(self::$_logFileName, 'a');
+      $file    = fopen(self::$_logFileName, 'a');
       $message = date('Y-m-d H:i:s') . " $message";
-      fwrite($file, str_replace("\n", '__|__', $message));
+      fwrite($file, str_replace("\n", '__|__', $message) . "\n");
    }
 
    /*
@@ -145,7 +145,7 @@ class UtilsError
       {
          try
          {
-            header("Location: " . self::$_genericErrorPageUrl);
+            header('Location: ' . self::$_genericErrorPageUrl);
             die();
          }
          catch (Exception $e)
