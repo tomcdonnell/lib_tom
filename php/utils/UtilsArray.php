@@ -68,8 +68,6 @@ class UtilsArray
    {
       if (!self::arraysAreEqual($a, $b))
       {
-var_dump($a, $b);
-die;
          throw new Exception('Arrays are not equal.');
       }
    }

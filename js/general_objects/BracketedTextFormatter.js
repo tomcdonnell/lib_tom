@@ -36,7 +36,7 @@ function BracketedTextFormatter()
    this.setSettings = function (newSettings)
    {
       var f = 'BracketedTextFormatter.setSettings()';
-      UTILS.checkArgs(f, arguments, [Object]);
+      UTILS.checkArgs(f, arguments, ['object']);
 
       UTILS.validator.checkObject
       (
@@ -60,7 +60,7 @@ function BracketedTextFormatter()
    this.formatText = function (str)
    {
       var f = 'BracketedTextParser.formatText()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       initialiseState();
 
@@ -82,7 +82,7 @@ function BracketedTextFormatter()
    function generateFormattedTextFromParseTree(parseTree, boolOneLine)
    {
       var f = 'BracketedTextParser.generateFormattedTextFromParseTree()';
-      UTILS.checkArgs(f, arguments, [Array, Boolean]);
+      UTILS.checkArgs(f, arguments, ['array', 'boolean']);
 
       var b = boolOneLine; // Abbreviation.
 
@@ -107,7 +107,7 @@ function BracketedTextFormatter()
             str += s;
             break;
           default:
-            throw new Exception(f, "Unknown token type '" + token.type + '".', '');
+            throw new Exception(f, "Unknown token type '" + token.type + '".');
          }
       }
    
@@ -125,7 +125,7 @@ function BracketedTextFormatter()
    function formatTextForBracketedSubexpression(token, boolOneLine)
    {
       var f = 'BracketedTextFormatter.formatTextForBracketedSubexpression()';
-      UTILS.checkArgs(f, arguments, [Object, Boolean]);
+      UTILS.checkArgs(f, arguments, ['object', 'boolean']);
       UTILS.assert(f, 0, token.type == 'BracketedSubexpression');
 
       saveLinePosition();
@@ -189,7 +189,7 @@ function BracketedTextFormatter()
    function formatTextForQuotedString(token, boolOneLine)
    {
       var f = 'BracketedTextFormatter.formatTextForQuotedString()';
-      UTILS.checkArgs(f, arguments, [Object, Boolean]);
+      UTILS.checkArgs(f, arguments, ['object', 'boolean']);
       UTILS.assert(f, 0, token.type == 'QuotedString');
 
       var sameLineInsertionStr = token.quoteChar + token.content + token.quoteChar;
@@ -223,11 +223,7 @@ function BracketedTextFormatter()
          return newLineInsertionStr;
       }
 
-      throw new Exception
-      (
-         f, 'Quoted string must be broken to fit.',
-         token.quoteChar + token.content + token.quoteChar
-      );
+      throw new Exception(f, 'Quoted string must be broken to fit.');
    }
 
    /*
@@ -236,7 +232,7 @@ function BracketedTextFormatter()
    function formatTextForUnquotedString(token, boolOneLine)
    {
       var f = 'BracketedTextFormatter.formatTextForUnquotedString()';
-      UTILS.checkArgs(f, arguments, [Object, Boolean]);
+      UTILS.checkArgs(f, arguments, ['object', 'boolean']);
       UTILS.assert(f, 0, token.type == 'UnquotedString');
 
       var sameLineInsertionStr = token.content;
@@ -283,7 +279,7 @@ function BracketedTextFormatter()
    function breakStringIntoSegments(str, lengthLimitFirst, lengthLimitSubsequent)
    {
       var f = 'BracketedTextFormatter.breakStringIntoSegments()';
-      UTILS.checkArgs(f, arguments, [String, Number, Number]);
+      UTILS.checkArgs(f, arguments, ['string', 'number', 'number']);
 
       var spacePos     = str.lastIndexOf(' ', lengthLimitFirst);
       var strs         = [str.substr(0, spacePos)];

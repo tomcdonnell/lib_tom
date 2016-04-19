@@ -7,7 +7,7 @@
 *
 * Project: Utilities.
 *
-* Purpose: Miscellaneous utilities.
+* Purpose: Utilities pertaining to generation of HTML.
 *
 * Author: Tom McDonnell 2011-06-07.
 *
@@ -29,13 +29,18 @@ class UtilsHtml
    }
 
    /*
-    * Use this when inserting string into HTML value attributes.
+    * Use this when inserting a string into an HTML attribute.
     *
-    * Eg. <input type='text' value='<?php echo UtilsHtml::escapeSingleQuotes("I'm stringy."); ?>'/>
+    * Eg. <input value='<?php echo UtilsHtml::escapeSingleQuotedAttribute("I'm stringy."); ?>'/>
     */
-   public static function escapeSingleQuotes($string)
+   public static function escapeSingleQuotedAttribute($string)
    {
-      return str_replace("'", htmlentities("'", ENT_QUOTES), $string);
+      return str_replace
+      (
+         array("'"                          , "\n"   ),
+         array(htmlentities("'", ENT_QUOTES), '&#10;'),
+         $string
+      );
    }
 
    /*
@@ -54,7 +59,8 @@ class UtilsHtml
       foreach ($jsFilenamesWithFullPath as $filename)
       {
          $html .= "$indent<script type='text/javascript'";
-         $html .= " src='" . self::escapeSingleQuotes($filename) . "?$timeUnix'></script>\n";
+         $html .= " src='" . self::escapeSingleQuotedAttribute($filename) . "?$timeUnix'>";
+         $html .= "</script>\n";
       }
 
       return $html;
@@ -79,10 +85,10 @@ class UtilsHtml
 
          foreach ($extraAttributeValueByName as $name => $value)
          {
-            $html .= " $name='" . self::escapeSingleQuotes($value) . "'";
+            $html .= " $name='" . self::escapeSingleQuotedAttribute($value) . "'";
          }
 
-         $html .= " href='" . self::escapeSingleQuotes($filename) . "?$timeUnix'/>\n";
+         $html .= " href='" . self::escapeSingleQuotedAttribute($filename) . "?$timeUnix'/>\n";
       }
 
       return $html;
@@ -101,7 +107,6 @@ class UtilsHtml
 
       return $html;
    }
-
 
    /*
     *
@@ -166,7 +171,7 @@ class UtilsHtml
       {
          if ($attrValue !== null)
          {
-            $attributeStrings[] = "$attrKey='" . self::escapeSingleQuotes($attrValue) . "'";
+            $attributeStrings[] = "$attrKey='" . self::escapeSingleQuotedAttribute($attrValue) ."'";
          }
       }
 

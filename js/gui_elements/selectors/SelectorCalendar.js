@@ -23,7 +23,7 @@
 function SelectorCalendar(initialDate, onChangeSelectedDateFunction, onClickCloseButtonFunction)
 {
    var f = 'SelectorCalendar()';
-   UTILS.checkArgs(f, arguments, [Date, Function, 'nullOrFunction']);
+   UTILS.checkArgs(f, arguments, ['Date', 'function', 'nullOrFunction']);
 
    // Priviliged functions. /////////////////////////////////////////////////////////////////////
 
@@ -51,7 +51,7 @@ function SelectorCalendar(initialDate, onChangeSelectedDateFunction, onClickClos
    this.setOnChangeSelectedDateFunction = function (newFunction)
    {
       var f = 'SelectorCalendar.setOnChangeSelectedDateFunction()';
-      UTILS.checkArgs(f, arguments, [Function]);
+      UTILS.checkArgs(f, arguments, ['function']);
 
       onChangeSelectedDateFunction = newFunction;
    };
@@ -63,7 +63,7 @@ function SelectorCalendar(initialDate, onChangeSelectedDateFunction, onClickClos
    this.setSelectedDate = function (y, m, d)
    {
       var f = 'SelectorCalendar.setSelectedDate()';
-      UTILS.checkArgs(f, arguments, [Number, Number, Number]);
+      UTILS.checkArgs(f, arguments, ['number', 'number', 'number']);
 
       if (UTILS.date.dateExists(y, m, d))
       {
@@ -96,7 +96,7 @@ function SelectorCalendar(initialDate, onChangeSelectedDateFunction, onClickClos
       try
       {
          var f = 'SelectorCalendar._onClickIncrementOrDecrementYear()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var button = ev.currentTarget;
 
@@ -126,7 +126,7 @@ function SelectorCalendar(initialDate, onChangeSelectedDateFunction, onClickClos
       try
       {
          var f = 'SelectorCalendar._onClickIncrementOrDecrementMonth()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var button = ev.currentTarget;
 
@@ -175,7 +175,7 @@ function SelectorCalendar(initialDate, onChangeSelectedDateFunction, onClickClos
       try
       {
          var f = 'SelectorCalendar._onClickReturnToSelectedDateButton()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          _visibleYear  = _selectedYear;
          _visibleMonth = _selectedMonth;
@@ -201,7 +201,7 @@ function SelectorCalendar(initialDate, onChangeSelectedDateFunction, onClickClos
       try
       {
          var f = 'SelectorCalendar._onClickDaySquare()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          _selectedDaySquare.removeAttribute('class');
          _selectedDaySquare = ev.currentTarget;
@@ -240,7 +240,7 @@ function SelectorCalendar(initialDate, onChangeSelectedDateFunction, onClickClos
    function _init(date)
    {
       var f = 'SelectorCalendar._init()';
-      UTILS.checkArgs(f, arguments, [Date]);
+      UTILS.checkArgs(f, arguments, ['Date']);
 
       if (onClickCloseButtonFunction === null)
       {

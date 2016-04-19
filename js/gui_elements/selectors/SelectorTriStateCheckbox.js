@@ -39,7 +39,7 @@
 function SelectorTriStateCheckbox(mainDiv, optionsInfo)
 {
    var f = 'SelectorTriStateCheckbox()';
-   UTILS.checkArgs(f, arguments, [HTMLDivElement, Array]);
+   UTILS.checkArgs(f, arguments, ['HTMLDivElement', 'array']);
 
    // Privileged functions. /////////////////////////////////////////////////////////////////////
 
@@ -122,7 +122,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.getCheckedStateFromOptionId = function (optionId)
    {
       var f = 'SelectorTriStateCheckbox.getCheckedStateFromOptionId()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var optionIndex      = self.getOptionIndexFromOptionId(optionId);
       var triStateCheckbox = _guiElements.triStateCheckboxes[optionIndex];
@@ -136,7 +136,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.getCheckedStateFromOptionIdCollapsed = function (optionIdCollapsed)
    {
       var f = 'SelectorTriStateCheckbox.getCheckedStateFromOptionIdCollapsed()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var optionIndex      = self.getOptionIndexFromOptionIdCollapsed(optionIdCollapsed);
       var triStateCheckbox = _guiElements.triStateCheckboxes[optionIndex];
@@ -204,7 +204,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.getOptionIdFromOptionIndex = function (optionIndex)
    {
       var f = 'SelectorTriStateCheckbox.getOptionIdFromOptionIndex()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       if (!(0 <= optionIndex && optionIndex < optionsInfo.length))
       {
@@ -222,7 +222,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.getOptionIdCollapsedFromOptionIndex = function (optionIndex)
    {
       var f = 'SelectorTriStateCheckbox.getOptionIdCollapsedFromOptionIndex()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       if (!(0 <= optionIndex && optionIndex < optionsInfo.length))
       {
@@ -240,7 +240,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.getOptionIndexFromOptionIdCollapsed = function (optionIdCollapsed)
    {
       var f = 'SelectorTriStateCheckbox.getOptionIndexFromOptionIdCollapsed()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var optionIndex = _state.optionIndexByOptionIdCollapsed[optionIdCollapsed];
 
@@ -261,7 +261,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.getOptionIndexFromOptionId = function (optionId)
    {
       var f = 'SelectorTriStateCheckbox.getOptionIndexFromOptionId()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var optionIndex = _state.optionIndexByOptionId[optionId];
 
@@ -281,7 +281,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.setCheckedStateForOptionAtIndex = function (optionIndex, newState)
    {
       var f = 'SelectorTriStateCheckbox.setCheckedStateForOptionAtIndex()';
-      UTILS.checkArgs(f, arguments, [Number, String]);
+      UTILS.checkArgs(f, arguments, ['number', 'string']);
 
       if (optionIndex < 0 || optionIndex >= optionsInfo.length)
       {
@@ -309,7 +309,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.setSelectedStateForOptionAtIndex = function (optionIndex, boolSelected)
    {
       var f = 'SelectorTriStateCheckbox.setSelectedStateForOptionAtIndex()';
-      UTILS.checkArgs(f, arguments, [Number, Boolean]);
+      UTILS.checkArgs(f, arguments, ['number', 'boolean']);
 
       var optionInfo = optionsInfo[optionIndex];
       var optionDiv  = $(mainDiv).find('div')[optionIndex];
@@ -334,7 +334,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.setCheckedStates = function (optionIdsCollapsed, newState)
    {
       var f = 'SelectorTriStateCheckbox.setCheckedStates()';
-      UTILS.checkArgs(f, arguments, [Array, String]);
+      UTILS.checkArgs(f, arguments, ['array', 'string']);
 
       for (var i = 0; i < optionIdsCollapsed.length; ++i)
       {
@@ -356,7 +356,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.optionIsSelectable = function (optionIdCollapsed)
    {
       var f = 'SelectorTriStateCheckbox.optionIsSelectable()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var optionIndex = self.getOptionIndexFromOptionIdCollapsed(optionIdCollapsed);
       var optionInfo  = optionsInfo[optionIndex];
@@ -370,7 +370,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.optionIsHeading = function (optionIdCollapsed)
    {
       var f = 'SelectorTriStateCheckbox.optionIsHeading()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var optionIndex = self.getOptionIndexFromOptionIdCollapsed(optionIdCollapsed);
       var optionInfo  = optionsInfo[optionIndex];
@@ -386,7 +386,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.addOptions = function (newOptionsInfo)
    {
       var f = 'SelectorTriStateCheckbox.addOptions()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       _validateOptionsInfo(newOptionsInfo, true);
 
@@ -410,7 +410,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.hideOptions = function (optionIdsCollapsed)
    {
       var f = 'SelectorTriStateCheckbox.hideOptions()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       var optionDivs = $(mainDiv).find('div');
 
@@ -433,7 +433,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.revealHiddenOptions = function (optionIdsCollapsed)
    {
       var f = 'SelectorTriStateCheckbox.revealHiddenOptions()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       var optionDivs = $(mainDiv).find('div');
 
@@ -490,7 +490,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    this.setDisabledForAllInputs = function (bool)
    {
       var f = 'SelectorTriStateCheckbox.setDisabledForAllInputs()';
-      UTILS.checkArgs(f, arguments, [Boolean]);
+      UTILS.checkArgs(f, arguments, ['boolean']);
 
       var triStateCheckboxes = _guiElements.triStateCheckboxes;
 
@@ -522,7 +522,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
       try
       {
          var f = 'SelectorTriStateCheckbox._onClickOptionDiv()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          // Note that e.target may be the span surrounding the tri-state checkbox image span.
          var optionDiv   = (e.target.tagName == 'SPAN')? $(e.target).parent()[0]: e.target;
@@ -545,7 +545,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
       try
       {
          var f = 'SelectorTriStateCheckbox._onClickTriStateCheckboxImageSpan()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var optionDiv        = $(e.target).parent().parent()[0];
          var optionIndex      = $(optionDiv).index();
@@ -591,7 +591,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    function _createOptionDivMatchingOptionInfo(optionInfo)
    {
       var f = 'SelectorTriStateCheckbox._createOptionDivMatchingOptionInfo()';
-      UTILS.checkArgs(f, arguments, [Object]);
+      UTILS.checkArgs(f, arguments, ['object']);
 
       var optionText = optionInfo.text;
       var optionDiv  = DIV({style: 'display: none'}); // To be revealed later.
@@ -662,7 +662,7 @@ function SelectorTriStateCheckbox(mainDiv, optionsInfo)
    function _validateOptionsInfo(newOptionsInfo, boolReplacingOldOptions)
    {
       var f = 'SelectorTriStateCheckbox._validateOptionsInfo()';
-      UTILS.checkArgs(f, arguments, [Array, Boolean]);
+      UTILS.checkArgs(f, arguments, ['array', 'boolean']);
 
       switch (boolReplacingOldOptions)
       {

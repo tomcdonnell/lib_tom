@@ -2,7 +2,7 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "UtilsValidator.js"
+* Filename: "utilsValidator.js"
 *
 * Project: Utilities.
 *
@@ -30,6 +30,11 @@ UTILS.validator.checkObject = function (o, typeByRequiredKey, typeByOptionalKey)
    UTILS.assert(f, 0, arguments.length == 2 || arguments.length == 3);
    UTILS.assert(f, 1, typeByRequiredKey.constructor == Object);
    UTILS.assert(f, 2, arguments.length == 2 || typeByOptionalKey.constructor == Object);
+
+   if (o === undefined)
+   {
+      throw new Exception(f, 'o is undefined.');
+   }
 
    if (typeof typeByOptionalKey == 'undefined')
    {
@@ -195,7 +200,12 @@ UTILS.validator.checkType = function (v, type)
     case 'nullOrNonPositiveFloat': b = (v === null || v.constructor == Number && v <= 0    ); break;
 
     // Miscellaneous.
-    case 'digitString': b = (v.constructor == String && /^\d+$/.test(v)); break;
+    case 'digitString'      : b = (               v.constructor == String&&/^\d+$/.test(v) ); break;
+    case 'nullOrDigitString': b = (v === null || (v.constructor == String&&/^\d+$/.test(v))); break;
+    case 'floatString'      : b = (v.constructor == String && /^[-\d]?\d+\.?\d*$/.test(v)  ); break;
+    case 'nullOrFloatString':
+      b = (v === null || v.constructor == String && /^[-\d]?\d+\.?\d*$/.test(v));
+      break;
 
     default:
       // If the browser is IE<8 assume all is well.
@@ -213,7 +223,24 @@ UTILS.validator.checkType = function (v, type)
          "' with constructor '" + v.constructor + "'."
       );
    }
-}
+};
+
+/*
+ *
+ */
+UTILS.validator.checkTypeReturnBool = function (v, type)
+{
+   try
+   {
+      UTILS.validator.checkType(v, type);
+   }
+   catch (e)
+   {
+      return false;
+   }
+
+   return true;
+};
 
 /*
  *
@@ -230,7 +257,7 @@ UTILS.validator.checkIntRangeInclusive = function (v, min, max)
          f, 'Integer range check failed (min: ' + min + ', value: ' + v + ', max: ' + max + ').'
       );
    }
-}
+};
 
 /*
  *
@@ -244,7 +271,7 @@ UTILS.validator.checkExactMatch = function (v, expectedValue)
          f, 'Values supplied are not identical (values and types must be same).'
       );
    }
-}
+};
 
 /*
  *
@@ -281,7 +308,7 @@ UTILS.validator.validatePositiveInteger = function (str)
 UTILS.validator.checkMinLengthAndTextCharSet = function (str, minLength)
 {
    var f = 'UTILS.validator.checkMinLengthAndTextCharSet()';
-   UTILS.checkArgs(f, arguments, ['string', 'number']);
+   UTILS.checkArgs(f, arguments, ['string', 'nonNegativeInt']);
    UTILS.assert(f, 0, minLength >= 0);
 
    var tstr = UTILS.string.trim(str);
@@ -304,7 +331,7 @@ UTILS.validator.checkMinLengthAndTextCharSet = function (str, minLength)
 UTILS.validator.checkMinLengthAndExtendedTextCharSet = function (str, minLength)
 {
    var f = 'UTILS.validator.checkMinLengthAndExtendedTextCharSet()';
-   UTILS.checkArgs(f, arguments, ['string', 'number']);
+   UTILS.checkArgs(f, arguments, ['string', 'nonNegativeInt']);
    UTILS.assert(f, 0, minLength >= 0);
 
    var tstr = UTILS.string.trim(str);

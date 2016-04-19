@@ -244,6 +244,40 @@ class UtilsString
       $string = preg_replace('/\s/', ' ', $string);
       return preg_replace('/  +/', ' ', $string);
    }
+
+   /*
+    * Eg. 'camelCaseString' becomes 'camel-case-string'.
+    */
+   public static function convertCamelCaseToHyphenated($camelCaseString)
+   {
+      $camelCaseStringLength = strlen($camelCaseString);
+      $hyphenatedString      = '';
+
+      for ($i = 0; $i < $camelCaseStringLength; ++$i)
+      {
+         $c                 = $camelCaseString[$i];
+         $hyphenatedString .= (self::isLowercase($c))? $c: (($i === 0)? '': '-') . strtolower($c);
+      }
+
+      return $hyphenatedString;
+   }
+
+   /*
+    * Eg. 'camel-case-string' becomes 'camelCasedString'.
+    */
+   public static function convertHyphenatedToCamelCase($hyphenatedString)
+   {
+      $hyphenatedStringLength = strlen($hyphenatedString);
+      $camelCaseString        = '';
+
+      for ($i = 0; $i < $hyphenatedStringLength; ++$i)
+      {
+         $c                = $hyphenatedString[$i];
+         $camelCaseString .= ($c === '-')? strtoupper($hyphenatedString[++$i]): $c;
+      }
+
+      return $camelCaseString;
+   }
 }
 
 /*******************************************END*OF*FILE********************************************/

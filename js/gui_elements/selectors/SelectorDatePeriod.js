@@ -76,7 +76,7 @@ function SelectorDatePeriod()
    this.setSelectedPeriod = function (sY, sM, sD, fY, fM, fD)
    {
       var f = 'SelectorDatePeriod.setSelectedPeriod()';
-      UTILS.checkArgs(f, arguments, [Number, Number, Number, Number, Number, Number]);
+      UTILS.checkArgs(f, arguments, ['number', 'number', 'number', 'number', 'number', 'number']);
 
       var dateComparison = UTILS.date.compare(sY, sM, sD, fY, fM, fD);
 
@@ -107,7 +107,7 @@ function SelectorDatePeriod()
    this.setDisabled = function (bool)
    {
       var f = 'SelectorDatePeriod.setDisabled()';
-      UTILS.checkArgs(f, arguments, [Boolean]);
+      UTILS.checkArgs(f, arguments, ['boolean']);
 
       sDateSelector.setDisabled(bool);
       fDateSelector.setDisabled(bool);
@@ -134,7 +134,7 @@ function SelectorDatePeriod()
    this.selectedPeriodEquals = function (sY, sM, sD, fY, fM, fD)
    {
       var f = 'SelectorDatePeriod.selectedPeriodEquals()';
-      UTILS.checkArgs(f, arguments, [Number, Number, Number, Number, Number, Number]);
+      UTILS.checkArgs(f, arguments, ['number', 'number', 'number', 'number', 'number', 'number']);
 
       return bool =
       (
@@ -153,7 +153,7 @@ function SelectorDatePeriod()
       try
       {
          var f = 'SelectorDatePeriod.onChangeSdate()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var sDate = sDateSelector.getSelectedDate();
          var fDate = fDateSelector.getSelectedDate();
@@ -184,7 +184,7 @@ function SelectorDatePeriod()
       try
       {
          var f = 'SelectorDatePeriod.onChangeFdate()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var sDate = sDateSelector.getSelectedDate();
          var fDate = fDateSelector.getSelectedDate();

@@ -38,6 +38,24 @@ function TessellatorSwastiklover(canvas)
       }
    };
 
+   /*
+    *
+    */
+   this.stopAnimation = function ()
+   {
+      var f = 'TessellatorSwastiklover.sketch()';
+      UTILS.checkArgs(f, arguments, []);
+
+      window.clearTimeout(_timeoutId);
+
+      _tessellator.stopAnimation();
+
+      if (_tessellatorSpare !== null)
+      {
+         _tessellatorSpare.stopAnimation();
+      }
+   };
+
    // Private functions. ////////////////////////////////////////////////////////////////////////
 
    /*
@@ -48,12 +66,13 @@ function TessellatorSwastiklover(canvas)
       var f = 'TessellatorSwastiklover._sketchTessellationNumberOne()';
       UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
-      var tessellator = new Tessellator(canvas);
-      var spacingX    = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
+      var spacingX       = Math.ceil(swastikloverConfig.armSegmentLength * 1.62);
+      var gridAngle      = Math.atan(0.5);
+      var gridSeparation = 0.5 * Math.sqrt(Math.pow(spacingX, 2) + Math.pow(spacingX / 2, 2));
 
-      _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 2));
+      _sketcherGrid.drawSquareGrid(gridSeparation, gridAngle, _gridColourCss);
 
-      tessellator.drawSquareTessellation
+      _tessellator.drawSquareTessellation
       (
          {
             delayMs           : delayMs                             ,
@@ -72,8 +91,6 @@ function TessellatorSwastiklover(canvas)
             )
          }
       );
-
-      delete(tessellator);
    }
 
    /*
@@ -84,13 +101,13 @@ function TessellatorSwastiklover(canvas)
       var f = 'TessellatorSwastiklover._sketchTessellationNumberTwo()';
       UTILS.checkArgs(f, arguments, ['object', 'nonNegativeInt']);
 
-      var tessellator1 = new Tessellator(canvas);
-      var tessellator2 = new Tessellator(canvas);
-      var spacingX     = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
+      var spacingX       = Math.ceil(swastikloverConfig.armSegmentLength * 3.62);
+      var gridAngle      = -Math.atan(0.5);
+      var gridSeparation = 0.25 * Math.sqrt(Math.pow(spacingX, 2) + Math.pow(spacingX / 2, 2));
 
-      _sketcherGrid.drawSquareGrid(0.5, Math.ceil(spacingX / 4));
+      _sketcherGrid.drawSquareGrid(gridSeparation, gridAngle, _gridColourCss);
 
-      tessellator1.drawSquareTessellation
+      _tessellator.drawSquareTessellation
       (
          {
             delayMs       : delayMs                             ,
@@ -109,30 +126,44 @@ function TessellatorSwastiklover(canvas)
          }
       );
 
-      swastikloverConfig.armSegmentLength = Math.floor(swastikloverConfig.armSegmentLength / 2);
-
-      tessellator2.drawSquareTessellation
+      // Begin sketching the smaller swastiklover when the
+      // larger swastiklover has sketched one iteration.
+      _timeoutId = setTimeout
       (
+         function ()
          {
-            delayMs           : delayMs                             ,
-            sketchFunction    : _sketcherSwastiklover.sketchSwastika,
-            spacingX          : spacingX                            ,
-            spacingY          : spacingX * 0.5                      ,
-            startX            : spacingX * 0.25                     ,
-            startY            : spacingX * 0.75                     ,
-            onCompleteFunction: _onCompleteTessellation             ,
-            sketchFunctionArgumentObjectsByRecursionDepth:
+            swastikloverConfig.armSegmentLength = Math.floor
             (
-               _sketcherSwastiklover.getSketchFunctionArgumentObjectsByRecursionDepth
-               (
-                  swastikloverConfig
-               )
-            )
-         }
-      );
+               swastikloverConfig.armSegmentLength / 2
+            );
 
-      delete(tessellator1);
-      delete(tessellator2);
+            if (_tessellatorSpare === null)
+            {
+               _tessellatorSpare = new Tessellator(canvas);
+            }
+
+            _tessellatorSpare.drawSquareTessellation
+            (
+               {
+                  delayMs           : delayMs                             ,
+                  sketchFunction    : _sketcherSwastiklover.sketchSwastika,
+                  spacingX          : spacingX                            ,
+                  spacingY          : spacingX * 0.5                      ,
+                  startX            : spacingX * 0.25                     ,
+                  startY            : spacingX * 0.75                     ,
+                  onCompleteFunction: _onCompleteTessellation             ,
+                  sketchFunctionArgumentObjectsByRecursionDepth:
+                  (
+                     _sketcherSwastiklover.getSketchFunctionArgumentObjectsByRecursionDepth
+                     (
+                        swastikloverConfig
+                     )
+                  )
+               }
+            );
+         },
+         delayMs
+      );
    }
 
    /*
@@ -151,8 +182,12 @@ function TessellatorSwastiklover(canvas)
 
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
+   var _gridColourCss        = '#ccc';
    var _sketcherGrid         = new SketcherGrid(canvas);
    var _sketcherSwastiklover = new SketcherSwastiklover(canvas.getContext('2d'));
+   var _tessellator          = new Tessellator(canvas);
+   var _tessellatorSpare     = null;
+   var _timeoutId            = null;
 }
 
 /*******************************************END*OF*FILE********************************************/

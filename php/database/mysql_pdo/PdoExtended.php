@@ -163,7 +163,7 @@ class PdoExtended extends PDO
          // zero or multiple rows are returned, then something serious has gone wrong and an
          // exception is appropriate.  In the less common case where the caller expects either
          // zero or one row to be returned, the caller would have to check the result anyway
-         // to see whether zero or one row was returned.  Use $this->fetchAll() or
+         // to see whether zero or one row was returned.  Use $this->selectRows() or
          // $this->selectRowOrNull() for the case where the row may not exist.
          $this->_throwSqlQueryException
          (

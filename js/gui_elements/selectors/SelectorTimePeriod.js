@@ -76,7 +76,7 @@ function SelectorTimePeriod()
    this.setSelectedPeriod = function (sH, sM, sS, fH, fM, sS)
    {
       var f = 'SelectorTimePeriod.setSelectedPeriod()';
-      UTILS.checkArgs(f, arguments, [Number, Number, Number, Number, Number, Number]);
+      UTILS.checkArgs(f, arguments, ['number', 'number', 'number', 'number', 'number', 'number']);
 
       if (UTILS.time.compare(sH, sM, sS, fH, fM, sS) > 0)
       {
@@ -120,7 +120,7 @@ function SelectorTimePeriod()
       try
       {
          var f = 'SelectorTimePeriod.onChangeStime()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var sTime = sTimeSelector.getSelectedTime();
          var fTime = fTimeSelector.getSelectedTime();
@@ -151,7 +151,7 @@ function SelectorTimePeriod()
       try
       {
          var f = 'SelectorTimePeriod.onChangeFtime()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var sTime = sTimeSelector.getSelectedTime();
          var fTime = fTimeSelector.getSelectedTime();

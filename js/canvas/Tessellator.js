@@ -66,6 +66,7 @@ function Tessellator(canvas)
       );
 
       _buildSquareTessellationSketchPositionsListRecursively(o.startX, o.startY);
+      _timeoutIds = [];
 
       for (var d = 0; d < _maxRecursionDepth; ++d)
       {
@@ -75,9 +76,28 @@ function Tessellator(canvas)
          }
          else
          {
-            setTimeout(_onTimeout, d * o.delayMs);
+            _timeoutIds[d] = setTimeout(_onTimeout, d * o.delayMs);
          }
       }
+   };
+
+   /*
+    *
+    */
+   this.stopAnimation = function ()
+   {
+      var f = 'Tessellator.stopAnimation()';
+      UTILS.checkArgs(f, arguments, []);
+
+      if (_timeoutIds !== null)
+      {
+         for (var i = 0, len = _timeoutIds.length; i < len; ++i)
+         {
+            window.clearTimeout(_timeoutIds[i]);
+         }
+      }
+
+      _initState();
    };
 
    // Private functions. ////////////////////////////////////////////////////////////////////////
@@ -151,6 +171,7 @@ function Tessellator(canvas)
       var f = 'Tessellator._buildSquareTessellationSketchPositionsListRecursively()';
       UTILS.checkArgs(f, arguments, ['int', 'int']);
 
+      var sqrtTwo         = Math.sqrt(2);
       var boolWillDrawAny = false;
       var positions       =
       [
@@ -168,9 +189,13 @@ function Tessellator(canvas)
 
          if
          (
-            _sketchPositionsAsKeys[key] === undefined                &&
-            Math.abs(position.x) < (_canvasWidth  / 2 + _spacingX) &&
-            Math.abs(position.y) < (_canvasHeight / 2 + _spacingY)
+            // Note Regarding Computation of Drawing Region
+            // --------------------------------------------
+            // The sqrtTwo factor is to ensure that the tessellation on a square canvas will
+            // cover the entire canvas even when it is rotated 45 degrees or any other angle.
+            _sketchPositionsAsKeys[key] === undefined                        &&
+            Math.abs(position.x) < sqrtTwo * (_canvasWidth  / 2 + _spacingX) &&
+            Math.abs(position.y) < sqrtTwo * (_canvasHeight / 2 + _spacingY)
          )
          {
             _sketchPositionsAsKeys[key] = position;
@@ -188,12 +213,36 @@ function Tessellator(canvas)
       }
    }
 
+   /*
+    *
+    */
+   function _initState()
+   {
+      var f = 'Tessellator._initState()';
+      UTILS.checkArgs(f, arguments, []);
+
+      // All the private variables should be set to thier initial values here.
+      _canvasHeight                                  = null;
+      _canvasWidth                                   = null;
+      _maxRecursionDepth                             = null;
+      _midX                                          = null;
+      _midY                                          = null;
+      _nOnTimeoutFunctionCalls                       = null;
+      _onCompleteFunction                            = null;
+      _sketchFunction                                = null;
+      _sketchFunctionArgumentObjectsByRecursionDepth = null;
+      _sketchPositionsAsKeys                         = null;
+      _spacingX                                      = null;
+      _spacingY                                      = null;
+      _timeoutIds                                    = null;
+   }
+
    // Private variables. ////////////////////////////////////////////////////////////////////////
 
    var _ctx                                           = canvas.getContext('2d');
    var _canvasHeight                                  = null;
    var _canvasWidth                                   = null;
-   var _maxRecursionDepth                             = null
+   var _maxRecursionDepth                             = null;
    var _midX                                          = null;
    var _midY                                          = null;
    var _nOnTimeoutFunctionCalls                       = null;
@@ -203,6 +252,7 @@ function Tessellator(canvas)
    var _sketchPositionsAsKeys                         = null;
    var _spacingX                                      = null;
    var _spacingY                                      = null;
+   var _timeoutIds                                    = null;
 }
 
 /*******************************************END*OF*FILE********************************************/

@@ -58,7 +58,7 @@ function SelectorTime()
    this.setSelectedTime = function (h, m, s)
    {
       var f = 'SelectorTime.setSelectedTime()';
-      UTILS.checkArgs(f, arguments, [Number, Number, Number]);
+      UTILS.checkArgs(f, arguments, ['number', 'number', 'number']);
       UTILS.assert(f, 0, 0 <= h && h < 24);
       UTILS.assert(f, 1, 0 <= m && m < 60);
       UTILS.assert(f, 2, 0 <= s && s < 60);
@@ -115,7 +115,7 @@ function SelectorTime()
    this.setDisabled = function (bool)
    {
       var f = 'SelectorTime.setDisabled()';
-      UTILS.checkArgs(f, arguments, [Boolean]);
+      UTILS.checkArgs(f, arguments, ['boolean']);
 
       hSelector.disabled = bool;
       mSelector.disabled = bool;

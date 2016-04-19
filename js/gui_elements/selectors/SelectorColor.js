@@ -19,7 +19,7 @@
 function SelectorColor(tableWidth, n_cols)
 {
    var f = 'SelectorColor()';
-   UTILS.checkArgs(f, arguments, [Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number']);
    UTILS.assert(f, 0, tableWidth > 0 && tableWidth % 1 == 0);
    UTILS.assert(f, 1, n_cols     > 0 && n_cols     % 1 == 0);
    UTILS.assert(f, 2, tableWidth % n_cols == 0);
@@ -57,7 +57,7 @@ function SelectorColor(tableWidth, n_cols)
       try
       {
          var f = 'SelectorColor.onClickColorGrid()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var x = $(e.target).index();
          var y = n_rows - $(e.target.parentNode).index();
@@ -89,7 +89,7 @@ function SelectorColor(tableWidth, n_cols)
       try
       {
          var f = 'SelectorColor.onBlurSelectedColorTextBox()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          colorStr = tdSelectedColorTextBox.value;
 
@@ -120,7 +120,7 @@ function SelectorColor(tableWidth, n_cols)
    function updateSelectedColorStr(colorStr)
    {
       var f = 'SelectorColor.updateSelectedColorStr()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var compColStrR = getComplementaryColorStr(colorStr, 'r');
       var compColStrG = getComplementaryColorStr(colorStr, 'g');
@@ -145,7 +145,7 @@ function SelectorColor(tableWidth, n_cols)
    function convertColorComponentsToCssStr(r, g, b, i)
    {
       // var f = 'SelectorColor.convertColorComponentsToCssStr()';
-      // UTILS.checkArgs(f, arguments, [Number, Number, Number, Number]);
+      // UTILS.checkArgs(f, arguments, ['number', 'number', 'number', 'number']);
       // UTILS.assert(f, 0, 0 <= r && r <= 1);
       // UTILS.assert(f, 1, 0 <= g && g <= 1);
       // UTILS.assert(f, 2, 0 <= b && b <= 1);
@@ -176,7 +176,7 @@ function SelectorColor(tableWidth, n_cols)
    function convertCssStrToColorComponents(colorStr)
    {
       var f = 'SelectorColor.convertCssStrToColorComponents()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var s = colorStr; // Abbreviation.
 
@@ -193,7 +193,7 @@ function SelectorColor(tableWidth, n_cols)
    function squareIsInsideTriangle(x, y)
    {
       // var f = 'SelectorColor.squareIsInsideTriangle()';
-      // UTILS.checkArgs(f, arguments, [Number, Number]);
+      // UTILS.checkArgs(f, arguments, ['number', 'number']);
 
       return (y < root3 * x && y < -root3 * x + 2 * n_rows);
    }
@@ -204,7 +204,7 @@ function SelectorColor(tableWidth, n_cols)
    function convertNumberToHexChar(d)
    {
       // var f = 'SelectorColor.convertToHexChar()';
-      // UTILS.checkArgs(f, arguments, [Number]);
+      // UTILS.checkArgs(f, arguments, ['number']);
 
       d = Math.floor(d);
 
@@ -231,7 +231,7 @@ function SelectorColor(tableWidth, n_cols)
    function convertHexCharToNumber(c)
    {
       var f = 'SelectorColor.convertToHexChar()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       switch (c)
       {
@@ -265,7 +265,7 @@ function SelectorColor(tableWidth, n_cols)
    function setSelectedColorComponents(x, y)
    {
       // var f = 'SelectorColor.setSelectedColorComponents()';
-      // UTILS.checkArgs(f, arguments, [Number, Number]);
+      // UTILS.checkArgs(f, arguments, ['number', 'number']);
       // UTILS.assert(f, 0, squareIsInsideTriangle(x, y));
 
       with (Math)
@@ -301,7 +301,7 @@ function SelectorColor(tableWidth, n_cols)
    function setSelectedIntensity(x, y)
    {
       // var f = 'SelectorColor.setSelectedIntensity()';
-      // UTILS.checkArgs(f, arguments, [Number, Number]);
+      // UTILS.checkArgs(f, arguments, ['number', 'number']);
       // UTILS.assert(f, 0, !squareIsInsideTriangle(x, y));
 
       selectedIntensity = y / n_rows;
@@ -313,7 +313,7 @@ function SelectorColor(tableWidth, n_cols)
    function getComplementaryColorStr(colorStr, rORgORb)
    {
       // var f = 'SelectorColor.getComplementaryColorStr()';
-      // UTILS.checkArgs(f, arguments, [String, String]);
+      // UTILS.checkArgs(f, arguments, ['string', 'string']);
 
       var rStr = colorStr.substr(1, 2);
       var gStr = colorStr.substr(3, 2);

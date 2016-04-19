@@ -32,7 +32,7 @@ UTILS.time = {};
 UTILS.time.compare = function (hA, mA, sA, hB, mB, sB)
 {
    var f = 'UTILS.time.compare()';
-   UTILS.checkArgs(f, arguments, [Number, Number, Number, Number, Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number', 'number', 'number', 'number', 'number']);
 
    return c =
    (

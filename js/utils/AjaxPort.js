@@ -104,7 +104,7 @@ function AjaxPort(defUrl, defReplyFunct)
       try
       {
          var f = 'AjaxPort.receive()';
-         UTILS.checkArgs(f, arguments, [Event]);
+         UTILS.checkArgs(f, arguments, ['Event']);
 
          if (httpRequest.readyState == 4)
          {

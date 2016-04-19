@@ -7,7 +7,7 @@
 *
 * Project: Utilities.
 *
-* Purpose: Miscellaneous utilities.
+* Purpose: Utilities pertaining to generation of HTML for forms.
 *
 * Author: Tom McDonnell 2010-02-28.
 *
@@ -115,7 +115,7 @@ class UtilsHtmlForm
 
          $html .=
          (
-            "$i <option value='" . UtilsHtml::escapeSingleQuotes($value) . "'$selectedStr" .
+            "$i <option value='" . UtilsHtml::escapeSingleQuotedAttribute($value) . "'$selectedStr".
             (($title == '')? '': " title='$title'") . ">" . htmlentities($text) . "</option>\n"
          );
       }
@@ -155,11 +155,11 @@ class UtilsHtmlForm
       $value = '', $class = null, $nRows = null, $nCols = null, $boolDisabled = false
    )
    {
-      echo "$indent<textarea name='", UtilsHtml::escapeSingleQuotes($name), "'";
+      echo "$indent<textarea name='", UtilsHtml::escapeSingleQuotedAttribute($name), "'";
 
-      if ($nRows !== null) {echo " rows='" , UtilsHtml::escapeSingleQuotes($nRows), "'";}
-      if ($nCols !== null) {echo " cols='" , UtilsHtml::escapeSingleQuotes($nCols), "'";}
-      if ($class !== null) {echo " class='", UtilsHtml::escapeSingleQuotes($class), "'";}
+      if ($nRows !== null) {echo " rows='" , UtilsHtml::escapeSingleQuotedAttribute($nRows), "'";}
+      if ($nCols !== null) {echo " cols='" , UtilsHtml::escapeSingleQuotedAttribute($nCols), "'";}
+      if ($class !== null) {echo " class='", UtilsHtml::escapeSingleQuotedAttribute($class), "'";}
       if ($boolDisabled  ) {echo " disabled='disabled'"                                 ;}
 
       echo '>', htmlentities($value), "</textarea>\n";
@@ -170,9 +170,9 @@ class UtilsHtmlForm
     */
    public static function echoCheckboxHtml($name, $indent, $boolChecked = false, $class = null)
    {
-      echo "$indent<input type='checkbox' name='", UtilsHtml::escapeSingleQuotes($name), "'";
+      echo "$indent<input type='checkbox' name='",UtilsHtml::escapeSingleQuotedAttribute($name),"'";
 
-      if ($class !== null) {echo " class='", UtilsHtml::escapeSingleQuotes($class), "'";}
+      if ($class !== null) {echo " class='", UtilsHtml::escapeSingleQuotedAttribute($class), "'";}
       if ($boolChecked   ) {echo " checked='checked'"                                   ;}
 
       echo "/>\n";
@@ -222,15 +222,15 @@ class UtilsHtmlForm
             foreach ($value as $arrayValue)
             {
                echo "$indent<input type='hidden'";
-               echo " name='" , UtilsHtml::escapeSingleQuotes($key       ), "'";
-               echo " value='", UtilsHtml::escapeSingleQuotes($arrayValue), "'/>\n";
+               echo " name='" , UtilsHtml::escapeSingleQuotedAttribute($key       ), "'";
+               echo " value='", UtilsHtml::escapeSingleQuotedAttribute($arrayValue), "'/>\n";
             }
          }
          else
          {
             echo "$indent<input type='hidden'";
-            echo " name='" , UtilsHtml::escapeSingleQuotes($key  ), "'";
-            echo " value='", UtilsHtml::escapeSingleQuotes($value), "'/>\n";
+            echo " name='" , UtilsHtml::escapeSingleQuotedAttribute($key  ), "'";
+            echo " value='", UtilsHtml::escapeSingleQuotedAttribute($value), "'/>\n";
          }
       }
    }
@@ -271,7 +271,7 @@ class UtilsHtmlForm
    browser.  In that case you should click the 'Continue' button below.
   </p>
   <form name='redirectForm' method='post'
-   action='<?php echo UtilsHtml::escapeSingleQuotes($postUrl); ?>'>
+   action='<?php echo UtilsHtml::escapeSingleQuotedAttribute($postUrl); ?>'>
 <?php
       self::echoArrayAsHiddenInputs($postArray, '   ');
 ?>

@@ -82,7 +82,7 @@ function SelectorColumnBasedHierarchical
 )
 {
    var f = 'SelectorColumnBasedHierarchical()';
-   UTILS.checkArgs(f, arguments, ['nullOrInt', 'nullOrString', Function, Function, Boolean]);
+   UTILS.checkArgs(f, arguments, ['nullOrInt', 'nullOrString', 'function', 'function', 'boolean']);
 
    // Privileged functions. /////////////////////////////////////////////////////////////////////
 
@@ -213,7 +213,7 @@ function SelectorColumnBasedHierarchical
    this.setDisabledForAllInputs = function (bool)
    {
       var f = 'SelectorColumnBasedHierarchical.setDisabledForAllInputs()';
-      UTILS.checkArgs(f, arguments, [Boolean]);
+      UTILS.checkArgs(f, arguments, ['boolean']);
 
       var selectorTriStateCheckboxes = _guiElements.selectorTriStateCheckboxes;
 
@@ -229,7 +229,7 @@ function SelectorColumnBasedHierarchical
    this.debugOutputCheckedOptionsToConsole = function (optionIdsLists)
    {
       var f = 'debugOutputCheckedOptionsToConsole()';
-      UTILS.checkArgs(f, arguments, [Object]);
+      UTILS.checkArgs(f, arguments, ['object']);
 
       var fChecked = optionIdsLists.fullyChecked    ;
       var pChecked = optionIdsLists.partiallyChecked;
@@ -259,7 +259,7 @@ function SelectorColumnBasedHierarchical
       try
       {
          var f = 'SelectorColumnBasedHierarchical._onClickSelectorTscOptionDiv()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          // Note that e.target may be the span surrounding the tri-state checkbox image span.
          var optionDiv = (e.target.tagName == 'SPAN')? $(e.target).parent()[0]: e.target;
@@ -322,7 +322,7 @@ function SelectorColumnBasedHierarchical
       try
       {
          var f = 'SelectorColumnBasedHierarchical._onClickSelectorTscOptionTriStateCheckbox()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var imageSpan          = e.target;
          var optionDiv          = $(imageSpan).parent().parent()[0];
@@ -413,7 +413,7 @@ function SelectorColumnBasedHierarchical
    function _initStateUsingInitialisationInfoFromServer(initInfo)
    {
       var f = 'SelectorColumnBasedHierarchical._initStateUsingInitialisationInfoFromServer()';
-      UTILS.checkArgs(f, arguments, [Object]);
+      UTILS.checkArgs(f, arguments, ['object']);
 
       UTILS.validator.checkObject
       (
@@ -451,7 +451,7 @@ function SelectorColumnBasedHierarchical
    function _initTableRows(categoryLevelNames)
    {
       var f = 'SelectorColumnBasedHierarchical._initTableRows()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       var nColumns        = categoryLevelNames.length;
       var headingsTr      = _domElements.trs.headingsTr;
@@ -497,7 +497,7 @@ function SelectorColumnBasedHierarchical
    function _addSelectorTriStateCheckboxOptions(info)
    {
       var f = 'SelectorColumnBasedHierarchical._addSelectorTriStateCheckboxOptions()';
-      UTILS.checkArgs(f, arguments, [Object]);
+      UTILS.checkArgs(f, arguments, ['object']);
 
       UTILS.validator.checkObject
       (
@@ -630,7 +630,7 @@ function SelectorColumnBasedHierarchical
    function _trackOptionsRequestedAndReceived(parentOptionId, requestedORreceived)
    {
       var f = 'SelectorColumnBasedHierarchical._trackOptionsRequestedAndReceived()';
-      UTILS.checkArgs(f, arguments, ['nullOrString', String]);
+      UTILS.checkArgs(f, arguments, ['nullOrString', 'string']);
 
       if (parentOptionId === null)
       {
@@ -670,7 +670,7 @@ function SelectorColumnBasedHierarchical
    function _applyCallbackToDescendentOptionsRecursively(optionIdCollapsed, callback, param)
    {
       var f = 'SelectorColumnBasedHierarchical._applyCallbackToDescendentOptionsRecursively()';
-      UTILS.checkArgs(f, arguments, [String, 'Defined', 'Defined']);
+      UTILS.checkArgs(f, arguments, ['string', 'Defined', 'Defined']);
 
       var childCategoryLevel = _getCategoryLevelFromOptionIdCollapsedOrNot(optionIdCollapsed) + 1;
 
@@ -700,7 +700,7 @@ function SelectorColumnBasedHierarchical
    function _applyCallbackToAncestorOptionsRecursively(optionIdCollapsed, callback, param)
    {
       var f = 'SelectorColumnBasedHierarchical._applyCallbackToAncestorOptionsRecursively()';
-      UTILS.checkArgs(f, arguments, [String, 'Defined', 'Defined']);
+      UTILS.checkArgs(f, arguments, ['string', 'Defined', 'Defined']);
 
       var parentCategoryLevel = _getCategoryLevelFromOptionIdCollapsedOrNot(optionIdCollapsed) - 1;
       var parentSelectorTsc       = _guiElements.selectorTriStateCheckboxes[parentCategoryLevel];
@@ -721,7 +721,7 @@ function SelectorColumnBasedHierarchical
    function _getChildOptionIdsOfOptionIdCollapsed(optionIdCollapsed, boolCollapseReturnedOptionIds)
    {
       var f = 'SelectorColumnBasedHierarchical._getChildOptionIdsOfOptionIdCollapsed()';
-      UTILS.checkArgs(f, arguments, [String, Boolean]);
+      UTILS.checkArgs(f, arguments, ['string', 'boolean']);
 
       var optionCategoryLevel = _getCategoryLevelFromOptionIdCollapsedOrNot(optionIdCollapsed);
 
@@ -775,7 +775,7 @@ function SelectorColumnBasedHierarchical
    function _getCategoryLevelFromOptionIdCollapsedOrNot(optionId)
    {
       var f = 'SelectorTsc._getCategoryLevelFromOptionIdCollapsedOrNot()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var tokens         = optionId.split('|');
       var nTokensCounted = 0;
@@ -798,7 +798,7 @@ function SelectorColumnBasedHierarchical
    function _collapseOptionId(optionId)
    {
       var f = 'SelectorColumnBasedHierarchical._collapseOptionId()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var tokens    = optionId.split('|');
       var newTokens = [];
@@ -822,7 +822,7 @@ function SelectorColumnBasedHierarchical
    function _getParentOptionIdFromOptionId(optionIdCollapsedOrNot)
    {
       var f = 'SelectorColumnBasedHierarchical._getParentOptionIdFromOptionId()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       // Note on Option ID Format
       // ------------------------
@@ -860,7 +860,7 @@ function SelectorColumnBasedHierarchical
    function _getCategoryLevelAndOptionIndexFromOptionDiv(optionDiv)
    {
       var f = 'SelectorColumnBasedHierarchical._getCategoryLevelAndOptionIndexFromOptionDiv()';
-      UTILS.checkArgs(f, arguments, [HTMLDivElement]);
+      UTILS.checkArgs(f, arguments, ['HTMLDivElement']);
 
       var td = $(optionDiv).parent().parent();
 
@@ -877,7 +877,7 @@ function SelectorColumnBasedHierarchical
    function _hideSelectorTscOptions(selectorTsc, optionIdsCollapsed, dummyParam)
    {
       var f = 'SelectorColumnBasedHierarchy._hideSelectorTscOptions()';
-      UTILS.checkArgs(f, arguments, [SelectorTriStateCheckbox, Array, 'Defined']);
+      UTILS.checkArgs(f, arguments, ['SelectorTriStateCheckbox', 'array', 'Defined']);
 
       if (optionIdsCollapsed.length > 0)
       {
@@ -900,7 +900,7 @@ function SelectorColumnBasedHierarchical
    function _setSelectorTscOptionCheckedStates(selectorTsc, optionIdsCollapsed, newState)
    {
       var f = 'SelectorColumnBasedHierarchy._setSelectorTscOptionCheckedStates()';
-      UTILS.checkArgs(f, arguments, [SelectorTriStateCheckbox, Array, String]);
+      UTILS.checkArgs(f, arguments, ['SelectorTriStateCheckbox', 'array', 'string']);
 
       selectorTsc.setCheckedStates(optionIdsCollapsed, newState);
    }
@@ -914,7 +914,7 @@ function SelectorColumnBasedHierarchical
    )
    {
       var f = 'SelectorColumnBasedHierarchy._setSelectorTscOptionCheckedStateDependingOnChildren()';
-      UTILS.checkArgs(f, arguments, [SelectorTriStateCheckbox, String, 'Defined']);
+      UTILS.checkArgs(f, arguments, ['SelectorTriStateCheckbox', 'string', 'Defined']);
 
       var childOptionIdsCollapsed = _getChildOptionIdsOfOptionIdCollapsed(optionIdCollapsed, true);
 
@@ -962,7 +962,7 @@ function SelectorColumnBasedHierarchical
          'SelectorColumnBasedHierarchical.' +
          '_unselectAllOptionsAboveLowestDisplayedCategoryLevelExcludingOption()'
       );
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var ancestorsPlusSelfOptionIdsCollapsedByCategoryLevel = [];
       var categoryLevel = _getCategoryLevelFromOptionIdCollapsedOrNot(optionIdCollapsed);
@@ -1030,7 +1030,7 @@ function SelectorColumnBasedHierarchical
    function _getDescendentCheckedOptionIdsRecursively(optionId)
    {
       var f = 'SelectorColumnBasedHierarchical._getDescendentCheckedOptionIdsRecursively()';
-      UTILS.checkArgs(f, arguments, [String]);
+      UTILS.checkArgs(f, arguments, ['string']);
 
       var optionIdCollapsed  = _collapseOptionId(optionId);
       var childCategoryLevel = _getCategoryLevelFromOptionIdCollapsedOrNot(optionIdCollapsed) + 1;
@@ -1099,7 +1099,7 @@ function SelectorColumnBasedHierarchical
    function _getExtraOptionIdsForCollapsedColumnsFromOptionIds(optionIds)
    {
       var f ='SelectorColumnBasedHierarchical._getExtraOptionIdsForCollapsedColumnsFromOptionIds()';
-      UTILS.checkArgs(f, arguments, [Array]);
+      UTILS.checkArgs(f, arguments, ['array']);
 
       var extraOptionIds = [];
 
@@ -1220,7 +1220,7 @@ function SelectorColumnBasedHierarchical
                getInitialisationInfo: function (reply)
                {
                   var f = 'SelectorColumnBasedHierarchical.ajaxResponder1()';
-                  UTILS.checkArgs(f, arguments, [Object]);
+                  UTILS.checkArgs(f, arguments, ['object']);
                   _initStateUsingInitialisationInfoFromServer(reply);
 
                   if (idAssignmentItem !== null &&!_state.sentRequestForChildSelectorTscOptionsNull)
@@ -1235,7 +1235,7 @@ function SelectorColumnBasedHierarchical
                getChildSelectorTriStateCheckboxOptions: function (reply)
                {
                   var f = 'SelectorColumnBasedHierarchical.ajaxResponder2()';
-                  UTILS.checkArgs(f, arguments, [Object]);
+                  UTILS.checkArgs(f, arguments, ['object']);
                   _addSelectorTriStateCheckboxOptions(reply);
                   _ajaxReplyPostProcessCommon();
                }

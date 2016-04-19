@@ -2,7 +2,7 @@
 *
 * vim: ts=3 sw=3 et wrap go-=b
 *
-* Filename: "utils_selection_sort.js"
+* Filename: "utilsSelectionSortNodeList.js"
 *
 * Project: General.
 *
@@ -17,10 +17,10 @@
 /*
  *
  */
-UTILS.selectionSortNodeList = function (childNodes, ascORdsc, startIndex, finishIndex, compare)
+UTILS.selectionSortNodeList = function (childNodes, ascORdsc, startIndex, finishIndex, compareFunc)
 {
    var f = 'UTILS.selectionSortNodeList()';
-   UTILS.checkArgs(f, arguments, [Object, String, Number, Number, Function]);
+   UTILS.checkArgs(f, arguments, ['object', 'string', 'number', 'number', 'function']);
    UTILS.assert(f, 0, ascORdsc == 'asc' || ascORdsc == 'dsc');
    UTILS.assert(f, 1, startIndex >= 0);
    UTILS.assert(f, 2, finishIndex <= childNodes.length);
@@ -59,7 +59,7 @@ UTILS.selectionSortNodeList = function (childNodes, ascORdsc, startIndex, finish
 
       for (var j = i + 1; j < finishIndex; ++j)
       {
-         if (compare(childNodes[j], childNodes[maxIndex]) > 0)
+         if (compareFunc(childNodes[j], childNodes[maxIndex]) > 0)
          {
             maxIndex = j;
          }
@@ -73,4 +73,3 @@ UTILS.selectionSortNodeList = function (childNodes, ascORdsc, startIndex, finish
 }
 
 /*******************************************END*OF*FILE********************************************/
-

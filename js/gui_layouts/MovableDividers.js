@@ -27,7 +27,7 @@
 function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
 {
    var f = 'ThreeFrameLayoutWithMovableDividers()';
-   UTILS.checkArgs(f, arguments, [HTMLDivElement]);
+   UTILS.checkArgs(f, arguments, ['HTMLDivElement']);
 
    // Priviliged Functions. /////////////////////////////////////////////////////////////////////
 
@@ -41,7 +41,7 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
    this.subscribeChildResizeFunction = function (funct)
    {
       var f = 'MovableDividers.subscribeChildResizeFunction()';
-      UTILS.checkArgs(f, arguments, [Function]);
+      UTILS.checkArgs(f, arguments, ['function']);
 
       resizeSubscriberFunctions.push(funct);
    };
@@ -139,7 +139,7 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       try
       {
          var f = 'MovableDividers.onMouseDown()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          $(window).mousemove(onMouseMove);
          $(window).mouseout(onMouseOut);
@@ -175,7 +175,7 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       try
       {
          var f = 'BottomDrawers.onMouseMove()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          if (vDividerIsBeingDragged)
          {
@@ -224,7 +224,7 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       try
       {
          var f = 'MovableDividers.onMouseOut()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          if (e.relatedTarget == null || e.relatedTarget == HTML_DOM_ELEMENT)
          {
@@ -245,7 +245,7 @@ function ThreeFrameLayoutWithMovableDividers(framesContainerDiv)
       try
       {
          var f = 'MovableDividers.onMouseUp()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          // Remove event listeners.
          $(window).unbind('mousemove', onMouseMove);

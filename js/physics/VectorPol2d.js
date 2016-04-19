@@ -21,7 +21,7 @@
 function VectorPol2d(r, angle)
 {
    var f = 'VectorPol2d()';
-   UTILS.checkArgs(f, arguments, [Number, Number]);
+   UTILS.checkArgs(f, arguments, ['number', 'number']);
    UTILS.assert(f, 0, 0 <= r);
    UTILS.assert(f, 1, -Math.PI <= angle && angle <= Math.PI);
 
@@ -38,7 +38,7 @@ function VectorPol2d(r, angle)
    this.setR = function (r1)
    {
       var f = 'VectorPol2d()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
       UTILS.assert(f, 0, r1 >= 0);
 
       r = r1;
@@ -47,7 +47,7 @@ function VectorPol2d(r, angle)
    this.setAngle = function (a)
    {
       var f = 'VectorPol2d()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
       UTILS.assert(f, 0, -Math.PI <= a && a <= Math.PI);
 
       angle = a;
@@ -58,7 +58,7 @@ function VectorPol2d(r, angle)
    this.multiply = function (a)
    {
       var f = 'VectorPol2d.multiply()';
-      UTILS.checkArgs(f, arguments, [Number]);
+      UTILS.checkArgs(f, arguments, ['number']);
 
       return new VectorPol2d
       (
